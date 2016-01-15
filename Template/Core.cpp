@@ -33,8 +33,8 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());		
 	}	
 
-	//Glew Init()
-	//glewExperimental = GL_TRUE;
+	//GlewInit()
+	glewExperimental = GL_TRUE;
 
 	glewInit();
 
