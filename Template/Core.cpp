@@ -29,9 +29,31 @@ bool Engine::run()
 	userInit();
 	while(true)
 	{
+		/*TODO: SDL Input handler here:
+			SDL_MOUSEBUTTONDOWN
+			SDL_MOUSEBUTTONUP
+			SDL_MOUSEMOTION
+		*/
+		SDL_Event e;		
+		while(SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT)
+			{
+				_exit = true;
+			}
+			if (e.type == SDL_KEYUP){}
+			if (e.type == SDL_KEYDOWN)
+			{
+				if (e.key.keysym.sym == SDLK_ESCAPE)
+					_exit = true;
+			}
+		}
 		gameLoop();
 		if (_exit)
+		{
+			userUnInit();
 			return _exit;
+		}
 	}
 }
 void Engine::userInit()

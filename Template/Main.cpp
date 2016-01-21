@@ -3,7 +3,8 @@ SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;
 SDL_GLContext glcontext;
 core::Engine * eng = core::Engine::UI();
-
+//Called before engine closes
+void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
@@ -14,18 +15,9 @@ void gameInit()
 //Game mainloop
 void gameLoop()
 {
-	SDL_Event e;
-	if (SDL_PollEvent(&e))
-	{
-		if (e.type == SDL_QUIT)
-		{
-			eng->quit();
-		}
-	}
 
 	//glClearColor(0, 255, 255, 1);
 	//glClear(GL_COLOR_BUFFER_BIT);
-	
 	SDL_Rect rects;
 	rects.x = 320;
 	rects.y = 200;

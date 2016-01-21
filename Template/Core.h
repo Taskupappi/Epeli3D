@@ -2,12 +2,12 @@
 #define CORE_H
 void extern gameLoop();
 void extern gameInit();
-
+void extern userUnInit();
+#include <stdio.h>
 //SDL
 #include <SDL/SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>
-
 //Glew
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -19,7 +19,6 @@ void extern gameInit();
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
-
 
 //RapidXML
 #include "RapidXML/rapidxml.hpp"
