@@ -1,6 +1,7 @@
 #ifndef CORE_H
 #define CORE_H
-
+void extern gameLoop();
+void extern gameInit();
 
 //SDL
 #include <SDL/SDL.h>
@@ -34,14 +35,16 @@ namespace core
 	class Engine
 	{
 	public:
-		Engine();
-		~Engine();
 
+		static Engine* UI();
 		void Init();
 		void Uninit();
-
+		bool run();
+		void userInit();
+		void quit(){ _exit = true; }
 	protected:
-
+		virtual ~Engine();
+		Engine();
 		//TO DO:
 		//textureManager = nullptr;
 		//sceneManager = nullptr;
@@ -50,7 +53,10 @@ namespace core
 		//audioManager = nullptr;
 		//3DobjectManager = nullptr;
 		//bufferManager = nullptr;
-
+	private:
+		bool _mainInit; //Has main initialization been done
+		bool _exit; //Has exit been called
+		static Engine *_instance;
 
 	};
 }
