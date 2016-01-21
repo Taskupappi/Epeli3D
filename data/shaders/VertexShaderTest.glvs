@@ -1,0 +1,19 @@
+#version 120 
+
+attribute vec3 position;
+attribute vec3 color;
+attribute vec2 coord;
+
+
+out vec3 vertexColor;
+out vec2 texCoord;
+
+uniform mat4 MVP;
+
+void main()
+{
+gl_Position = MVP * vec4(position, 1.0); // * MVP
+vertexColor = color;
+texCoord = vec2(coord.x, 1 - coord.y);
+//texCoord = vec2(coord.x, coord.y);
+}
