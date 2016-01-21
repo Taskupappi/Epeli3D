@@ -9,6 +9,7 @@ public:
 	ResourceManager();
 	~ResourceManager();
 
+	void loadResource(const std::string fileName);
 	void loadImage(const std::string fileName);
 	void load3DModel(const std::string fileName);
 	void loadShader(const std::string fileName);
@@ -19,6 +20,7 @@ private:
 	SDL_Surface *image;
 	const std::string filePath = "../data/Resource/";
 	const std::string fileName;
+	bool isImage = false;
 };
 
 #endif
