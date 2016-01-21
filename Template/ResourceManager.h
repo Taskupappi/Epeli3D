@@ -22,7 +22,6 @@ private:
 	const std::string shaderFilePath = "../data/Shaders/";
 	const std::string fontFilePath = "../data/fonts/";
 	const std::string fileName;
-	bool isImage = false;
 };
 
 #endif
