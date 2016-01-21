@@ -19,6 +19,7 @@ public:
 private:
 	SDL_Surface *image;
 	const std::string filePath = "../data/Resource/";
+	const std::string shaderFilePath = "../data/Shaders/";
 	const std::string fileName;
 	bool isImage = false;
 };

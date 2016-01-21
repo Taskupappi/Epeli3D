@@ -1,5 +1,5 @@
 #include "ResourceManager.h"
-
+#include <fstream>
 
 
 ResourceManager::ResourceManager()
@@ -36,5 +36,21 @@ void ResourceManager::loadImage(const std::string fileName)
 	{
 		printf_s("IMG_Load: %s\n", IMG_GetError());
 		//handle error
+	}
+}
+
+void ResourceManager::loadShader(const std::string fileName)
+{
+	GLuint ShaderID = NULL;
+	std::string ShaderString;
+	std::ifstream SourceFile((shaderFilePath + fileName).c_str());
+
+	if (SourceFile)
+	{
+		ShaderString.assign((std::istreambuf_iterator< char >(SourceFile)), std::istreambuf_iterator<char>());
+	}
+	else
+	{
+		std::cout << "unable to open source file" << std::endl;
 	}
 }
