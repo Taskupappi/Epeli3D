@@ -39,6 +39,11 @@ void ResourceManager::loadImage(const std::string fileName)
 	}
 }
 
+void ResourceManager::load3DModel(const std::string fileName)
+{
+	//Jussi jatkaa tätä
+}
+
 void ResourceManager::loadShader(const std::string fileName)
 {
 	GLuint ShaderID = NULL;
@@ -53,4 +58,9 @@ void ResourceManager::loadShader(const std::string fileName)
 	{
 		std::cout << "unable to open source file" << std::endl;
 	}
+}
+
+void ResourceManager::loadFont(const std::string fileName)
+{
+
 }
