@@ -7,12 +7,22 @@
 class BufferManager
 {
 public:
-	void addVertexData(GLuint data);
-	void addIndexData(GLuint data);
+	BufferManager();
+	~BufferManager();
+
+	void addVertexData(GLfloat data);
+	void addIndexData(GLfloat data);
+
+	void bindBuffer();
+	void unbindBuffer();
+
+	
 protected:
 private:
 	std::vector<GLuint> vertexBuffer;
 	std::vector<GLuint> indexBuffer;
+
+	GLuint bufId;
 };
 
 

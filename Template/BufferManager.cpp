@@ -1,25 +1,40 @@
 #include "BufferManager.h"
 
-
-
-void BufferManager::addVertexData(GLuint data)
+BufferManager::BufferManager()
 {
-	GLuint verBufId = 0;
-	glGenBuffers(1, &verBufId);
-	glBindBuffer(GL_ARRAY_BUFFER, verBufId);
+
+}
+
+BufferManager::~BufferManager()
+{
+	if (bufId != 0)
+	{
+		glDeleteBuffers(1, &bufId);
+	}
+
+	
+}
+
+void BufferManager::bindBuffer()
+{
+
+}
+
+void BufferManager::addVertexData(GLfloat data)
+{
+	GLuint bufId = 0;
+	glGenBuffers(1, &bufId);
+	glBindBuffer(GL_ARRAY_BUFFER, bufId);
 	glBufferData(GL_ARRAY_BUFFER, vertexBuffer.size() * sizeof(GLfloat),
 		&vertexBuffer[0], GL_STATIC_DRAW);
-
-	vertexBuffer.push_back(verBufId);
-
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void BufferManager::addIndexData(GLuint data)
+void BufferManager::addIndexData(GLfloat data)
 {
-	GLuint inBufId = 1;
-	glGenBuffers(1, &inBufId);
-	glBindBuffer(GL_ARRAY_BUFFER, inBufId);
+	GLuint bufId = 1;
+	glGenBuffers(1, &bufId);
+	glBindBuffer(GL_ARRAY_BUFFER, bufId);
 	glBufferData(GL_ARRAY_BUFFER, indexBuffer.size() * sizeof(GLfloat),
 		&indexBuffer[0], GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
