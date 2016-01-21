@@ -20,8 +20,6 @@ void extern gameInit();
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
 
-//lodePNG
-#include "lodepng.h"
 
 //RapidXML
 #include "RapidXML/rapidxml.hpp"
