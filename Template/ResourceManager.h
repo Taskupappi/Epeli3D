@@ -18,9 +18,10 @@ public:
 
 private:
 	SDL_Surface *image;
-	const std::string filePath = "../data/Resource/";
+	const std::string imageFilePath = "../data/Resource/Images/";
+	const std::string audioFilePath = "../data/Resource/Audio/";
 	const std::string shaderFilePath = "../data/Shaders/";
-	const std::string fontFilePath = "../data/fonts/";
+	const std::string fontFilePath = "../data/Fonts/";
 	const std::string fileName;
 };
 
