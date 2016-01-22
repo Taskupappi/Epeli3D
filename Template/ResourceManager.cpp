@@ -28,9 +28,24 @@ void ResourceManager::loadResource(const std::string fileName)
 	else if (extension == "wav" | extension == "mp3" | extension == "flac" | extension == "ogg")
 		loadSound(fileName);
 
+	//compare to SHADER extensions
+	else if (extension == "glfs" | extension == "glvs")
+		loadShader(fileName);
+
+	//compare to FONT extensions
+	else if (extension == "ttf")
+		loadFont(fileName);
+
 	//compare to AUDIO extensions
 	else if (extension == "glfs" | extension == "glvs")
 		loadShader(fileName);
+
+	//compare to 3D MODEL extensions
+	else if (extension == "obj" | extension == "blend" | extension == "dae" 
+		| extension == "xml" | extension == "3ds" | extension == "ase" 
+		| extension == "smd" | extension == "vta" | extension == "x" 
+		| extension == "dxf")
+		load3DModel(fileName);
 
 	else
 		printf_s("Could not determine file extension\n");
