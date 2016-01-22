@@ -87,7 +87,7 @@ void ResourceManager::loadShader(const std::string fileName)
 
 void ResourceManager::loadFont(const std::string fileName)
 {
-
+	//Samuli jatkaa tätä?
 }
 
 void ResourceManager::loadSound(const std::string fileName)
