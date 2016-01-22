@@ -92,5 +92,14 @@ void ResourceManager::loadFont(const std::string fileName)
 
 void ResourceManager::loadSound(const std::string fileName)
 {
-	
+	// ehk‰ mixerin vaihto openAL ????
+
+
+	// antaa erroria, yritt‰‰ ehk‰ v‰kisell‰ toistaa?
+	audio = Mix_LoadMUS((audioFilePath + fileName).c_str());
+
+	if (!audio)
+	{
+		printf("Mix_LoadMUS: %s\n", Mix_GetError());
+	}
 }

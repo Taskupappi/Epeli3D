@@ -18,6 +18,7 @@ public:
 
 private:
 	SDL_Surface *image;
+	Mix_Music *audio;
 	const std::string imageFilePath = "../data/Resource/Images/";
 	const std::string audioFilePath = "../data/Resource/Audio/";
 	const std::string modelFilePath = "../data/Resource/Models/";
