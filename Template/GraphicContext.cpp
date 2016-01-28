@@ -13,7 +13,11 @@ GraphicContext::GraphicContext()
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 	//openGL context
-	glcontext = SDL_GL_CreateContext(window);
+	glcontext = SDL_GL_CreateContext(window);	
+
+	//GlewInit()
+	glewExperimental = GL_TRUE;
+	glewInit();
 }
 
 GraphicContext::GraphicContext(int xRes, int yRes)

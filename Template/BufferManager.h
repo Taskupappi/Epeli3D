@@ -24,8 +24,8 @@ public:
 	BufferManager();
 	~BufferManager();
 
-	void addVertexData(BufferData *data, GLsizei size);
-	void addIndexData(BufferData *data, GLsizei *size);
+	void addVertexData(GLfloat *data, GLsizei size);
+	void addIndexData(GLfloat *data, GLsizei *size);
 
 	void bindBuffer();
 	void unbindBuffer();

@@ -28,7 +28,7 @@ void BufferManager::bindBuffer()
 	}
 }
 
-void BufferManager::addVertexData(BufferData *data, GLsizei size)
+void BufferManager::addVertexData(GLfloat *data, GLsizei size)
 {	
 	glBindBuffer(GL_ARRAY_BUFFER, vertexbufId);
 	glBufferData(GL_ARRAY_BUFFER, size * sizeof(GLfloat),
@@ -49,7 +49,7 @@ void BufferManager::addVertexData(BufferData *data, GLsizei size)
 	
 }
 
-void BufferManager::addIndexData(BufferData *data, GLsizei *size)
+void BufferManager::addIndexData(GLfloat *data, GLsizei *size)
 {
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufID);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(GLfloat),

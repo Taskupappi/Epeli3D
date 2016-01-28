@@ -1,8 +1,14 @@
-#ifndef GRAPHICALCONTEXT_H
-#define GRAPHICALCONTEXT_H
+#ifndef GRAPHICCONTEXT_H
+#define GRAPHICCONTEXT_H
+
+#define GLEW_STATIC
+#include <GL\glew.h>
+#include <gl\glew.h>
 
 #include "SDL.h"
 #include <SDL_opengl.h>
+#include <GLFW\glfw3.h>
+
 
 class GraphicContext
 {

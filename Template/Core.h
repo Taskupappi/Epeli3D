@@ -4,9 +4,6 @@ void extern gameLoop();
 void extern gameInit();
 void extern userUnInit();
 #include <stdio.h>
-//Glew
-#define GLEW_STATIC
-#include <GL/glew.h>
 
 //Glm
 #include <glm/glm.hpp>
@@ -26,7 +23,7 @@ void extern userUnInit();
 #include <freetype-2.6.1/include/ft2build.h>
 //#include FT_FREETYPE_H
 #include "SceneManager.h"
-#include "ResourceManager.h"
+
 namespace core
 {
 	class Engine
