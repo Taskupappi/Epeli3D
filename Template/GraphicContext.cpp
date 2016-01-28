@@ -2,37 +2,46 @@
 
 GraphicContext::GraphicContext()
 {
+	window = nullptr;	
+
 	window = SDL_CreateWindow(
 		"Epeli3D",
 		SDL_WINDOWPOS_CENTERED, 
 		SDL_WINDOWPOS_CENTERED,
-		800,
-		600,
+		x,
+		y,
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+	//openGL context
+	glcontext = SDL_GL_CreateContext(window);
 }
 
 GraphicContext::GraphicContext(int xRes, int yRes)
 {
-	window = SDL_CreateWindow(
-		"Epeli3D",
-		SDL_WINDOWPOS_CENTERED,
-		SDL_WINDOWPOS_CENTERED,
-		xRes,
-		yRes,
-		SDL_WINDOW_OPENGL);
+	x = xRes;
+	y = yRes;
+	GraphicContext::GraphicContext();
 }
 
 GraphicContext::~GraphicContext()
-{
+{	
 	SDL_DestroyWindow(window);
-}
-
-void GraphicContext::Init()
-{
-	
+	SDL_GL_DeleteContext(glcontext);
 }
 
 void GraphicContext::setResolution(int xRes, int yRes)
 {
 //	SDL_SetWindowDisplayMode(window, );
+}
+
+void GraphicContext::swap()
+{
+	SDL_GL_SwapWindow(window);
+}
+
+void GraphicContext::clear()
+{
+	//clear the backbuffer and depth buffer
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
 }
