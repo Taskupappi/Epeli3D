@@ -1,15 +1,6 @@
 #include "ResourceManager.h"
-#include <fstream>
 
 
-ResourceManager::ResourceManager()
-{
-}
-
-
-ResourceManager::~ResourceManager()
-{
-}
 void ResourceManager::loadResource(const std::string fileName)
 {
 	// find "." in string

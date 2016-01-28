@@ -1,16 +1,23 @@
 #include "Core.h"
+#include "ResourceManager.h"
+
 SDL_Window *window = nullptr;
 SDL_Renderer *renderer = nullptr;
 SDL_GLContext glcontext;
 core::Engine * eng = core::Engine::UI();
+ResourceManager * resMngr;
+Image * img;
 //Called before engine closes
 void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
+	resMngr = new ResourceManager();
+	img = resMngr->loadResourceT<Image>("kuva.png");
 	window = SDL_CreateWindow("Epeli3D", 10, 30, 640, 480,SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 	//glcontext = SDL_GL_CreateContext(window);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	
 }
 //Game mainloop
 void gameLoop()
@@ -37,6 +44,7 @@ int main(int argc, char** argv)
 	eng->Init();
 	eng->run();
 	eng->Uninit();
+	
 	//SDL_Init(SDL_INIT_EVERYTHING);
 
 	return 0;
