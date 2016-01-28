@@ -22,17 +22,21 @@ public:
 	template< typename T>
 	T* loadResourceT(const std::string fileName)
 	{
+		return nullptr;
 		{
-			switch (typeid(T))
+			/*
+			switch (typeid(T).hash_code())
 			{
-			case typeid(image) :
-				image * img = loadImage(fileName);
-				return img;
+			case typeid(Image).hash_code():
+				//Image * img = loadImage(fileName);
+				//return img;
+				return nullptr;
 				break;
 				// case typeid(audio).name():
 			default:
 				break;
 			}
+			*/
 		}
 	}
 	void loadResource(const std::string fileName);
