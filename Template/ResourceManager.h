@@ -1,21 +1,11 @@
 #ifndef RESOURCEMANAGER_H
 #define RESOURCEMANAGER_H
-#include "Core.h"
 #include <iostream>
 #include <typeinfo>
 #include <vector>
 #include <fstream>
 #include <map>
 
-class Image
-{
-public:
-	Image(){};
-	~Image(){};
-
-private:
-	std::vector<unsigned char> imageData;
-};
 
 template <class T>
 class ResourceManager
