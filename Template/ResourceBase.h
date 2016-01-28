@@ -1,6 +1,5 @@
 #ifndef RESOURCEBASE_H
 #define RESOURCEBASE_H
-#include "Core.h"
 #include <iostream>
 
 class ResourceBase
