@@ -15,7 +15,10 @@ void extern userUnInit();
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/matrix_transform_2d.hpp>
-
+//SDL
+#include <SDL/SDL.h>
+#include <SDL_mixer.h>
+#include <SDL_image.h>
 //RapidXML
 #include "RapidXML/rapidxml.hpp"
 
@@ -36,7 +39,11 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
-		Scene * createScene(){ return _scnMngr->createScene(); }
+		Scene * createScene()
+		{
+			return nullptr;
+			//return _scnMngr->createScene(); 
+		}
 		//Needs to read managers from scene and set them as current
 		bool useScene(Scene * sc){ return true; }
 		
@@ -53,7 +60,7 @@ namespace core
 		//3DobjectManager = nullptr;
 		//bufferManager = nullptr;
 	private:
-		ResourceManager *_resMngr;
+		//ResourceManager *_resMngr;
 		core::SceneManager *_scnMngr;
 		bool _mainInit; //Has main initialization been done
 		bool _exit; //Has exit been called
