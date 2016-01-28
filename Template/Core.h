@@ -4,10 +4,6 @@ void extern gameLoop();
 void extern gameInit();
 void extern userUnInit();
 #include <stdio.h>
-//SDL
-#include <SDL/SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
 //Glew
 #define GLEW_STATIC
 #include <GL/glew.h>
@@ -26,7 +22,8 @@ void extern userUnInit();
 //FreeType
 #include <freetype-2.6.1/include/ft2build.h>
 //#include FT_FREETYPE_H
-
+#include "SceneManager.h"
+#include "ResourceManager.h"
 namespace core
 {
 	class Engine
@@ -39,9 +36,14 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
+		Scene * createScene(){ return _scnMngr->createScene(); }
+		//Needs to read managers from scene and set them as current
+		bool useScene(Scene * sc){ return true; }
+		
 	protected:
 		virtual ~Engine();
 		Engine();
+
 		//TO DO:
 		//textureManager = nullptr;
 		//sceneManager = nullptr;
@@ -51,10 +53,11 @@ namespace core
 		//3DobjectManager = nullptr;
 		//bufferManager = nullptr;
 	private:
+		ResourceManager *_resMngr;
+		core::SceneManager *_scnMngr;
 		bool _mainInit; //Has main initialization been done
 		bool _exit; //Has exit been called
 		static Engine *_instance;
-
 	};
 }
 

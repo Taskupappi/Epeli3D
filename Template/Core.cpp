@@ -4,9 +4,8 @@ using namespace core;
 Engine* core::Engine::_instance = nullptr;
 Engine::Engine() :_mainInit(false), _exit(false)
 {
-
-
-
+	_resMngr = new ResourceManager();
+	_scnMngr = new SceneManager();
 	//TO DO:
 	//
 	//shaderManager = nullptr;
