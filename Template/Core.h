@@ -23,6 +23,8 @@ void extern userUnInit();
 #include <freetype-2.6.1/include/ft2build.h>
 //#include FT_FREETYPE_H
 #include "SceneManager.h"
+//Assimp
+#include <assimp/Importer.hpp>
 
 namespace core
 {
