@@ -104,6 +104,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="ResourceMap.h" />
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderManager.h" />
   </ItemGroup>
