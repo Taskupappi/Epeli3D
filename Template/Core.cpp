@@ -89,6 +89,29 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
 	
+	/*ResourceManager<GameObject>rm;
+	ResourceMap<GameObject>mymap1;
+	ResourceMap<GameObject>mymap2;
+
+	mymap1.initMapper("mapList1", &rm, true);
+	mymap1.initMapper("mapList2", &rm, true);
+
+	mymap1.addElement("a", "foo1.txt", 0);
+	mymap1.addElement("b", "foo1.txt", 0);
+	mymap1.addElement("c", "foo2.txt", 0);
+	mymap1.addElement("d", "foo2.txt", 0);
+	mymap1.addElement("e", "foo1.txt", 0);
+	mymap1.addElement("f", "foo1.txt", 0);
+	mymap1.addElement("g", "foo3.txt", 0);
+
+	mymap2.addElement("a", "foo3.txt", 0);
+	mymap2.addElement("b", "foo1.txt", 0);
+	mymap2.addElement("c", "foo3.txt", 0);
+	mymap2.addElement("d", "foo1.txt", 0);
+	mymap2.addElement("e", "foo2.txt", 0);
+	mymap2.addElement("f", "foo1.txt", 0);
+	mymap2.addElement("g", "foo2.txt", 0);*/
+
 	////GlewInit()
 	//glewExperimental = GL_TRUE;
 

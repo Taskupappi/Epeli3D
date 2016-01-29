@@ -13,10 +13,10 @@ public:
 	ResourceMap()
 	{
 		duplicates = -1;			// undetermined state
-		ResourceManager = NULL;		// no resource manager assigned
+		//ResourceManager = NULL;		// no resource manager assigned
 	}
 
-	~ResourceMap(9
+	~ResourceMap()
 	{
 		clearElements();		// remove elements if unique
 	}
@@ -34,18 +34,17 @@ public:
 
 		std::unordered_map<std::string, T* >::iterator it = Map.find(resourceName);
 
-		if (it = Map.end())
+		if (it == Map.end())
 		{
 			// if duplicates flag is set to truem duplicated mapped values are allowed
 			// if duplicates flag is set to false, duplicates won't be allowed
 
 			if (isValNonUnique(fileName))
 			{
-				T* resource = ResourceManager->loadResource(fileName, args);
+				T* resource = ResourceManager->Load(fileName, args);
 				// allocate new resource using the raii paradigm
-				
-				Map.insert(std::pair<std:string, T*>(resourceName, resource));
-				
+				Map.insert(std::pair<std::string, T*>(resourceName, resource));
+
 				return resource;
 			}
 			else
@@ -129,30 +128,31 @@ public:
 	std::string dump()
 	{
 		if (ResourceManager == NULL)
-		
-		std::string str = printf_s("Dumping database %s\n\n", name.c_str());
+
+			printf_s("Dumping database %s\n\n", name.c_str());
+		std::string str = 0;
 
 		for (std::unordered_map<std::string, T*>::iterator it = Map.begin(); it != Map.end(); it++;)
 		{
-			str += printf_s("resourceName: %s, %s\n",
+			str += sprintf("resourceName: %s, %s\n",
 				(*it).first.c_str(),
 				(*it).second->getFileName().c_str());
 		}
 		return str;
 	}
-		/////////////////////////////////////////
-		// get array name
+	/////////////////////////////////////////
+	// get array name
 
-		const std::string &getName() const{ return name; }
-		const int size() const { return Map.size(); }
+	const std::string &getName() const{ return name; }
+	const int size() const { return Map.size(); }
 
-		/////////////////////////////////////////
-		// get const reference to resource manager
+	/////////////////////////////////////////
+	// get const reference to resource manager
 
-		const ResourceManager<T> *getResourceManager(){ return ResourceManager; }
+	const ResourceManager<T> *getResourceManager(){ return ResourceManager; }
 
-		/////////////////////////////////////////
-		// get element using resourceName
+	/////////////////////////////////////////
+	// get element using resourceName
 
 	T *getElement(const std::string &resourceName)
 	{
@@ -207,7 +207,7 @@ private:
 
 		while (it != Map.end())
 		{
-			if ((it->second->getResourceFileName() == fileName)) return false;
+			if ((it->second->getFileName() == fileName)) return false;
 			++it;
 		}
 		return true;

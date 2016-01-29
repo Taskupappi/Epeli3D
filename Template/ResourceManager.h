@@ -4,12 +4,13 @@
 #include <typeinfo>
 #include <vector>
 #include <fstream>
-#include <map>
+#include <unordered_map>
 
 
 template <class T>
 class ResourceManager
 {
+public:
 	ResourceManager()
 	{
 	}
@@ -19,7 +20,7 @@ class ResourceManager
 		ReleaseAll();
 	}
 
-	public:
+
 		//-----
 		//Add an asset to the database
 		T* Load(const std::string &filename, void *args)
@@ -34,11 +35,11 @@ class ResourceManager
 			//std::string Filename=CStringFormatter::TrimAndLower( filename );
 
 			//looks in the map to see if the resource is already loaded
-			std::unordered_map<std::string, T*>::iterator it = Map.find(FileName);
+			std::unordered_map<std::string, T*>::iterator it = Map.find(filename);
 
 			if (it != Map.end())
 			{
-				(*it).second->IncReferences();
+				(*it).second->incReferences();
 				return (*it).second;
 			}
 
@@ -47,13 +48,13 @@ class ResourceManager
 			//you must supply the class with a proper constructor
 			//see header for details
 
-			T *resource = new T(FileName, args);
+			T *resource = new T(filename, args);
 
 			//increase references, this sets the references count to 1
-			resource->IncReferences();
+			resource->incReferences();
 
 			//insert into the map
-			Map.insert(std::pair<std string, T*>(FileName, resource);
+			Map.insert(std::pair<std::string, T*>(filename, resource));
 
 			return resource;
 		}
@@ -73,17 +74,17 @@ class ResourceManager
 			//std::string Filename=CStringFormatter::TrimAndLower( filename );
 
 			//find the item to delete
-			std::unordered_map<std::string, T*>::iterator it = Map.find(FileName);
+			std::unordered_map<std::string, T*>::iterator it = Map.find(filename);
 
 			if (it != Map.end())
 			{
 				//decrease references
-				(*it).second->DecReferences();
+				(*it).second->decReferences();
 
 				//if item had 0 references, meaning
 				//the item isn't more used,
 				//delete from main database
-				if ((*it).second->GetReferencesCount() == 0)
+				if ((*it).second->getReferenceCount() == 0)
 				{
 					delete((*it).second);
 					Map.erase(it);
@@ -105,7 +106,7 @@ class ResourceManager
 
 	private:
 		//data members
-		std::unordered_map<std::string, T* > Map;
+		std::unordered_map<std::string, T*> Map;
 		std::string Name;
 
 		//copy constructor and = operator are kept private

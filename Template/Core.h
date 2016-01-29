@@ -23,6 +23,9 @@ void extern userUnInit();
 #include <freetype-2.6.1/include/ft2build.h>
 //#include FT_FREETYPE_H
 #include "SceneManager.h"
+#include "GameObject.h"
+#include "ResourceManager.h"
+#include "ResourceMap.h"
 //Assimp
 #include <assimp/Importer.hpp>
 
