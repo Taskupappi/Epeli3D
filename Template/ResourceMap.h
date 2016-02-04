@@ -128,13 +128,15 @@ public:
 	std::string dump()
 	{
 		if (ResourceManager == NULL)
+			printf("Error: DataBase cannot be NULL (3)");
 
-			printf_s("Dumping database %s\n\n", name.c_str());
-		std::string str = 0;
+		printf_s("Dumping database %s\n\n", ResourceManager->GetName());
+		
+		std::string str;
 
-		for (std::unordered_map<std::string, T*>::iterator it = Map.begin(); it != Map.end(); it++;)
+		for (std::unordered_map<std::string, T*>::iterator it = Map.begin(); it != Map.end(); it++)
 		{
-			str += sprintf("resourceName: %s, %s\n",
+			printf_s("Resourcename: %s, %s\n",
 				(*it).first.c_str(),
 				(*it).second->getFileName().c_str());
 		}
@@ -188,6 +190,8 @@ public:
 	{
 		if (resourceManager == NULL) printf_s("DataBase cannot be NULL (1)");
 		if (name.empty())printf_s("Array name cannot be null");
+
+		ResourceManager = resourceManager;
 	}
 
 private:

@@ -93,8 +93,10 @@ void Engine::Init()
 	ResourceMap<GameObject>mymap1;
 	ResourceMap<GameObject>mymap2;
 
+	rm.initResourceManager("AssetDataBase");
+
 	mymap1.initMapper("mapList1", &rm, true);
-	mymap1.initMapper("mapList2", &rm, true);
+	mymap2.initMapper("mapList2", &rm, true);
 
 	mymap1.addElement("a", "foo1.txt", 0);
 	mymap1.addElement("b", "foo1.txt", 0);
@@ -110,7 +112,9 @@ void Engine::Init()
 	mymap2.addElement("d", "foo1.txt", 0);
 	mymap2.addElement("e", "foo2.txt", 0);
 	mymap2.addElement("f", "foo1.txt", 0);
-	mymap2.addElement("g", "foo2.txt", 0);*/
+	mymap2.addElement("g", "foo2.txt", 0);
+
+	std::string text = mymap1.dump();*/
 
 	////GlewInit()
 	//glewExperimental = GL_TRUE;

@@ -97,6 +97,12 @@ public:
 			return false;
 		}
 
+		void initResourceManager(const std::string &name)
+		{
+			// check if name is not empty
+			if (name.empty())
+				printf_s("Null name is not allowed");
+		}
 
 		//-----
 		//get name for database
