@@ -42,6 +42,9 @@
     <ClCompile Include="GraphicContext.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TempShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TempShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

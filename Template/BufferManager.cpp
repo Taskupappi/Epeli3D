@@ -2,9 +2,9 @@
 
 BufferManager::BufferManager()
 {
-	initBuffers();
-
 	initShaders();
+
+	initBuffers();
 }
 
 BufferManager::~BufferManager()
@@ -28,62 +28,211 @@ void BufferManager::bindBuffer()
 	}
 }
 
-void BufferManager::addVertexData(GLfloat *data, GLsizei size)
-{	
-	glBindBuffer(GL_ARRAY_BUFFER, vertexbufId);
-	glBufferData(GL_ARRAY_BUFFER, size * sizeof(GLfloat), data, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	//pos
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)0);
-	glEnableVertexAttribArray(0);
-	//color
-	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-	//tex Coord
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)(7 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(2);
-
-	vertexBuffer.push_back(vertexbufId);
-	
-}
-
-void BufferManager::addIndexData(GLuint *data, GLuint *size)
-{
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufID);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(GLuint), size, GL_STATIC_DRAW);
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-	indexBuffer.push_back(indexbufID);
-}
-
-void BufferManager::drawBuffer(std::vector<GLuint> buffer)
-{	
-	
-	//Clear the backbuffer and the depth-buffer
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-
-	glUseProgram(shaderProgram);
-
-	
-	//for (int i = 0; i < vertexBuffer.size() - 1; i++)
-	//{
-		glBindVertexArray(vertexBuffer);
-		glDrawElements(GL_TRIANGLES, vertexBuffer.size(), GL_UNSIGNED_INT, 0); //reinterpret_cast<GLvoid*>(0));	
-	//}
-
-	glBindVertexArray(0);
-
-}
 
 void BufferManager::initBuffers()
 {
-	vertexbufId = 0;
-	glGenBuffers(1, &vertexbufId);
+	//vertexbufId = 0;
+	//glGenBuffers(1, &vertexbufId);
+	//
+	//indexbufID = 1;
+	//glGenBuffers(1, &indexbufID);
 
-	indexbufID = 1;
-	glGenBuffers(1, &indexbufID);
+	glGenVertexArrays(1, &this->VertexArrayObject);
+	glGenBuffers(1, &VertexBufferObject);
+	glGenBuffers(1, &ElementBufferObject);
+
+	//glBindVertexArray(this->VertexArrayObject);
+	//glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
+	//
+	//glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(BufferVertex),
+	//	&this->vertexBuffer[0], GL_STATIC_DRAW);
+	//
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ElementBufferObject);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indicesBuffer.size() * sizeof(GLuint),
+	//	&this->indicesBuffer[0], GL_STATIC_DRAW);
+	//
+	////Vertex Positions
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+	//	(GLvoid*)0);
+	//
+	////Vertex Normals
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+	//	(GLvoid*)offsetof(BufferVertex, Normal));
+	//
+	////Vertex Texture Coords
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+	//	(GLvoid*)offsetof(BufferVertex, TexCoords));
+	//
+	//glBindVertexArray(0);
+}
+
+void BufferManager::addBuffer()
+{
+	glBindVertexArray(this->VertexArrayObject);
+	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
+
+	glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(BufferVertex),
+		&this->vertexBuffer[0], GL_STATIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ElementBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indicesBuffer.size() * sizeof(GLuint),
+		&this->indicesBuffer[0], GL_STATIC_DRAW);
+
+	//Vertex Positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+		(GLvoid*)0);
+
+	//Vertex Normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+		(GLvoid*)offsetof(BufferVertex, Normal));
+
+	//Vertex Texture Coords
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+		(GLvoid*)offsetof(BufferVertex, TexCoords));
+
+	//Vertex Texture Coords
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+		(GLvoid*)0);
+}
+
+void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
+{
+	vertexBuffer = vertices;
+	indicesBuffer = indices;
+	this->textures = textures;
+
+	this->addBuffer();
+}
+
+
+
+void BufferManager::drawBuffer(Shader shader)
+{
+	GLuint diffuseNr = 1;
+	GLuint specularNr = 1;
+
+	for (GLuint i = 0; i < this->textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + 1);
+
+		std::stringstream ss;
+		std::string number;
+		std::string name = this->textures[i].type;
+		if (name == "texture_diffuse")
+		{
+			ss << diffuseNr++;
+		}
+
+		else if (name == "texture_specular")
+		{
+			ss << specularNr++;
+		}
+
+		number = ss.str();
+
+		glUniform1i(glGetUniformLocation(shader.GetShaderProgram(), ("material." + name + number).c_str()), i);
+		glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
+	}
+
+	glUniform1f(glGetUniformLocation(shader.GetShaderProgram(), "material.shininess"), 16.0f);
+
+	//draw mesh
+	glBindVertexArray(this->VertexArrayObject);
+	glDrawElements(GL_TRIANGLES, this->indicesBuffer.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
+
+	for (GLuint i = 0; i < this->textures.size(); i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + 1);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+}
+
+void BufferManager::testBuffer()
+{
+	//create the data
+	std::vector<BufferVertex> v;
+
+	BufferVertex BV1;
+	BufferVertex BV2;
+	BufferVertex BV3;
+
+	v.push_back(BV1);
+	v.push_back(BV2);
+	v.push_back(BV3);
+	
+	for (int i = 0; i < 3; i++)
+	{
+		std::srand(std::time(0));
+		float x = std::rand();
+		if (x > 10)
+			x = 3;
+		if (x < 1)
+			x = 1;
+
+		if(i == 0)
+		v[i].Position = glm::vec3(0.2f + (float)i, 0.4f + (float)i, 1.2f + (float)i);
+		else if (i == 1)
+			v[i].Position = glm::vec3(-0.2f - 5.4f, 0.4f - 2, 1.2f - 3);
+		else if (i == 2)
+			v[i].Position = glm::vec3(0.2f + 9.0f, 11.4f + 0.4f, 1.2f +2.0f);
+
+
+		v[i].Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+		v[i].TexCoords = glm::vec2(1.0f, 0.0f);
+	}
+
+
+	GLuint indicesArray[9] = { 1, 2, 3, 1, 2, 3, 1, 2, 3 };
+	
+
+	std::vector<GLuint> testIndices;
+
+	for (int i = 0; i < 9; i++)
+		testIndices.push_back(indicesArray[i]);
+
+		std::vector<BufferTexture> tex;
+
+		BufferTexture bt1;
+		BufferTexture bt2;
+		BufferTexture bt3;
+		bt1.id = 1;
+		bt1.type = "texture_diffuse";
+
+		bt2.id = 1;
+		bt2.type = "texture_diffuse";
+
+		bt2.id = 1;
+		bt2.type = "texture_diffuse";
+
+		tex.push_back(bt1);
+		tex.push_back(bt2);
+		tex.push_back(bt3);
+
+		//add the data
+		addBufferData(v, testIndices, tex);
+
+		//load tempShader
+		Shader testShader;
+
+		testShader.Init();
+
+		
+
+
+		
+		drawBuffer(testShader);
+
+
+
+	
 }
 
 void BufferManager::initShaders()
@@ -144,19 +293,69 @@ void BufferManager::initShaders()
 	//End of Shader init and linking
 }
 
-std::vector<GLuint> BufferManager::getBuffer(std::string bufferName)
-{
 
-	if (bufferName == "vertexbuffer" || bufferName == "Vertexbuffer" || bufferName == "vertexBuffer" || bufferName == "VertexBuffer" || bufferName == "vertex buffer" || bufferName == "Vertex Buffer" || bufferName == "vertex Buffer" || bufferName == "Vertex buffer")
-	{
-		return vertexBuffer;
-	}
-	else if (bufferName == "indexBuffer" || bufferName == "indexbuffer" || bufferName == "Indexbuffer" || bufferName == "IndexBuffer" || bufferName == "Index Buffer" || bufferName == "index buffer" || bufferName == "Index buffer" || bufferName == "index Buffer")
-	{
-		return indexBuffer;
-	}
-	//else
-	//{
-	//	return nullptr;
-	//}
-}
+//void BufferManager::addVertexData(GLfloat *data, GLsizei size)
+//{	
+//	glBindBuffer(GL_ARRAY_BUFFER, vertexbufId);
+//	glBufferData(GL_ARRAY_BUFFER, size * sizeof(GLfloat), data, GL_STATIC_DRAW);
+//	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//	//pos
+//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)0);
+//	glEnableVertexAttribArray(0);
+//	//color
+//	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
+//	glEnableVertexAttribArray(1);
+//	//tex Coord
+//	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)(7 * sizeof(GLfloat)));
+//	glEnableVertexAttribArray(2);
+//
+//	vertexBuffer.push_back(vertexbufId);
+//	
+//}
+
+//void BufferManager::addIndexData(GLuint *data, GLuint *size)
+//{
+//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufID);
+//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(GLuint), size, GL_STATIC_DRAW);
+//	//glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//	indexBuffer.push_back(indexbufID);
+//}
+
+//void BufferManager::drawBuffer(std::vector<GLuint> buffer)
+//{	
+//	
+//	//Clear the backbuffer and the depth-buffer
+//	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+//	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+//
+//	glUseProgram(shaderProgram);
+//
+//	
+//	for (int i = 0; i < vertexBuffer.size() - 1; i++)
+//	{
+//		glBindVertexArray(vertexBuffer);
+//		glDrawElements(GL_TRIANGLES, vertexBuffer.size(), GL_UNSIGNED_INT, 0); //reinterpret_cast<GLvoid*>(0));	
+//	}
+//
+//	glBindVertexArray(0);
+//
+//}
+
+//std::vector<GLuint> BufferManager::getBuffer(std::string bufferName)
+//{
+//
+//	if (bufferName == "vertexbuffer" || bufferName == "Vertexbuffer" || bufferName == "vertexBuffer" || bufferName == "VertexBuffer" || bufferName == "vertex buffer" || bufferName == "Vertex Buffer" || bufferName == "vertex Buffer" || bufferName == "Vertex buffer")
+//	{
+//		return vertexBuffer;
+//	}
+//	else if (bufferName == "indexBuffer" || bufferName == "indexbuffer" || bufferName == "Indexbuffer" || bufferName == "IndexBuffer" || bufferName == "Index Buffer" || bufferName == "index buffer" || bufferName == "Index buffer" || bufferName == "index Buffer")
+//	{
+//		return indexBuffer;
+//	}
+//	//else
+//	//{
+//	//	return nullptr;
+//	//}
+//} //rikki

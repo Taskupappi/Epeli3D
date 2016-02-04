@@ -5,17 +5,40 @@
 #include <vector>
 #include <iostream>
 
+#include <sstream>  
+
+#include <glm\glm.hpp>
+#include "ShaderManager.h"
+
+//tempShadertesting
+#include "TempShader.h"
+//includes for the testBench
+#include "amp.h"
+#include <ctime>
+
+
+
+
 /*
 Data structure
 GLfloat position [x, y, z]
 GLfloats color [r, g, b, a]
 GLfloats texture coords [x, y]
 */
-struct BufferData
+
+
+struct BufferVertex
 {
-	GLfloat Position[3];
-	GLfloat Color[4];
-	GLfloat TextCoord[2];
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec2 TexCoords;
+	glm::vec4 Color;
+};
+
+struct BufferTexture
+{
+	GLuint id;
+	std::string type;
 };
 
 class BufferManager
@@ -29,18 +52,31 @@ public:
 
 	void bindBuffer();
 	void unbindBuffer();
-
-	void initBuffers();
-	void drawBuffer(std::vector<GLuint> buffer);
-	
-	//temporary init for shaders
-	void initShaders();
 	std::vector<GLuint> getBuffer(std::string bufferName);
-	
+
+
+	//called in the constructor
+	void initBuffers();
+	//temporary init for shaders
+	void initShaders();	
+	//Add data to the buffers
+	void addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
+	//here from the "addBufferData"
+	void addBuffer();
+	//RenderBuffers
+	void drawBuffer(Shader shader);	
+	//TestBench for the buffer
+	void testBuffer();
+
+	//buffer Data
+	std::vector<BufferVertex> vertexBuffer;
+	std::vector<GLuint> indicesBuffer;
+	std::vector<BufferTexture> textures;
 protected:
 private:
-	std::vector<GLuint> vertexBuffer;
-	std::vector<GLuint> indexBuffer;
+
+	GLuint VertexArrayObject, VertexBufferObject, ElementBufferObject;
+
 
 	GLuint vertexbufId;
 	GLuint indexbufID;
