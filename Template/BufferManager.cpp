@@ -2,7 +2,7 @@
 
 BufferManager::BufferManager()
 {
-	initShaders();
+	//initShaders();
 
 	initBuffers();
 }
@@ -96,10 +96,10 @@ void BufferManager::addBuffer()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
 		(GLvoid*)offsetof(BufferVertex, TexCoords));
 
-	//Vertex Texture Coords
+	//Vertex Color
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
-		(GLvoid*)0);
+		(GLvoid*)offsetof(BufferVertex, Color));
 }
 
 void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
@@ -110,8 +110,6 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 
 	this->addBuffer();
 }
-
-
 
 void BufferManager::drawBuffer(Shader shader)
 {
@@ -163,35 +161,37 @@ void BufferManager::testBuffer()
 	BufferVertex BV1;
 	BufferVertex BV2;
 	BufferVertex BV3;
+	BufferVertex BV4;
 
 	v.push_back(BV1);
 	v.push_back(BV2);
 	v.push_back(BV3);
-	
+
 	for (int i = 0; i < 3; i++)
 	{
-		std::srand(std::time(0));
-		float x = std::rand();
-		if (x > 10)
-			x = 3;
-		if (x < 1)
-			x = 1;
+		//std::srand(std::time(0));
+		tempColor++;
+
+		if (tempColor > 255)
+		{
+			tempColor = 0;
+		}
+		
 
 		if(i == 0)
-		v[i].Position = glm::vec3(0.2f + (float)i, 0.4f + (float)i, 1.2f + (float)i);
+		v[i].Position = glm::vec3(-5.2f - 4.8, -5.4f - 4.6, -1.2f + 8.8f);
 		else if (i == 1)
-			v[i].Position = glm::vec3(-0.2f - 5.4f, 0.4f - 2, 1.2f - 3);
+			v[i].Position = glm::vec3(10.0f + 0.0f, 1.4f + 8.6f, -1.2f + 8.8f);
 		else if (i == 2)
-			v[i].Position = glm::vec3(0.2f + 9.0f, 11.4f + 0.4f, 1.2f +2.0f);
-
+			v[i].Position = glm::vec3(1.2f + 1.0f, -11.4f + 1.4f, 7.2f + 2.0f);
 
 		v[i].Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		v[i].TexCoords = glm::vec2(1.0f, 0.0f);
+		std::cout << "tempColor: " << tempColor << std::endl;
+		v[i].Color = glm::vec3(0, 0, tempColor);
 	}
 
-
-	GLuint indicesArray[9] = { 1, 2, 3, 1, 2, 3, 1, 2, 3 };
-	
+	GLuint indicesArray[9] = { 1, 2, 3, 1, 2, 3, 1, 2, 3 };	
 
 	std::vector<GLuint> testIndices;
 
@@ -222,21 +222,18 @@ void BufferManager::testBuffer()
 		//load tempShader
 		Shader testShader;
 
+		//tempShader init
 		testShader.Init();
 
-		
-
-
-		
+		//draw what is in the buffer
 		drawBuffer(testShader);
 
-
-
-	
 }
 
 void BufferManager::initShaders()
 {
+
+
 	// Shaders
 	const GLchar* vertexShaderSource = "#version 330 core\n"
 		"layout (location = 0) in vec3 position;\n"
@@ -245,10 +242,11 @@ void BufferManager::initShaders()
 		"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
 		"}\0";
 	const GLchar* fragmentShaderSource = "#version 330 core\n"
-		"out vec4 color;\n"
+		"in vec3 color; \n"
+		"out vec4 Fcolor;\n"
 		"void main()\n"
 		"{\n"
-		"color = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
+		"Fcolor = vec4(color, 1.0f);\n"
 		"}\n\0";
 
 

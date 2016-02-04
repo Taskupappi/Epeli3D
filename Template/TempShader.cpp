@@ -68,6 +68,13 @@ bool Shader::Init()
 	glDeleteShader(VertexShaderID);
 	glDeleteShader(FragmentShaderID);
 
+	// print out some info about the graphics drivers
+	std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
+	std::cout << "GLSL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
+	std::cout << "Vendor: " << glGetString(GL_VENDOR) << std::endl;
+	std::cout << "Renderer: " << glGetString(GL_RENDERER) << std::endl;
+
+
 	return true;
 }
 

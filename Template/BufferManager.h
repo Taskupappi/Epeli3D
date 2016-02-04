@@ -12,6 +12,7 @@
 
 //tempShadertesting
 #include "TempShader.h"
+
 //includes for the testBench
 #include "amp.h"
 #include <ctime>
@@ -32,7 +33,7 @@ struct BufferVertex
 	glm::vec3 Position;
 	glm::vec3 Normal;
 	glm::vec2 TexCoords;
-	glm::vec4 Color;
+	glm::vec3 Color;
 };
 
 struct BufferTexture
@@ -86,6 +87,7 @@ private:
 	GLuint fragmentShader;
 	GLchar infoLog[512];
 	GLuint shaderProgram;
+	float tempColor = 0;
 	
 };
 
