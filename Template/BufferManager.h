@@ -25,7 +25,7 @@ public:
 	~BufferManager();
 
 	void addVertexData(GLfloat *data, GLsizei size);
-	void addIndexData(GLfloat *data, GLsizei *size);
+	void addIndexData(GLuint *data, GLuint *size);
 
 	void bindBuffer();
 	void unbindBuffer();
@@ -35,6 +35,7 @@ public:
 	
 	//temporary init for shaders
 	void initShaders();
+	std::vector<GLuint> getBuffer(std::string bufferName);
 	
 protected:
 private:
