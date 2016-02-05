@@ -8,12 +8,12 @@ class ResourceBase
 	template < class T > friend class ResourceManager;
 
 public:
-	ResourceBase(const std::string& resourceFileName, void *args)
+	ResourceBase(const std::string& resourcefilename, void *args)
 	{
 		// exit with an error if filename is empty
 
-		if (resourceFileName.empty())
-			printf_s("Error: empty filename");
+		if (resourcefilename.empty())
+			printf_s("Error: empty filename\n");
 
 		references = 0;
 	}
@@ -22,7 +22,7 @@ public:
 
 	const std::string &getResourceFileName() const
 	{
-		return resourceFileName;
+		return resourcefilename;
 	}
 
 	const int getReferenceCount() const
@@ -42,7 +42,7 @@ protected:
 	ResourceBase& operator=(const ResourceBase& object){ return *this; }
 
 	// filename
-	const std::string resourceFileName;
+	const std::string resourcefilename;
 };
 
 #endif

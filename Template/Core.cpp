@@ -106,13 +106,13 @@ void Engine::Init()
 	mymap1.addElement("f", "foo1.txt", 0);
 	mymap1.addElement("g", "foo3.txt", 0);
 
-	mymap2.addElement("a", "foo3.txt", 0);
+	/*mymap2.addElement("a", "foo3.txt", 0);
 	mymap2.addElement("b", "foo1.txt", 0);
 	mymap2.addElement("c", "foo3.txt", 0);
 	mymap2.addElement("d", "foo1.txt", 0);
 	mymap2.addElement("e", "foo2.txt", 0);
 	mymap2.addElement("f", "foo1.txt", 0);
-	mymap2.addElement("g", "foo2.txt", 0);
+	mymap2.addElement("g", "foo2.txt", 0);*/
 
 	mymap1.dump();
 

@@ -26,9 +26,9 @@ public:
 
 	T* addElement(const std::string &resourcename, const std::string &filename, void *args = 0)
 	{
-		if (ResourceManager == NULL)printf_s("Error: DataBase cannot be NULL (5)");
-		if (filename.empty())printf_s("%s : filename cannot be null", Name.c_str());
-		if (resourcename.empty())printf_s("%s : resourcename cannot be null", Name.c_str());
+		if (ResourceManager == NULL)printf_s("Error: DataBase cannot be NULL (5)\n");
+		if (filename.empty())printf_s("%s : filename cannot be null\n", Name.c_str());
+		if (resourcename.empty())printf_s("%s : resourcename cannot be null\n", Name.c_str());
 
 		// look in the hashmap to see if the resource is already loaded
 
@@ -67,8 +67,8 @@ public:
 
 	bool removeElement(const std::string &resourcename)
 	{
-		if (ResourceManager == NULL)printf_s("Error: DataBase cannot be NULL (4)");
-		if (resourcename.empty())printf_s("Error: %s: resourceName cannot be NULL", Name.c_str());
+		if (ResourceManager == NULL)printf_s("Error: DataBase cannot be NULL (4)\n");
+		if (resourcename.empty())printf_s("Error: %s: resourceName cannot be NULL\n", Name.c_str());
 
 		// search for item
 
@@ -128,7 +128,7 @@ public:
 	void ResourceMap::dump()
 	{
 		if (ResourceManager == NULL)
-			printf("Error: DataBase cannot be NULL (3)");
+			printf("Error: DataBase cannot be NULL (3)\n");
 
 		printf_s("Dumping database: %s\n\n", ResourceManager->GetName().c_str());
 				
@@ -156,20 +156,20 @@ public:
 
 	T *getElement(const std::string &resourcename)
 	{
-		if (ResourceManager == NULL)printf_s("DataBase cannot be NULL (2)");
-		if (resourcename.empty())printf_s("%s : resourceName cannot be null", Name.c_str());
+		if (ResourceManager == NULL)printf_s("DataBase cannot be NULL (2)\n");
+		if (resourcename.empty())printf_s("%s : resourceName cannot be null\n", Name.c_str());
 
 		std::unordered_map<std::string, T*>::iterator it;
 
 		// searcf for item
-		printf_s("Looking for %s", resourcename.c_str());
+		printf_s("Looking for %s\n", resourcename.c_str());
 		it = Map.find(resourcename);
 		//return pointer to element
 		if (!= Map.end())
 			return it->second;
 
 		// if we get here, node couldn't be found
-		printf_s("Error: %s : couldn't find %s", Name.c_str(), resourcename.c_str());
+		printf_s("Error: %s : couldn't find %s\n", Name.c_str(), resourcename.c_str());
 
 		// this point is never reached in case of failure
 
@@ -187,8 +187,8 @@ public:
 	void initMapper(const std::string &name, ResourceManager<T> *resourcemanager,
 		bool duplicates)
 	{
-		if (resourcemanager == NULL) printf_s("DataBase cannot be NULL (1)");
-		if (name.empty())printf_s("Array name cannot be null");
+		if (resourcemanager == NULL) printf_s("DataBase cannot be NULL (1)\n");
+		if (name.empty())printf_s("Error: Array name cannot be null\n");
 
 		ResourceManager = resourcemanager;
 

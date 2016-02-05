@@ -6,8 +6,6 @@
 class TestiFoo :
 	public ResourceBase
 {
-
-
 public:
 	// this constructor must be present
 	TestiFoo(const std::string &resourcefilename, void *args) : ResourceBase(resourcefilename, args){}

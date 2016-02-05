@@ -34,10 +34,12 @@ public:
 			//std::string Filename=CStringFormatter::TrimAndLower( filename );
 
 			//looks in the map to see if the resource is already loaded
-			std::unordered_map<std::string, T*>::iterator it = Map.find(filename);
+			std::unordered_map<std::string, T*>::iterator it;
+			it = Map.find(filename);
 
 			if (it != Map.end())
 			{
+				printf_s("Increasing reference count for file: %s\n", filename.c_str());
 				(*it).second->incReferences();
 				return (*it).second;
 			}
@@ -47,9 +49,10 @@ public:
 			//you must supply the class with a proper constructor
 			//see header for details
 
-			T *resource = new T(filename, args);
+			T* resource = new T(filename, args);
 
 			//increase references, this sets the references count to 1
+			printf_s("First reference of file: %s\n", filename.c_str());
 			resource->incReferences();
 
 			//insert into the map
@@ -78,6 +81,7 @@ public:
 			if (it != Map.end())
 			{
 				//decrease references
+				printf_s("Decreasing reference count for file: %s\n", filename.c_str());
 				(*it).second->decReferences();
 
 				//if item had 0 references, meaning
@@ -100,7 +104,7 @@ public:
 		{
 			// check if name is not empty
 			if (name.empty())
-				printf_s("Null name is not allowed");
+				printf_s("Error: Null name is not allowed\n");
 			Name = name;
 		}
 
