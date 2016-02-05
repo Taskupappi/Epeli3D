@@ -80,10 +80,10 @@
     <ClInclude Include="GraphicContext.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameObject.h">
+    <ClInclude Include="TempShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TempShader.h">
+    <ClInclude Include="TestiFoo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -103,7 +103,6 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="ErrorHandler.h" />
-    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ResourceBase.h" />
@@ -112,6 +111,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="TempShader.h" />
+    <ClInclude Include="TestiFoo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

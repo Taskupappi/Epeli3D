@@ -1,7 +1,6 @@
 #ifndef RESOURCEMANAGER_H
 #define RESOURCEMANAGER_H
 #include <iostream>
-#include <typeinfo>
 #include <vector>
 #include <fstream>
 #include <unordered_map>
@@ -28,7 +27,7 @@ public:
 			//check if filename is not empty
 			if (filename.empty())
 			{
-				//error message
+				printf_s("Load error: filename cannot be empty!\n");
 			}
 
 			//normalize filename
@@ -67,7 +66,7 @@ public:
 			//check if filename is not empty
 			if (filename.empty())
 			{
-				//error message
+				printf_s("Unload error: filename cannot be empty!\n");
 			}
 
 			//normalize it
@@ -93,7 +92,7 @@ public:
 				return true;
 			}
 
-			//Error message
+			printf_s("Error: cannot find file: %s\n", filename.c_str());
 			return false;
 		}
 
@@ -102,12 +101,13 @@ public:
 			// check if name is not empty
 			if (name.empty())
 				printf_s("Null name is not allowed");
+			Name = name;
 		}
 
 		//-----
 		//get name for database
 		const std::string &GetName() const { return Name; }
-		const int Size() const { return Map.size; }
+		const int Size() const { return Map.size(); }
 
 
 	private:

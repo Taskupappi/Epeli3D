@@ -1,5 +1,6 @@
 #ifndef RESOURCEBASE_H
 #define RESOURCEBASE_H
+#include "ResourceManager.h"
 #include <iostream>
 
 class ResourceBase
@@ -7,11 +8,11 @@ class ResourceBase
 	template < class T > friend class ResourceManager;
 
 public:
-	ResourceBase(const std::string& fileName, void *args)
+	ResourceBase(const std::string& resourceFileName, void *args)
 	{
 		// exit with an error if filename is empty
 
-		if (fileName.empty())
+		if (resourceFileName.empty())
 			printf_s("Error: empty filename");
 
 		references = 0;
@@ -19,9 +20,9 @@ public:
 
 	virtual	~ResourceBase(){}
 
-	const std::string &getFileName() const
+	const std::string &getResourceFileName() const
 	{
-		return fileName;
+		return resourceFileName;
 	}
 
 	const int getReferenceCount() const
@@ -41,7 +42,7 @@ protected:
 	ResourceBase& operator=(const ResourceBase& object){ return *this; }
 
 	// filename
-	const std::string fileName;
+	const std::string resourceFileName;
 };
 
 #endif

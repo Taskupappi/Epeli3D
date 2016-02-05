@@ -89,9 +89,9 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
 	
-	/*ResourceManager<GameObject>rm;
-	ResourceMap<GameObject>mymap1;
-	ResourceMap<GameObject>mymap2;
+	ResourceManager<TestiFoo>rm;
+	ResourceMap<TestiFoo>mymap1;
+	ResourceMap<TestiFoo>mymap2;
 
 	rm.initResourceManager("AssetDataBase");
 
@@ -114,7 +114,7 @@ void Engine::Init()
 	mymap2.addElement("f", "foo1.txt", 0);
 	mymap2.addElement("g", "foo2.txt", 0);
 
-	std::string text = mymap1.dump();*/
+	mymap1.dump();
 
 	////GlewInit()
 	//glewExperimental = GL_TRUE;
