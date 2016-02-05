@@ -1,39 +1,89 @@
 #include "Core.h"
 #include "BufferManager.h"
+#include "GraphicContext.h"
 
 
+GraphicContext* gCon = new GraphicContext;
+BufferManager* buff = new BufferManager;
 
-SDL_Window *window = nullptr;
-SDL_Renderer *renderer = nullptr;
-SDL_GLContext glcontext;
+
+GLfloat *arr = new GLfloat[9];
+GLuint *indices = new GLuint[3];
+GLuint *something = new GLuint;
+
+std::string nam = "vertexbuffer";
+
+//SDL_Window *window = nullptr;
+//SDL_Renderer *renderer = nullptr;
+//SDL_GLContext glcontext;
 core::Engine * eng = core::Engine::UI();
 //Called before engine closes
 void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
-	core::Scene * sc= eng->createScene();
-	//sc = eng->_scnMngr->getScene(1);
-	window = SDL_CreateWindow("Epeli3D", 10, 30, 640, 480,SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-	//glcontext = SDL_GL_CreateContext(window);
-	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//core::Scene * sc= eng->createScene();
+
+	//buff->initBuffers();
+	//buff->initShaders();
+
 	
+
+	//buff->getBuffer("vertexbuffer")
+	//buff->drawBuffer();
+	//gCon->swap();
+	////sc = eng->_scnMngr->getScene(1);
+	////window = SDL_CreateWindow("Epeli3D", 10, 30, 640, 480,SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	////glcontext = SDL_GL_CreateContext(window);
+	////renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+	//
+
+
+	buff->testBuffer();
+	//arr[0] = 1.0f;
+	//arr[1] = 2.0f;
+	//arr[3] = 1.0f;
+	//arr[4] = 0.2f;
+	//arr[5] = 1.0f;
+	//arr[6] = 0.4f;
+	//arr[7] = 1.0f;
+	//arr[8] = 1.0f;
+	//arr[9] = 0.0f;
+
+	//indices[0] = 1;
+	//indices[1] = 2;
+	//indices[2] = 3;
+
+	//*something = 3;
+	//
+	//buff->addVertexData(arr, 9);
+	//buff->addIndexData(indices, something);
 }
 //Game mainloop
 void gameLoop()
 {
+
+
+	//buff->drawBuffer(buff->getBuffer(nam));
+
+	buff->testBuffer();
+	gCon->swap();
+
+
+
+
 	//glClearColor(0, 255, 255, 1);
 	//glClear(GL_COLOR_BUFFER_BIT);
-	SDL_Rect rects;
-	rects.x = 320;
-	rects.y = 200;
-	rects.w = 80;
-	rects.h = 80;
-	SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-	SDL_RenderClear(renderer);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-	SDL_RenderFillRects(renderer,&rects, 1);
-	SDL_RenderPresent(renderer);
+	//SDL_Rect rects;
+	//rects.x = 320;
+	//rects.y = 200;
+	//rects.w = 80;
+	//rects.h = 80;
+	//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
+	//SDL_RenderClear(renderer);
+	//SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+	//SDL_RenderFillRects(renderer,&rects, 1);
+	//SDL_RenderPresent(renderer);
 	//SDL_GL_SwapWindow(window);
 
 }
@@ -75,7 +125,6 @@ GLfloat* drawPoly(int sides, float radius, float scale, GLfloat rotation, GLfloa
 	for (int i = 0; i < sides + 1; i++)
 	{
 		GLfloat theta = (i * 2.0f * M_PI / sides) + (M_PI) / 4 + _rotation;
-
 
 		//Textuurit
 		if (i != 0)

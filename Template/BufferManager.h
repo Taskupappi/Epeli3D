@@ -17,6 +17,10 @@
 #include "amp.h"
 #include <ctime>
 
+//TO DO:
+//Make shaders work properly with the buffer manager
+//Clean up the unnecessary lines of code
+//Add more commenting
 
 
 
@@ -48,6 +52,7 @@ public:
 	BufferManager();
 	~BufferManager();
 
+	//possibly unnecessary files
 	void addVertexData(GLfloat *data, GLsizei size);
 	void addIndexData(GLuint *data, GLuint *size);
 
@@ -55,30 +60,31 @@ public:
 	void unbindBuffer();
 	std::vector<GLuint> getBuffer(std::string bufferName);
 
-
 	//called in the constructor
 	void initBuffers();
 	//temporary init for shaders
 	void initShaders();	
-	//Add data to the buffers
+	//add data to the buffers
 	void addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
-	//here from the "addBufferData"
+	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
 	void drawBuffer(Shader shader);	
 	//TestBench for the buffer
 	void testBuffer();
 
-	//buffer Data
+	//Buffer Data Vectors
 	std::vector<BufferVertex> vertexBuffer;
 	std::vector<GLuint> indicesBuffer;
 	std::vector<BufferTexture> textures;
+
 protected:
+
 private:
 
 	GLuint VertexArrayObject, VertexBufferObject, ElementBufferObject;
 
-
+	//delete these?
 	GLuint vertexbufId;
 	GLuint indexbufID;
 
@@ -88,6 +94,10 @@ private:
 	GLchar infoLog[512];
 	GLuint shaderProgram;
 	float tempColor = 0;
+	Shader testShader;
+
+	//testbench values
+	int pos = 0;
 	
 };
 
