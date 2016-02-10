@@ -49,7 +49,7 @@ public:
 			//you must supply the class with a proper constructor
 			//see header for details
 
-			T* resource = new T(filename, args);
+			T* resource = new T(filename.c_str(), args);
 
 			//increase references, this sets the references count to 1
 			printf_s("First reference of file: %s\n", filename.c_str());

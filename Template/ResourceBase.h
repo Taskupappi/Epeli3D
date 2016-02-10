@@ -8,7 +8,7 @@ class ResourceBase
 	template < class T > friend class ResourceManager;
 
 public:
-	ResourceBase(const std::string& resourcefilename, void *args)
+	ResourceBase(const std::string& resourcefilename, void *args) : resourcefilename(resourcefilename)
 	{
 		// exit with an error if filename is empty
 
