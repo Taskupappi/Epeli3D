@@ -6,6 +6,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 {
 	//_resMngr = new ResourceManager();
 	_scnMngr = new SceneManager();
+	_input = new Input();
 	//TO DO:
 	//
 	//shaderManager = nullptr;
@@ -28,25 +29,7 @@ bool Engine::run()
 	userInit();
 	while(true)
 	{
-		/*TODO: SDL Input handler here:
-			SDL_MOUSEBUTTONDOWN
-			SDL_MOUSEBUTTONUP
-			SDL_MOUSEMOTION
-		*/
-		SDL_Event e;		
-		while(SDL_PollEvent(&e))
-		{
-			if (e.type == SDL_QUIT)
-			{
-				_exit = true;
-			}
-			if (e.type == SDL_KEYUP){}
-			if (e.type == SDL_KEYDOWN)
-			{
-				if (e.key.keysym.sym == SDLK_ESCAPE)
-					_exit = true;
-			}
-		}
+		processInput();
 		gameLoop();
 		if (_exit)
 		{
@@ -124,6 +107,36 @@ void Engine::Uninit()
 {
 	//SDL Uninit
 	atexit(SDL_Quit);
-	
 }
 
+void Engine::processInput()
+{
+	/*
+	TODO: SDL Input handler here:
+	SDL_MOUSEBUTTONDOWN
+	SDL_MOUSEBUTTONUP
+	SDL_MOUSEMOTION
+	*/
+
+	SDL_Event e;
+	while (SDL_PollEvent(&e))
+	{
+		if (e.type == SDL_QUIT)
+		{
+			_exit = true;
+		}
+		if (e.type == SDL_KEYUP)
+		{
+			_input->addReleasedKey(e.key.keysym.sym);
+			SDL_Log("Key Up %s", SDL_GetKeyName(e.key.keysym.sym));
+		}
+		if (e.type == SDL_KEYDOWN)
+		{
+			SDL_Log("Key Down %s", SDL_GetKeyName(e.key.keysym.sym));
+			//Not necessarily needed for pressed keys uses SDL_GetKeyboardState
+			_input->addPressedKey(e.key.keysym.sym);
+			if (e.key.keysym.sym == SDLK_ESCAPE)
+				_exit = true;
+		}
+	}
+}

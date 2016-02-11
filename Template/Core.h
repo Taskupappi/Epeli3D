@@ -26,6 +26,7 @@ void extern userUnInit();
 #include "TestiFoo.h"
 #include "ResourceManager.h"
 #include "ResourceMap.h"
+#include "Input.h"
 //Assimp
 #include <assimp/Importer.hpp>
 
@@ -48,7 +49,7 @@ namespace core
 		}
 		//Needs to read managers from scene and set them as current
 		bool useScene(Scene * sc){ return true; }
-		
+		core::Input * getInput(){ return _input; }
 	protected:
 		virtual ~Engine();
 		Engine();
@@ -63,10 +64,12 @@ namespace core
 		//bufferManager = nullptr;
 	private:
 		//ResourceManager *_resMngr;
+		core::Input * _input;
 		core::SceneManager *_scnMngr;
 		bool _mainInit; //Has main initialization been done
 		bool _exit; //Has exit been called
 		static Engine *_instance;
+		void processInput();
 	};
 }
 

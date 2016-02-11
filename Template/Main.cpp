@@ -72,7 +72,14 @@ void gameLoop()
 	gCon->swap();
 
 
-
+	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
+	{
+		for (auto k : eng->getInput()->_pressedKeys)
+		{
+			SDL_Log("Pressed Key %s", SDL_GetKeyName(k));
+		}
+		eng->getInput()->clearKeys();
+	}
 
 	//glClearColor(0, 255, 255, 1);
 	//glClear(GL_COLOR_BUFFER_BIT);
