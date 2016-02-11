@@ -31,6 +31,10 @@ public:
 		if (resourcename.empty())printf_s("%s : resourcename cannot be null\n", Name.c_str());
 
 		// look in the hashmap to see if the resource is already loaded
+		//std::string FileName = "";
+		//size_t pos = filename.find_last_of("/");
+		//if (pos != std::string::npos)
+		//	FileName = filename.substr(pos + 1);
 
 		std::unordered_map<std::string, T* >::iterator it = Map.find(resourcename);
 
@@ -79,8 +83,9 @@ public:
 		if (it != Map.end())
 		{
 			// save resource name
-
+			
 			std::string filename = (*it).second->getResourceFileName();
+			printf_s("Removed element: %s\n", filename.c_str());
 
 			// erase from this map
 
@@ -103,6 +108,8 @@ public:
 
 	void clearElements()
 	{
+		printf_s("Clearing elements...\n\n");
+
 		std::unordered_map<std::string, T* >::iterator it = Map.begin();
 		// walk through the map
 
@@ -134,7 +141,7 @@ public:
 				
 		for (std::unordered_map<std::string, T*>::iterator it = Map.begin(); it != Map.end(); it++)
 		{
-			printf_s("Resourcename: %s, %s\n",
+			printf_s("Resourcename: %s, Filepath: %s\n",
 				(*it).first.c_str(),
 				(*it).second->getResourceFileName().c_str());
 		}
@@ -162,12 +169,14 @@ public:
 		std::unordered_map<std::string, T*>::iterator it;
 
 		// searcf for item
-		printf_s("Looking for %s\n", resourcename.c_str());
+		printf_s("Looking for resource: %s\n", resourcename.c_str());
 		it = Map.find(resourcename);
 		//return pointer to element
-		if (!= Map.end())
+		if (it != Map.end())
+		{
+			printf_s("Resource found!\n\n");
 			return it->second;
-
+		}
 		// if we get here, node couldn't be found
 		printf_s("Error: %s : couldn't find %s\n", Name.c_str(), resourcename.c_str());
 

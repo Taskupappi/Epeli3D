@@ -91,31 +91,23 @@ void Engine::Init()
 	
 	ResourceManager<TestiFoo>rm;
 	ResourceMap<TestiFoo>mymap1;
-	ResourceMap<TestiFoo>mymap2;
 
 	rm.initResourceManager("AssetDataBase");
 
 	mymap1.initMapper("mapList1", &rm, true);
-	mymap2.initMapper("mapList2", &rm, true);
 
-	mymap1.addElement("a", "foo1.txt", 0);
-	mymap1.addElement("b", "foo1.txt", 0);
-	mymap1.addElement("c", "foo2.txt", 0);
-	mymap1.addElement("d", "foo2.txt", 0);
-	mymap1.addElement("e", "foo1.txt", 0);
-	mymap1.addElement("f", "foo1.txt", 0);
-	mymap1.addElement("g", "foo3.txt", 0);
+	mymap1.addElement("png", "data/Resource/Images/sample.png", 0);
+	mymap1.addElement("jpeg", "data/Resource/Images/doge.jpeg", 0);
+	mymap1.addElement("png2", "data/Resource/Images/sample.png", 0);
+	mymap1.addElement("wav", "data/Resource/Audio/sample.wav", 0);
+	mymap1.addElement("wav2", "data/Resource/Audio/sample.wav", 0);
 
-	/*mymap2.addElement("a", "foo3.txt", 0);
-	mymap2.addElement("b", "foo1.txt", 0);
-	mymap2.addElement("c", "foo3.txt", 0);
-	mymap2.addElement("d", "foo1.txt", 0);
-	mymap2.addElement("e", "foo2.txt", 0);
-	mymap2.addElement("f", "foo1.txt", 0);
-	mymap2.addElement("g", "foo2.txt", 0);*/
+	mymap1.getElement("jpeg");
+
+	mymap1.removeElement("jpeg");
 
 	mymap1.dump();
-
+	
 	////GlewInit()
 	//glewExperimental = GL_TRUE;
 
@@ -130,8 +122,6 @@ void Engine::Init()
 
 void Engine::Uninit()
 {
-
-
 	//SDL Uninit
 	atexit(SDL_Quit);
 	

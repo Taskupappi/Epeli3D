@@ -8,12 +8,16 @@ class ResourceBase
 	template < class T > friend class ResourceManager;
 
 public:
-	ResourceBase(const std::string& resourcefilename, void *args) : resourcefilename(resourcefilename)
+	ResourceBase(const std::string& resourcefilepath, void *args) : resourcefilepath(resourcefilepath)
 	{
 		// exit with an error if filename is empty
 
-		if (resourcefilename.empty())
+		if (resourcefilepath.empty())
 			printf_s("Error: empty filename\n");
+
+		size_t pos = resourcefilepath.find_last_of("/");
+		if (pos != std::string::npos)
+			resourcefilename = resourcefilepath.substr(pos + 1);
 
 		references = 0;
 	}
@@ -23,6 +27,11 @@ public:
 	const std::string &getResourceFileName() const
 	{
 		return resourcefilename;
+	}
+
+	const std::string &getResourceFilepath() const
+	{
+		return resourcefilepath;
 	}
 
 	const int getReferenceCount() const
@@ -42,7 +51,8 @@ protected:
 	ResourceBase& operator=(const ResourceBase& object){ return *this; }
 
 	// filename
-	const std::string resourcefilename;
+	const std::string resourcefilepath;
+	std::string resourcefilename = "";
 };
 
 #endif

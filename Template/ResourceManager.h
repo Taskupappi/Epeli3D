@@ -23,15 +23,12 @@ public:
 		//-----
 		//Add an asset to the database
 		T* Load(const std::string &filename, void *args)
-		{
+		{			
 			//check if filename is not empty
 			if (filename.empty())
 			{
 				printf_s("Load error: filename cannot be empty!\n");
 			}
-
-			//normalize filename
-			//std::string Filename=CStringFormatter::TrimAndLower( filename );
 
 			//looks in the map to see if the resource is already loaded
 			std::unordered_map<std::string, T*>::iterator it;
@@ -39,7 +36,7 @@ public:
 
 			if (it != Map.end())
 			{
-				printf_s("Increasing reference count for file: %s\n", filename.c_str());
+				printf_s("Increasing reference count for file: %s\n", (*it).second->getResourceFileName().c_str());
 				(*it).second->incReferences();
 				return (*it).second;
 			}
@@ -52,7 +49,7 @@ public:
 			T* resource = new T(filename.c_str(), args);
 
 			//increase references, this sets the references count to 1
-			printf_s("First reference of file: %s\n", filename.c_str());
+			printf_s("First reference of file: %s\n", resource->getResourceFileName().c_str());
 			resource->incReferences();
 
 			//insert into the map
@@ -71,7 +68,7 @@ public:
 			{
 				printf_s("Unload error: filename cannot be empty!\n");
 			}
-
+			printf_s("Unloading file: %s\n", filename.c_str());
 			//normalize it
 			//std::string Filename=CStringFormatter::TrimAndLower( filename );
 
@@ -81,7 +78,7 @@ public:
 			if (it != Map.end())
 			{
 				//decrease references
-				printf_s("Decreasing reference count for file: %s\n", filename.c_str());
+				printf_s("Decreasing reference count for file: %s\n\n", filename.c_str());
 				(*it).second->decReferences();
 
 				//if item had 0 references, meaning
