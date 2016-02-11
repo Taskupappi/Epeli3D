@@ -72,6 +72,7 @@ public:
 	void drawBuffer(Shader shader);	
 	//TestBench for the buffer
 	void testBuffer();
+	void initTest();
 
 	//Buffer Data Vectors
 	std::vector<BufferVertex> vertexBuffer;

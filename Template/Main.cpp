@@ -37,9 +37,11 @@ void gameInit()
 	////glcontext = SDL_GL_CreateContext(window);
 	////renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	//
-
+	buff->initTest();
 
 	buff->testBuffer();
+	
+	//buff->initTest();
 	//arr[0] = 1.0f;
 	//arr[1] = 2.0f;
 	//arr[3] = 1.0f;
