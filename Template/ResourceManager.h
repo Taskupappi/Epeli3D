@@ -23,7 +23,8 @@ public:
 		//-----
 		//Add an asset to the database
 		T* Load(const std::string &filename, void *args)
-		{			
+		{
+			printf_s("//////////////////////////////////////////////\n\n");
 			//check if filename is not empty
 			if (filename.empty())
 			{
@@ -46,12 +47,12 @@ public:
 			//you must supply the class with a proper constructor
 			//see header for details
 
-			T* resource = new T(filename.c_str(), args);
+			T* resource = new T(filename, args);
 
 			//increase references, this sets the references count to 1
 			printf_s("First reference of file: %s\n", resource->getResourceFileName().c_str());
 			resource->incReferences();
-
+			resource->loadFile(resource->getResourceFilepath());
 			//insert into the map
 			Map.insert(std::pair<std::string, T*>(filename, resource));
 
@@ -61,19 +62,18 @@ public:
 		//-----
 		//deleting an item
 
-		bool Unload(const std::string &filename)
+		bool Unload(const std::string &filepath, const std::string &filename)
 		{
 			//check if filename is not empty
 			if (filename.empty())
 			{
 				printf_s("Unload error: filename cannot be empty!\n");
 			}
-			printf_s("Unloading file: %s\n", filename.c_str());
-			//normalize it
-			//std::string Filename=CStringFormatter::TrimAndLower( filename );
+
+			printf_s("Searching file to be unloaded: %s\n", filename.c_str());
 
 			//find the item to delete
-			std::unordered_map<std::string, T*>::iterator it = Map.find(filename);
+			std::unordered_map<std::string, T*>::iterator it = Map.find(filepath);
 
 			if (it != Map.end())
 			{

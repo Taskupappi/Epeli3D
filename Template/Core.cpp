@@ -61,6 +61,10 @@ void Engine::Init()
 
 	// SDL audio init
 	int flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG;
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+		printf("Mix_OpenAudio: %s\n", Mix_GetError());
+		exit(2);
+	}
 	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG) != flags)
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_audio: %s\n", SDL_GetError());
@@ -79,15 +83,13 @@ void Engine::Init()
 
 	mymap1.initMapper("mapList1", &rm, true);
 
-	mymap1.addElement("png", "data/Resource/Images/sample.png", 0);
-	mymap1.addElement("jpeg", "data/Resource/Images/doge.jpeg", 0);
-	mymap1.addElement("png2", "data/Resource/Images/sample.png", 0);
-	mymap1.addElement("wav", "data/Resource/Audio/sample.wav", 0);
-	mymap1.addElement("wav2", "data/Resource/Audio/sample.wav", 0);
+	mymap1.addElement("PNG_Image", "../data/Resource/Images/sample.png", 0);
+	mymap1.addElement("JPEG_Image", "../data/Resource/Images/doge.jpeg", 0);
+	mymap1.addElement("WAV_Audio", "../data/Resource/Audio/sample.wav", 0);
 
-	mymap1.getElement("jpeg");
+	mymap1.getElement("JPEG_Image");
 
-	mymap1.removeElement("jpeg");
+	mymap1.removeElement("JPEG_Image");
 
 	mymap1.dump();
 	
@@ -105,6 +107,9 @@ void Engine::Init()
 
 void Engine::Uninit()
 {
+	Mix_CloseAudio();
+	Mix_Quit();
+
 	//SDL Uninit
 	atexit(SDL_Quit);
 }

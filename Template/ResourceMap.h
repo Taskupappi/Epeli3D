@@ -45,6 +45,8 @@ public:
 
 			if (isValNonUnique(filename))
 			{
+				printf_s("Adding element: %s\n", resourcename.c_str());
+
 				T* resource = ResourceManager->Load(filename, args);
 				// allocate new resource using the raii paradigm
 				Map.insert(std::pair<std::string, T*>(resourcename, resource));
@@ -71,11 +73,13 @@ public:
 
 	bool removeElement(const std::string &resourcename)
 	{
+		printf_s("//////////////////////////////////////////////\n\n");
+
 		if (ResourceManager == NULL)printf_s("Error: DataBase cannot be NULL (4)\n");
 		if (resourcename.empty())printf_s("Error: %s: resourceName cannot be NULL\n", Name.c_str());
 
 		// search for item
-
+		printf_s("Searching for element to be removed: %s\n", resourcename.c_str());
 		std::unordered_map<std::string, T* >::iterator it = Map.find(resourcename);
 
 		// delete element, reference count will be decreased
@@ -85,6 +89,7 @@ public:
 			// save resource name
 			
 			std::string filename = (*it).second->getResourceFileName();
+			std::string filepath = (*it).second->getResourceFilepath();
 			printf_s("Removed element: %s\n", filename.c_str());
 
 			// erase from this map
@@ -93,7 +98,7 @@ public:
 
 			// check if it is unique and erase it eventually
 
-			ResourceManager->Unload(filename);
+			ResourceManager->Unload(filepath, filename);
 
 			return true;
 		}
@@ -108,6 +113,8 @@ public:
 
 	void clearElements()
 	{
+		printf_s("//////////////////////////////////////////////\n\n");
+
 		printf_s("Clearing elements...\n\n");
 
 		std::unordered_map<std::string, T* >::iterator it = Map.begin();
@@ -118,6 +125,7 @@ public:
 			// save resource name
 
 			std::string filename = (*it).second->getResourceFileName();
+			std::string filepath = (*it).second->getResourceFilepath();
 
 			// erase from this map
 
@@ -125,7 +133,7 @@ public:
 
 			// check if it is unique and erase it eventually
 
-			ResourceManager->Unload(filename);
+			ResourceManager->Unload(filepath, filename);
 		}
 	}
 
@@ -134,6 +142,8 @@ public:
 
 	void ResourceMap::dump()
 	{
+		printf_s("//////////////////////////////////////////////\n\n");
+
 		if (ResourceManager == NULL)
 			printf("Error: DataBase cannot be NULL (3)\n");
 
@@ -141,7 +151,7 @@ public:
 				
 		for (std::unordered_map<std::string, T*>::iterator it = Map.begin(); it != Map.end(); it++)
 		{
-			printf_s("Resourcename: %s, Filepath: %s\n",
+			printf_s("Resourcename: %s, Filename: %s\n",
 				(*it).first.c_str(),
 				(*it).second->getResourceFileName().c_str());
 		}
