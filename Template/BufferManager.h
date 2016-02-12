@@ -73,6 +73,7 @@ public:
 	//TestBench for the buffer
 	void testBuffer();
 	void initTest();
+	void testBox();
 
 	//Buffer Data Vectors
 	std::vector<BufferVertex> vertexBuffer;

@@ -364,68 +364,154 @@ void BufferManager::initShaders()
 	//End of Shader init and linking
 }
 
-//void BufferManager::addVertexData(GLfloat *data, GLsizei size)
-//{	
-//	glBindBuffer(GL_ARRAY_BUFFER, vertexbufId);
-//	glBufferData(GL_ARRAY_BUFFER, size * sizeof(GLfloat), data, GL_STATIC_DRAW);
-//	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//	//pos
-//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)0);
-//	glEnableVertexAttribArray(0);
-//	//color
-//	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-//	glEnableVertexAttribArray(1);
-//	//tex Coord
-//	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, size * sizeof(GLfloat), (GLvoid*)(7 * sizeof(GLfloat)));
-//	glEnableVertexAttribArray(2);
-//
-//	vertexBuffer.push_back(vertexbufId);
-//	
-//}
-//
-//void BufferManager::addIndexData(GLuint *data, GLuint *size)
-//{
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexbufID);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer.size() * sizeof(GLuint), size, GL_STATIC_DRAW);
-//	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//	indexBuffer.push_back(indexbufID);
-//}
-//
-//void BufferManager::drawBuffer(std::vector<GLuint> buffer)
-//{	
-//	
-//	//Clear the backbuffer and the depth-buffer
-//	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-//	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-//
-//	glUseProgram(shaderProgram);
-//
-//	
-//	for (int i = 0; i < vertexBuffer.size() - 1; i++)
-//	{
-//		glBindVertexArray(vertexBuffer);
-//		glDrawElements(GL_TRIANGLES, vertexBuffer.size(), GL_UNSIGNED_INT, 0); //reinterpret_cast<GLvoid*>(0));	
-//	}
-//
-//	glBindVertexArray(0);
-//
-//}
-//
-//std::vector<GLuint> BufferManager::getBuffer(std::string bufferName)
-//{
-//
-//	if (bufferName == "vertexbuffer" || bufferName == "Vertexbuffer" || bufferName == "vertexBuffer" || bufferName == "VertexBuffer" || bufferName == "vertex buffer" || bufferName == "Vertex Buffer" || bufferName == "vertex Buffer" || bufferName == "Vertex buffer")
-//	{
-//		return vertexBuffer;
-//	}
-//	else if (bufferName == "indexBuffer" || bufferName == "indexbuffer" || bufferName == "Indexbuffer" || bufferName == "IndexBuffer" || bufferName == "Index Buffer" || bufferName == "index buffer" || bufferName == "Index buffer" || bufferName == "index Buffer")
-//	{
-//		return indexBuffer;
-//	}
-//	//else
-//	//{
-//	//	return nullptr;
-//	//}
-//} //rikki
+void testBox()
+{
+
+		GLfloat vertices[] = {
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+			0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+			-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+
+			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+
+			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+			-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
+		};
+
+	std::vector<BufferVertex> v;
+
+	for (int i = 0; i < 3; i++)
+	{
+		BufferVertex BV1;
+
+		BV1.Position = glm::vec3(vertices[i*5], vertices[i*5 + 1], vertices[i*5 + 2]);
+		BV1.TexCoords = glm::vec2(vertices[i * 5 + 3], vertices[i * 5 + 4]);
+		BV1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
+		
+		v.push_back(BV1);
+	}
+
+}
+
+/*
+GLfloat vertices[] = {
+	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
+
+	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+	0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+	0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+	0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+	-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
+
+	-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+	-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
+
+	0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+	0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+	0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+	0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
+	0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+	0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
+
+	-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+	0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+	0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+	0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+	-0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
+	-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
+
+	-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+	0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+	0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+	-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
+	-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f
+};
+
+
+-0.5f, -0.5f, -0.5f
+0.5f, -0.5f, -0.5f,
+0.5f, 0.5f, -0.5f,
+0.5f, 0.5f, -0.5f,
+-0.5f, 0.5f, -0.5f,
+-0.5f, -0.5f, -0.5f
+
+-0.5f, -0.5f, 0.5f,
+0.5f, -0.5f, 0.5f,
+0.5f, 0.5f, 0.5f, 
+0.5f, 0.5f, 0.5f, 
+-0.5f, 0.5f, 0.5f,
+-0.5f, -0.5f, 0.5f,
+
+-0.5f, 0.5f, 0.5f,
+-0.5f, 0.5f, -0.5f,
+-0.5f, -0.5f, -0.5f
+-0.5f, -0.5f, -0.5f
+-0.5f, -0.5f, 0.5f,
+-0.5f, 0.5f, 0.5f,
+
+0.5f, 0.5f, 0.5f, 
+0.5f, 0.5f, -0.5f,
+0.5f, -0.5f, -0.5f,
+0.5f, -0.5f, -0.5f,
+0.5f, -0.5f, 0.5f,
+0.5f, 0.5f, 0.5f, 
+
+-0.5f, -0.5f, -0.5f
+0.5f, -0.5f, -0.5f,
+0.5f, -0.5f, 0.5f,
+0.5f, -0.5f, 0.5f,
+-0.5f, -0.5f, 0.5f,
+-0.5f, -0.5f, -0.5f
+
+-0.5f, 0.5f, -0.5f,
+0.5f, 0.5f, -0.5f,
+0.5f, 0.5f, 0.5f, 
+0.5f, 0.5f, 0.5f, 
+-0.5f, 0.5f, 0.5f,
+-0.5f, 0.5f, -0.5f,
+
+*/
