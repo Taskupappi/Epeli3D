@@ -10,6 +10,7 @@ BufferManager* buff = new BufferManager;
 GLfloat *arr = new GLfloat[9];
 GLuint *indices = new GLuint[3];
 GLuint *something = new GLuint;
+float rotation = 0;
 
 std::string nam = "vertexbuffer";
 
@@ -65,12 +66,44 @@ void gameInit()
 void gameLoop()
 {
 
+	// Create transformations
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
+	model = glm::rotate(model, (GLfloat)time(0) * 50.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));	
+	
+	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+	
+
+
+	// Get uniform location
+	GLint modelLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "model");
+	GLint viewLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "view");
+	GLint projLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "projection");
+
+	// Pass them to the shaders
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	//temporary rotation
+	glPushMatrix();
+	glRotatef(rotation, 0.0f, 1.0f, 0.0f);
+	glRotatef(rotation, 1.0f, 1.0f, 1.0f);
+	rotation += 0.25f;
+	if (rotation > 360)
+		rotation = 0;
 
 	//buff->drawBuffer(buff->getBuffer(nam));
 
 	buff->testBuffer();
+	glPopMatrix();
 	gCon->swap();
 
+
+
+	
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{

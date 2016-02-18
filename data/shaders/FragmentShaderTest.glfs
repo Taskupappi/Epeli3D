@@ -2,7 +2,9 @@
 #define EPS 0.001
 
 in vec3 ourColor;
-in vec2 texCoord;
+in vec2 TexCoord;
+
+out vec4 color;
 
 //out vec4 color; // Output data
 //uniform vec4 ourColor;
@@ -12,5 +14,5 @@ in vec2 texCoord;
 
 void main()
 {
-gl_FragColor = vec4(vertexColor, 1.0f);
+     color= vec4(ourColor, 1.0f);
 }

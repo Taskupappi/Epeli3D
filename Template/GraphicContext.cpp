@@ -18,6 +18,8 @@ GraphicContext::GraphicContext()
 	//GlewInit()
 	glewExperimental = GL_TRUE;
 	glewInit();
+
+	glEnable(GL_DEPTH_TEST);
 }
 
 GraphicContext::GraphicContext(int xRes, int yRes)

@@ -2,6 +2,7 @@
 #define BUFFERMANAGER_H
 
 #include <GL/glew.h>
+#include <ctime>
 #include <vector>
 #include <iostream>
 
@@ -15,14 +16,16 @@
 
 //includes for the testBench
 #include "amp.h"
+
+//
 #include <ctime>
+#include <glm\gtc\type_ptr.hpp>
+
 
 //TO DO:
 //Make shaders work properly with the buffer manager
 //Clean up the unnecessary lines of code
 //Add more commenting
-
-
 
 /*
 Data structure
@@ -30,7 +33,6 @@ GLfloat position [x, y, z]
 GLfloats color [r, g, b, a]
 GLfloats texture coords [x, y]
 */
-
 
 struct BufferVertex
 {
@@ -70,10 +72,15 @@ public:
 	void addBuffer();
 	//RenderBuffers
 	void drawBuffer(Shader shader);	
+
 	//TestBench for the buffer
 	void testBuffer();
 	void initTest();
 	void testBox();
+	Shader getShader();
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
 
 	//Buffer Data Vectors
 	std::vector<BufferVertex> vertexBuffer;
@@ -100,6 +107,7 @@ private:
 
 	//testbench values
 	int pos = 0;
+
 	
 };
 

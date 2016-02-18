@@ -168,139 +168,141 @@ void BufferManager::drawBuffer(Shader shader)
 
 void BufferManager::initTest()
 {
-	//create the data
-	std::vector<BufferVertex> v;
+	////create the data
+	//std::vector<BufferVertex> v;
 
-	BufferVertex BV1;
-	BufferVertex BV2;
-	BufferVertex BV3;
-	BufferVertex BV4;
+	//BufferVertex BV1;
+	//BufferVertex BV2;
+	//BufferVertex BV3;
+	//BufferVertex BV4;
 
-	v.push_back(BV1);
-	v.push_back(BV2);
-	v.push_back(BV3);
+	//v.push_back(BV1);
+	//v.push_back(BV2);
+	//v.push_back(BV3);
 
-	for (int i = 0; i < 3; i++)
-	{
-		pos += 0.0f;
-		//std::srand(std::time(0));
-		tempColor += 0.001;
+	//for (int i = 0; i < 3; i++)
+	//{
+	//	pos += 0.0f;
+	//	//std::srand(std::time(0));
+	//	tempColor += 0.001;
 
-		if (tempColor > 1)
-		{
-			tempColor = 0;
-		}
+	//	if (tempColor > 1)
+	//	{
+	//		tempColor = 0;
+	//	}
 
-		if (i == 0)
-			v[i].Position = glm::vec3(0.0f + pos, 0.0f, 1.0f);
-		else if (i == 1)
-			v[i].Position = glm::vec3(0.5f + pos, 0.0f + pos, 1.0f);
-		else if (i == 2)
-			v[i].Position = glm::vec3(0.5f + pos, 0.5f, 1.0f);
+	//	if (i == 0)
+	//		v[i].Position = glm::vec3(0.0f + pos, 0.0f, 1.0f);
+	//	else if (i == 1)
+	//		v[i].Position = glm::vec3(0.5f + pos, 0.0f + pos, 1.0f);
+	//	else if (i == 2)
+	//		v[i].Position = glm::vec3(0.5f + pos, 0.5f, 1.0f);
 
-		v[i].Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-		v[i].TexCoords = glm::vec2(1.0f, 0.0f);
-		//std::cout << "tempColor: " << tempColor << std::endl;
-		v[i].Color = glm::vec3(tempColor + 0.8, 1, 1);
-	}
+	//	v[i].Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+	//	v[i].TexCoords = glm::vec2(1.0f, 0.0f);
+	//	//std::cout << "tempColor: " << tempColor << std::endl;
+	//	v[i].Color = glm::vec3(tempColor + 0.8, 1, 1);
+	//}
 
-	GLuint indicesArray[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8 };
+	//GLuint indicesArray[9] = {0, 1, 2, 3, 4, 5, 6, 7, 8 };
 
-	std::vector<GLuint> testIndices;
+	//std::vector<GLuint> testIndices;
 
-	for (int i = 0; i < 9; i++)
-		testIndices.push_back(indicesArray[i]);
+	//for (int i = 0; i < 9; i++)
+	//	testIndices.push_back(indicesArray[i]);
 
-	std::vector<BufferTexture> tex;
+	//std::vector<BufferTexture> tex;
 
-	BufferTexture bt1;
-	BufferTexture bt2;
-	BufferTexture bt3;
-	bt1.id = 1;
-	bt1.type = "texture_diffuse";
+	//BufferTexture bt1;
+	//BufferTexture bt2;
+	//BufferTexture bt3;
+	//bt1.id = 1;
+	//bt1.type = "texture_diffuse";
 
-	bt2.id = 1;
-	bt2.type = "texture_diffuse";
+	//bt2.id = 1;
+	//bt2.type = "texture_diffuse";
 
-	bt3.id = 1;
-	bt3.type = "texture_diffuse";
+	//bt3.id = 1;
+	//bt3.type = "texture_diffuse";
 
-	tex.push_back(bt1);
-	tex.push_back(bt2);
-	tex.push_back(bt3);
+	//tex.push_back(bt1);
+	//tex.push_back(bt2);
+	//tex.push_back(bt3);
 
-	//add the data
+	////add the data
+	////addBufferData(v, testIndices, tex);
+
+	////load tempShader
+	////Shader testShader;
+
+	/////////////////////////////////////////////////////////////
+	////add another block of data
+
+	////create the data
+	//std::vector<BufferVertex> v1;
+
+	//BufferVertex BV11;
+	//BufferVertex BV21;
+	//BufferVertex BV31;
+	//BufferVertex BV41;
+
+	//v1.push_back(BV11);
+	//v1.push_back(BV21);
+	//v1.push_back(BV31);	
+
+	//for (int i = 0; i < 3; i++)
+	//{
+	//
+	//	//std::srand(std::time(0));
+	//	tempColor += 0.001;
+
+	//	if (tempColor > 1)
+	//	{
+	//		tempColor = 0;
+	//	}
+
+	//	if (i == 0)
+	//		v1[i].Position = glm::vec3(-0.9f - pos, 0.9f, 1.0f);
+	//	else if (i == 1)
+	//		v1[i].Position = glm::vec3(-0.9f - pos, -0.9f- pos, 1.0f);
+	//	else if (i == 2)
+	//		v1[i].Position = glm::vec3(0.0f - pos, 0.0f, 1.0f);
+
+	//	v1[i].Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+	//	v1[i].TexCoords = glm::vec2(1.0f, 0.0f);
+	//	v1[i].Color = glm::vec3(tempColor, 0, 0.7);
+	//}
+	//
+	//GLuint indicesArray1[9] = { 9,10, 11, 12, 13, 14, 15, 16, 17};
+
+	//std::vector<GLuint> testIndices1;
+
+	//for (int i = 0; i < 9; i++)
+	//	testIndices1.push_back(indicesArray1[i]);
+
+	//std::vector<BufferTexture> tex1;
+
+	//BufferTexture bt11;
+	//BufferTexture bt21;
+	//BufferTexture bt31;
+	//bt11.id = 1;
+	//bt11.type = "texture_diffuse";
+
+	//bt21.id = 1;
+	//bt21.type = "texture_diffuse";
+
+	//bt31.id = 1;
+	//bt31.type = "texture_diffuse";
+
+	//tex1.push_back(bt11);
+	//tex1.push_back(bt21);
+	//tex1.push_back(bt31);
+
+	////add the data
 	//addBufferData(v, testIndices, tex);
+	//addBufferData(v1, testIndices1, tex1);
 
-	//load tempShader
-	//Shader testShader;
-
-	///////////////////////////////////////////////////////////
-	//add another block of data
-
-	//create the data
-	std::vector<BufferVertex> v1;
-
-	BufferVertex BV11;
-	BufferVertex BV21;
-	BufferVertex BV31;
-	BufferVertex BV41;
-
-	v1.push_back(BV11);
-	v1.push_back(BV21);
-	v1.push_back(BV31);	
-
-	for (int i = 0; i < 3; i++)
-	{
-	
-		//std::srand(std::time(0));
-		tempColor += 0.001;
-
-		if (tempColor > 1)
-		{
-			tempColor = 0;
-		}
-
-		if (i == 0)
-			v1[i].Position = glm::vec3(-0.9f - pos, 0.9f, 1.0f);
-		else if (i == 1)
-			v1[i].Position = glm::vec3(-0.9f - pos, -0.9f- pos, 1.0f);
-		else if (i == 2)
-			v1[i].Position = glm::vec3(0.0f - pos, 0.0f, 1.0f);
-
-		v1[i].Normal = glm::vec3(0.0f, 1.0f, 0.0f);
-		v1[i].TexCoords = glm::vec2(1.0f, 0.0f);
-		v1[i].Color = glm::vec3(tempColor, 0, 0.7);
-	}
-	
-	GLuint indicesArray1[9] = { 9,10, 11, 12, 13, 14, 15, 16, 17};
-
-	std::vector<GLuint> testIndices1;
-
-	for (int i = 0; i < 9; i++)
-		testIndices1.push_back(indicesArray1[i]);
-
-	std::vector<BufferTexture> tex1;
-
-	BufferTexture bt11;
-	BufferTexture bt21;
-	BufferTexture bt31;
-	bt11.id = 1;
-	bt11.type = "texture_diffuse";
-
-	bt21.id = 1;
-	bt21.type = "texture_diffuse";
-
-	bt31.id = 1;
-	bt31.type = "texture_diffuse";
-
-	tex1.push_back(bt11);
-	tex1.push_back(bt21);
-	tex1.push_back(bt31);
-
-	//add the data
-	addBufferData(v, testIndices, tex);
-	addBufferData(v1, testIndices1, tex1);
+	testBox();
 }
 
 void BufferManager::initShaders()
@@ -364,7 +366,7 @@ void BufferManager::initShaders()
 	//End of Shader init and linking
 }
 
-void testBox()
+void BufferManager::testBox()
 {
 
 		GLfloat vertices[] = {
@@ -412,106 +414,40 @@ void testBox()
 		};
 
 	std::vector<BufferVertex> v;
+	std::vector<BufferTexture> tex1;
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 36; i++)
 	{
 		BufferVertex BV1;
 
 		BV1.Position = glm::vec3(vertices[i*5], vertices[i*5 + 1], vertices[i*5 + 2]);
+		BV1.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		BV1.TexCoords = glm::vec2(vertices[i * 5 + 3], vertices[i * 5 + 4]);
 		BV1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
 		
 		v.push_back(BV1);
+
+		
+		BufferTexture bt;
+		bt.id = 1;
+		bt.type = "texture_diffuse";
+
+		tex1.push_back(bt);
 	}
+
+	GLuint indicesArray1[36] = {};
+
+	std::vector<GLuint> testIndices;
+
+	for (int i = 0; i < 36; i++)
+		testIndices.push_back(i);
+
+
+	addBufferData(v, testIndices, tex1);
 
 }
 
-/*
-GLfloat vertices[] = {
-	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-	0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-	0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-	0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-	-0.5f, 0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-	-0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f,
-
-	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-	0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-	0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-	0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-	-0.5f, 0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-	-0.5f, -0.5f, 0.5f, 0.0f, 0.0f, 1.0f,
-
-	-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
-	-0.5f, 0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f, -1.0f, 0.0f, 0.0f,
-	-0.5f, -0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
-	-0.5f, 0.5f, 0.5f, -1.0f, 0.0f, 0.0f,
-
-	0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-	0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-	0.5f, -0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-	0.5f, -0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-	0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 0.0f,
-
-	-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
-	0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
-	0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
-	0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
-	-0.5f, -0.5f, 0.5f, 0.0f, -1.0f, 0.0f,
-	-0.5f, -0.5f, -0.5f, 0.0f, -1.0f, 0.0f,
-
-	-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-	0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
-	0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-	0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-	-0.5f, 0.5f, 0.5f, 0.0f, 1.0f, 0.0f,
-	-0.5f, 0.5f, -0.5f, 0.0f, 1.0f, 0.0f
-};
-
-
--0.5f, -0.5f, -0.5f
-0.5f, -0.5f, -0.5f,
-0.5f, 0.5f, -0.5f,
-0.5f, 0.5f, -0.5f,
--0.5f, 0.5f, -0.5f,
--0.5f, -0.5f, -0.5f
-
--0.5f, -0.5f, 0.5f,
-0.5f, -0.5f, 0.5f,
-0.5f, 0.5f, 0.5f, 
-0.5f, 0.5f, 0.5f, 
--0.5f, 0.5f, 0.5f,
--0.5f, -0.5f, 0.5f,
-
--0.5f, 0.5f, 0.5f,
--0.5f, 0.5f, -0.5f,
--0.5f, -0.5f, -0.5f
--0.5f, -0.5f, -0.5f
--0.5f, -0.5f, 0.5f,
--0.5f, 0.5f, 0.5f,
-
-0.5f, 0.5f, 0.5f, 
-0.5f, 0.5f, -0.5f,
-0.5f, -0.5f, -0.5f,
-0.5f, -0.5f, -0.5f,
-0.5f, -0.5f, 0.5f,
-0.5f, 0.5f, 0.5f, 
-
--0.5f, -0.5f, -0.5f
-0.5f, -0.5f, -0.5f,
-0.5f, -0.5f, 0.5f,
-0.5f, -0.5f, 0.5f,
--0.5f, -0.5f, 0.5f,
--0.5f, -0.5f, -0.5f
-
--0.5f, 0.5f, -0.5f,
-0.5f, 0.5f, -0.5f,
-0.5f, 0.5f, 0.5f, 
-0.5f, 0.5f, 0.5f, 
--0.5f, 0.5f, 0.5f,
--0.5f, 0.5f, -0.5f,
-
-*/
+Shader BufferManager::getShader()
+{
+	return testShader;
+}
