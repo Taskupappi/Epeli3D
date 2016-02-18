@@ -63,7 +63,8 @@ void Engine::Init()
 	int flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG;
 	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		printf("Mix_OpenAudio: %s\n", Mix_GetError());
-		exit(2);
+		//This is so that the engine runs without soundevice
+		//exit(2); 
 	}
 	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG) != flags)
 	{
@@ -116,13 +117,7 @@ void Engine::Uninit()
 
 void Engine::processInput()
 {
-	/*
-	TODO: SDL Input handler here:
-	SDL_MOUSEBUTTONDOWN
-	SDL_MOUSEBUTTONUP
-	SDL_MOUSEMOTION
-	*/
-
+	//SDL Input handler here
 	SDL_Event e;
 	while (SDL_PollEvent(&e))
 	{
@@ -142,6 +137,30 @@ void Engine::processInput()
 			_input->addPressedKey(e.key.keysym.sym);
 			if (e.key.keysym.sym == SDLK_ESCAPE)
 				_exit = true;
+		}
+		if (e.type == SDL_MOUSEMOTION)
+		{
+			_input->_mouse.setMouseMovement(glm::vec2(e.motion.x, e.motion.y), glm::vec2(e.motion.xrel, e.motion.yrel));
+		}
+		if (e.type == SDL_MOUSEBUTTONDOWN || e.type == SDL_MOUSEBUTTONUP)
+		{
+			Mouse::mBstate s = Mouse::unknown;
+			if (e.button.state == SDL_PRESSED)
+				s = Mouse::pressed;
+			else
+				s = Mouse::released;
+			switch (e.button.button)
+			{
+			case SDL_BUTTON_LEFT:
+				_input->_mouse.setMouseBState(Mouse::left, s);
+				break;
+			case SDL_BUTTON_RIGHT:
+				_input->_mouse.setMouseBState(Mouse::right, s);
+				break;
+			case SDL_BUTTON_MIDDLE:
+				_input->_mouse.setMouseBState(Mouse::middle, s);
+				break;
+			}
 		}
 	}
 }

@@ -2,9 +2,7 @@
 using namespace core;
 
 Input::Input() :_exit(false)
-{
-
-}
+{}
 
 Input::~Input()
 {}
@@ -46,11 +44,13 @@ bool Input::pollInputs()
 }
 bool Input::isKeyPressed(SDL_Keycode key)
 {
+	//Works with key positions on keyboard (dvorak keyboard reports key placement like qwerty -> wasd works)
 	const Uint8 *state = SDL_GetKeyboardState(NULL);
 	if (state[SDL_GetScancodeFromKey(key)]) 
 	{
 		return true;
 	}
+	//Works with keycodes
 	//if(findKey(_pressedKeys,key))
 	//	return true;
 	return false;
@@ -79,4 +79,17 @@ void Input::addPressedKey(SDL_Keycode key)
 void Input::addReleasedKey(SDL_Keycode key)
 {
 	_releasedKeys.push_back(key);
+}
+
+bool Input::isMousePressed(Mouse::mButton b)
+{
+	if (_mouse.getButton(b).bs == Mouse::pressed)
+		return true;
+	return false;
+}
+bool Input::isMouseReleased(Mouse::mButton b)
+{
+	if (_mouse.getButton(b).bs == Mouse::released)
+		return true;
+	return false;
 }

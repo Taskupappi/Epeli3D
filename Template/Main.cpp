@@ -11,7 +11,8 @@ GLfloat *arr = new GLfloat[9];
 GLuint *indices = new GLuint[3];
 GLuint *something = new GLuint;
 float rotation = 0;
-
+bool pressed = false;
+glm::vec2 mouseClickPos;
 std::string nam = "vertexbuffer";
 
 //SDL_Window *window = nullptr;
@@ -113,7 +114,35 @@ void gameLoop()
 		}
 		eng->getInput()->clearKeys();
 	}
-
+	if (!pressed)
+	{
+		if (eng->getInput()->isMousePressed(core::Mouse::left))
+		{
+			pressed = true;
+			mouseClickPos = eng->getInput()->getMousePosition();
+			SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
+		}
+		if (eng->getInput()->isMousePressed(core::Mouse::right))
+		{
+			pressed = true;
+			glm::vec2 movement = eng->getInput()->getMouseMovement();
+			SDL_Log("Mouse Moved: %f / %f", movement.x, movement.y);
+		}
+	}
+	else
+	{
+		if (eng->getInput()->isMouseReleased(core::Mouse::left))
+		{
+			pressed = false;
+			glm::vec2 relPos = eng->getInput()->getMousePosition();
+			glm::vec2 mouseDragSize = relPos - mouseClickPos;
+			SDL_Log("Mouse Left Released dragged: %f / %f", mouseDragSize.x, mouseDragSize.y);
+		}
+		if (eng->getInput()->isMousePressed(core::Mouse::right))
+		{
+			pressed = false;
+		}
+	}
 	//glClearColor(0, 255, 255, 1);
 	//glClear(GL_COLOR_BUFFER_BIT);
 	//SDL_Rect rects;
