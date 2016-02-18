@@ -1,4 +1,3 @@
-//#pragma once
 #ifndef MESH_H
 #define MESH_H
 
@@ -24,6 +23,7 @@ struct Texture
 {
 	GLuint id;
 	std::string type;
+	aiString path;
 };
 
 class Mesh
@@ -37,10 +37,12 @@ public:
 
 		this->setupMesh();
 	}
+
 	//Mesh Data
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
 	std::vector<Texture> textures;
+
 	// Functions
 	void Draw(Shader shader)
 	{
@@ -93,6 +95,10 @@ private:
 		glBufferData(GL_ARRAY_BUFFER, this->vertices.size() * sizeof(Vertex),
 			&this->indices[0], GL_STATIC_DRAW);
 
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->EBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_STATIC_DRAW);
+
+		//Set the vertex attribute pointers
 		//vertex positions
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
