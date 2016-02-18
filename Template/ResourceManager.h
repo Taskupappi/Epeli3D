@@ -24,7 +24,6 @@ public:
 		//Add an asset to the database
 		T* Load(const std::string &filename, void *args)
 		{
-			printf_s("//////////////////////////////////////////////\n\n");
 			//check if filename is not empty
 			if (filename.empty())
 			{
@@ -55,6 +54,8 @@ public:
 			resource->loadFile(resource->getResourceFilepath());
 			//insert into the map
 			Map.insert(std::pair<std::string, T*>(filename, resource));
+
+			printf_s("//////////////////////////////////////////////\n\n");
 
 			return resource;
 		}

@@ -85,7 +85,7 @@ void Engine::Init()
 
 	mymap1.addElement("PNG_Image", "../data/Resource/Images/sample.png", 0);
 	mymap1.addElement("JPEG_Image", "../data/Resource/Images/doge.jpeg", 0);
-	mymap1.addElement("WAV_Audio", "../data/Resource/Audio/sample.wav", 0);
+	mymap1.addElement("MP3_Audio", "../data/Resource/Audio/samppeli.mp3", 0);
 
 	mymap1.getElement("JPEG_Image");
 

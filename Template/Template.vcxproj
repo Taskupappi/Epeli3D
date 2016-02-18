@@ -99,6 +99,7 @@
     <ClCompile Include="TempShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Core.h" />
@@ -112,6 +113,7 @@
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="TempShader.h" />
     <ClInclude Include="TestiFoo.h" />
+    <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

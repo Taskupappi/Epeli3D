@@ -3,6 +3,8 @@
 
 #include "ResourceBase.h"
 #include "Core.h"
+#include "Texture.h"
+#include "Audio.h"
 
 class TestiFoo :
 	public ResourceBase
@@ -56,7 +58,7 @@ public:
 			printf_s("Could not determine file extension\n");
 	}
 	// esim sprite luokkaan SDL_Surface*Sprite::Load(filepath)
-	void loadImage(const std::string &resourcefilepath)
+	Texture loadImage(const std::string &resourcefilepath)
 	{
 		image = IMG_Load((resourcefilepath).c_str());
 		
@@ -67,21 +69,28 @@ public:
 		}
 		else
 			printf_s("Image file %s loaded succesfully!\n", resourcefilepath.c_str());
+
+		texture = new Texture(image);
+
+		return *texture;
 	}
 
-	void loadSound(const std::string &resourcefilepath)
+	Audio loadSound(const std::string &resourcefilepath)
 	{
+		// WAV-filuja ei voi ladata Mix_LoadMUS:n avulla, tarvitsee Mix_LoadWAV koska syyt
 		// ehk‰ mixerin vaihto openAL ????
 				
-		// antaa erroria, yritt‰‰ ehk‰ v‰kisell‰ toistaa?
-		//audio = Mix_LoadMUS(resourcefilepath.c_str());
+		sound = Mix_LoadMUS((resourcefilepath).c_str());
 		
-		if (!audio)
+		if (!sound)
 		{
 			printf("Mix_LoadMUS: %s\n", Mix_GetError());
 		}
 		else
 			printf_s("Audio file %s loaded succesfully!\n", resourcefilepath.c_str());
+		audio = new Audio(sound);
+
+		return *audio;
 	}
 
 private:
@@ -97,9 +106,11 @@ private:
 			return *this;
 		return *this;
 	}
+	SDL_Surface *image = NULL;
+	Mix_Music *sound = NULL;
 
-	SDL_Surface *image = 0;
-	Mix_Music *audio = 0;
+	Texture* texture;
+	Audio* audio;
 };
 
 #endif
