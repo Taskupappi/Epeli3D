@@ -6,8 +6,15 @@ BufferManager::BufferManager()
 
 	initBuffers();
 
+	//Testbench stuff
 	//tempShader init
 	testShader.Init();
+
+	//camera
+	cam  = new Camera();
+	cam->init();
+	
+	//
 }
 
 BufferManager::~BufferManager()
@@ -164,10 +171,19 @@ void BufferManager::drawBuffer(Shader shader)
 		glActiveTexture(GL_TEXTURE0 + 1);
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
+
+	//Testbench
+	//camera
+	MVP = cam->getViewMatrix();
+	glUniformMatrix4fv(matrixID, 1, GL_FALSE, &MVP[0][0]);
+
+
+	//
 }
 
 void BufferManager::initTest()
 {
+	/*
 	////create the data
 	//std::vector<BufferVertex> v;
 
@@ -301,7 +317,10 @@ void BufferManager::initTest()
 	////add the data
 	//addBufferData(v, testIndices, tex);
 	//addBufferData(v1, testIndices1, tex1);
+	*/
 
+	
+	
 	testBox();
 }
 

@@ -93,11 +93,6 @@ void Engine::Init()
 	mymap1.removeElement("JPEG_Image");
 
 	mymap1.dump();
-	
-	////GlewInit()
-	//glewExperimental = GL_TRUE;
-
-	//glewInit();
 
 	//freetype init()
 	//

@@ -11,11 +11,13 @@
 #include <glm\glm.hpp>
 #include "ShaderManager.h"
 
-//tempShadertesting
-#include "TempShader.h"
+
 
 //includes for the testBench
 #include "amp.h"
+#include "TempShader.h"
+#include "Camera.h"
+
 
 //
 #include <ctime>
@@ -82,6 +84,13 @@ public:
 	glm::mat4 view;
 	glm::mat4 projection;
 
+	//cam
+	Camera *cam;
+	GLuint matrixID;
+	glm::mat4 MVP;
+	//
+
+
 	//Buffer Data Vectors
 	std::vector<BufferVertex> vertexBuffer;
 	std::vector<GLuint> indicesBuffer;
@@ -106,9 +115,7 @@ private:
 	Shader testShader;
 
 	//testbench values
-	int pos = 0;
-
-	
+	int pos = 0;	
 };
 
 

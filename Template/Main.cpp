@@ -66,17 +66,23 @@ void gameInit()
 //Game mainloop
 void gameLoop()
 {
-
+	
 	// Create transformations
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
-	model = glm::rotate(model, (GLfloat)time(0) * 50.0f, glm::vec3(0.5f, 1.0f, 0.0f));
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));	
-	
-	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
-	
 
+	model = glm::rotate(model, (GLfloat)time(0) * 50.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));		
+	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+
+	// Camera/View transformation
+	GLfloat radius = 10.0f;
+	GLfloat camX = sin(time(0)) * radius;
+	GLfloat camZ = cos(time(0)) * radius;
+	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	// Projection 
+	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 
 	// Get uniform location
 	GLint modelLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "model");
@@ -101,10 +107,6 @@ void gameLoop()
 	buff->testBuffer();
 	glPopMatrix();
 	gCon->swap();
-
-
-
-	
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
@@ -156,6 +158,8 @@ void gameLoop()
 	//SDL_RenderFillRects(renderer,&rects, 1);
 	//SDL_RenderPresent(renderer);
 	//SDL_GL_SwapWindow(window);
+	
+
 
 }
 
