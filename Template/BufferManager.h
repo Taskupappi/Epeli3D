@@ -68,7 +68,9 @@ public:
 	void initBuffers();
 	//temporary init for shaders
 	void initShaders();	
-	//add data to the buffers
+
+	//add data to the buffers in following format
+	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
 	void addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
 	//come here from the "addBufferData"
 	void addBuffer();

@@ -2,6 +2,7 @@
 #include "BufferManager.h"
 #include "GraphicContext.h"
 
+#include <ctime>
 
 GraphicContext* gCon = new GraphicContext;
 BufferManager* buff = new BufferManager;
@@ -14,6 +15,10 @@ float rotation = 0;
 bool pressed = false;
 glm::vec2 mouseClickPos;
 std::string nam = "vertexbuffer";
+
+//Test Stuff
+SYSTEMTIME syst;
+//
 
 //SDL_Window *window = nullptr;
 //SDL_Renderer *renderer = nullptr;
@@ -40,7 +45,7 @@ void gameInit()
 	////renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	//
 	buff->initTest();
-
+	buff->getShader().Use();
 	buff->testBuffer();
 	
 	//buff->initTest();
@@ -66,38 +71,41 @@ void gameInit()
 //Game mainloop
 void gameLoop()
 {
-	
+	buff->getShader().Use();
+
 	// Create transformations
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
 
-	model = glm::rotate(model, (GLfloat)time(0) * 50.0f, glm::vec3(0.5f, 1.0f, 0.0f));
+	//Transform calculations
+	model = glm::rotate(model, (GLfloat)rotation /  10, glm::vec3(0.5f, 1.0f, 0.0f));
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));		
 	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 
 	// Camera/View transformation
 	GLfloat radius = 10.0f;
-	GLfloat camX = sin(time(0)) * radius;
-	GLfloat camZ = cos(time(0)) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	GLfloat camX = sin(rotation / 4) * radius;
+	GLfloat camZ = cos(rotation / 4) * radius;
+	view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
 	// Projection 
 	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 
-	// Get uniform location
+	// Get uniform locations
 	GLint modelLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "model");
 	GLint viewLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "view");
 	GLint projLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "projection");
 
-	// Pass them to the shaders
+	// Pass uniform locations to the shaders
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
 	//temporary rotation for a demo cube
 	glPushMatrix();
-	glRotatef(rotation, 0.0f, 1.0f, 0.0f);
-	glRotatef(rotation, 0.0f, 1.0f, 1.0f);
+	glRotatef(0.0f, 0.0f, 1.0f, 0.0f);
+	glRotatef(0.0f, 0.0f, 1.0f, 1.0f);
 	rotation += 0.25f;
 	if (rotation > 360)
 		rotation = 0;
