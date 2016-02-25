@@ -2,10 +2,12 @@
 #define RESOURCEBASE_H
 #include "ResourceManager.h"
 #include <iostream>
+#include "ResourceMap.h"
 
 class ResourceBase
 {
 	template < class T > friend class ResourceManager;
+	template < class T > friend class ResourceMap;
 
 public:
 	ResourceBase(const std::string& resourcefilepath, void *args) : resourcefilepath(resourcefilepath)
@@ -26,6 +28,14 @@ public:
 
 	const std::string &getResourceFileName() const
 	{
+		//// find "." in string
+		//std::string extension = "";
+		//size_t pos = resourcefilepath.find_last_of("/");
+
+		//// check if position is valid
+		//if (pos != std::string::npos)
+		//	extension = resourcefilepath.substr(pos + 1);
+		//resourcefilename = extension;
 		return resourcefilename;
 	}
 
@@ -33,7 +43,7 @@ public:
 	{
 		return resourcefilepath;
 	}
-
+	virtual void loadfile(std::string filePath){};
 	const int getReferenceCount() const
 	{
 		return references;

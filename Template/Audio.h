@@ -5,14 +5,15 @@
 #include "ResourceBase.h"
 
 class Audio
+	: public ResourceBase
 {
 public:
-	Audio(Mix_Music*){};
+	Audio(const std::string &resourcefilepath, Mix_Music* sound) : ResourceBase(resourcefilepath, sound){};
 	~Audio(){};
 
 
 private:
-
+	Mix_Music* sound = 0;
 };
 
 #endif

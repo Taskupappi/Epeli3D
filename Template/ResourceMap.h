@@ -10,6 +10,7 @@ template <class T>
 class ResourceMap
 {
 public:
+
 	ResourceMap()
 	{
 		duplicates = -1;			// undetermined state
@@ -24,10 +25,10 @@ public:
 	//////////////////////////////////////
 	// adds a new element
 
-	T* addElement(const std::string &resourcename, const std::string &filename, void *args = 0)
+	T* addElement(const std::string &resourcename, const std::string &filepath, T* resource)
 	{
 		if (ResourceManager == NULL)printf_s("Error: DataBase cannot be NULL (5)\n");
-		if (filename.empty())printf_s("%s : filename cannot be null\n", Name.c_str());
+		if (filepath.empty())printf_s("%s : filepathe cannot be null\n", Name.c_str());
 		if (resourcename.empty())printf_s("%s : resourcename cannot be null\n", Name.c_str());
 
 		// look in the hashmap to see if the resource is already loaded
@@ -38,18 +39,29 @@ public:
 
 		std::unordered_map<std::string, T* >::iterator it = Map.find(resourcename);
 
+		if (it != Map.end())
+		{
+			printf_s("Increasing reference count for file: %s\n", (*it).first.c_str());
+			(*it).second->incReferences();
+		}
+
 		if (it == Map.end())
 		{
 			// if duplicates flag is set to truem duplicated mapped values are allowed
 			// if duplicates flag is set to false, duplicates won't be allowed
 
-			if (isValNonUnique(filename))
+			if (isValNonUnique(resourcename))
 			{
+				//increase references, this sets the references count to 1
+				printf_s("First reference of file: %s\n", resourcename.c_str());
+
 				printf_s("Adding element: %s\n", resourcename.c_str());
 
-				T* resource = ResourceManager->Load(filename, args);
+				//T* resource = ResourceManager->Load(filename, args);
 				// allocate new resource using the raii paradigm
 				Map.insert(std::pair<std::string, T*>(resourcename, resource));
+
+				resource->incReferences();
 
 				return resource;
 			}
@@ -57,8 +69,8 @@ public:
 			{
 				// if we get here and duplicates flag is set to false
 				// the filename is duplicated
-
-				printf_s("Error: filename %s must be unique\n", filename.c_str());
+				//return it.second();
+				printf_s("Error: filename %s must be unique\n", resourcename.c_str());
 			}
 			// if we get here means that resource name is duplicated
 
@@ -87,7 +99,7 @@ public:
 		if (it != Map.end())
 		{
 			// save resource name
-			
+
 			std::string filename = (*it).second->getResourceFileName();
 			std::string filepath = (*it).second->getResourceFilepath();
 			printf_s("Removed element: %s\n", filename.c_str());
@@ -122,10 +134,10 @@ public:
 
 		while (it != Map.end())
 		{
-			// save resource name
+			// save resource name and resource
 
-			std::string filename = (*it).second->getResourceFileName();
-			std::string filepath = (*it).second->getResourceFilepath();
+			std::string filename = (*it).first;
+			T* resource = (*it).second;
 
 			// erase from this map
 
@@ -133,7 +145,7 @@ public:
 
 			// check if it is unique and erase it eventually
 
-			ResourceManager->Unload(filepath, filename);
+			ResourceManager->Unload(filename, resource);
 		}
 	}
 
@@ -148,7 +160,7 @@ public:
 			printf("Error: DataBase cannot be NULL (3)\n");
 
 		printf_s("Dumping database: %s\n\n", ResourceManager->GetName().c_str());
-				
+
 		for (std::unordered_map<std::string, T*>::iterator it = Map.begin(); it != Map.end(); it++)
 		{
 			printf_s("Resourcename: %s, Filename: %s\n",
@@ -216,6 +228,8 @@ public:
 
 		else if (!duplicates)
 			printf_s("%s: Duplicates disallowed\n", name.c_str());
+
+		printf_s("Resource map '%s' initialised succesfully!\n", name.c_str());
 	}
 
 private:
@@ -226,7 +240,7 @@ private:
 	{
 		// if duplicates are allowed , then return always true
 
-		if (duplicates) 
+		if (duplicates)
 			return true;
 
 		// else , check if element by value is already present
@@ -236,7 +250,7 @@ private:
 
 		while (it != Map.end())
 		{
-			if ((it->second->getResourceFileName() == filename)) 
+			if ((it->second->getResourceFileName() == filename))
 				return false;
 			++it;
 		}

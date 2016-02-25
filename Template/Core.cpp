@@ -77,22 +77,18 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
 	
-	ResourceManager<TestiFoo>rm;
-	ResourceMap<TestiFoo>mymap1;
+	Resources *res = new Resources("Resource", 0);
+	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 
-	rm.initResourceManager("AssetDataBase");
+	std::string * string = res->loadFile<std::string>("../data/Resource/Shaders/FragmentShaderTest.glfs");
 
-	mymap1.initMapper("mapList1", &rm, true);
+	//mymap1.getElement("JPEG_Image");
 
-	mymap1.addElement("PNG_Image", "../data/Resource/Images/sample.png", 0);
-	mymap1.addElement("JPEG_Image", "../data/Resource/Images/doge.jpeg", 0);
-	mymap1.addElement("MP3_Audio", "../data/Resource/Audio/samppeli.mp3", 0);
+	//mymap1.removeElement("JPEG_Image");
 
-	mymap1.getElement("JPEG_Image");
-
-	mymap1.removeElement("JPEG_Image");
-
-	mymap1.dump();
+	//mymap1.dump();
 
 	//freetype init()
 	//

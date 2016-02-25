@@ -13,125 +13,125 @@ public:
 	ResourceManager()
 	{
 	}
-	
+
 	~ResourceManager()
 	{
 		ReleaseAll();
 	}
 
 
-		//-----
-		//Add an asset to the database
-		T* Load(const std::string &filename, void *args)
+	//-----
+	//Add an asset to the database
+	T* Load(const std::string &filename, void *args)
+	{
+		//check if filename is not empty
+		if (filename.empty())
 		{
-			//check if filename is not empty
-			if (filename.empty())
-			{
-				printf_s("Load error: filename cannot be empty!\n");
-			}
-
-			//looks in the map to see if the resource is already loaded
-			std::unordered_map<std::string, T*>::iterator it;
-			it = Map.find(filename);
-
-			if (it != Map.end())
-			{
-				printf_s("Increasing reference count for file: %s\n", (*it).second->getResourceFileName().c_str());
-				(*it).second->incReferences();
-				return (*it).second;
-			}
-
-			//if we get here the resource must be loaded
-			//allocate new resource using the raii paradigm
-			//you must supply the class with a proper constructor
-			//see header for details
-
-			T* resource = new T(filename, args);
-
-			//increase references, this sets the references count to 1
-			printf_s("First reference of file: %s\n", resource->getResourceFileName().c_str());
-			resource->incReferences();
-			resource->loadFile(resource->getResourceFilepath());
-			//insert into the map
-			Map.insert(std::pair<std::string, T*>(filename, resource));
-
-			printf_s("//////////////////////////////////////////////\n\n");
-
-			return resource;
+			printf_s("Load error: filename cannot be empty!\n");
 		}
 
-		//-----
-		//deleting an item
+		//looks in the map to see if the resource is already loaded
+		std::unordered_map<std::string, T*>::iterator it;
+		it = Map.find(filename);
 
-		bool Unload(const std::string &filepath, const std::string &filename)
+		if (it != Map.end())
 		{
-			//check if filename is not empty
-			if (filename.empty())
-			{
-				printf_s("Unload error: filename cannot be empty!\n");
-			}
-
-			printf_s("Searching file to be unloaded: %s\n", filename.c_str());
-
-			//find the item to delete
-			std::unordered_map<std::string, T*>::iterator it = Map.find(filepath);
-
-			if (it != Map.end())
-			{
-				//decrease references
-				printf_s("Decreasing reference count for file: %s\n\n", filename.c_str());
-				(*it).second->decReferences();
-
-				//if item had 0 references, meaning
-				//the item isn't more used,
-				//delete from main database
-				if ((*it).second->getReferenceCount() == 0)
-				{
-					delete((*it).second);
-					Map.erase(it);
-				}
-
-				return true;
-			}
-
-			printf_s("Error: cannot find file: %s\n", filename.c_str());
-			return false;
+			printf_s("Increasing reference count for file: %s\n", (*it).second->getResourceFileName().c_str());
+			(*it).second->incReferences();
+			return (*it).second;
 		}
 
-		void initResourceManager(const std::string &name)
+		//if we get here the resource must be loaded
+		//allocate new resource using the raii paradigm
+		//you must supply the class with a proper constructor
+		//see header for details
+
+		T* resource = new T(filename, args);
+
+		//increase references, this sets the references count to 1
+		printf_s("First reference of file: %s\n", resource->getResourceFileName().c_str());
+		resource->incReferences();
+		resource->loadFile(resource->getResourceFilepath());
+		//insert into the map
+		Map.insert(std::pair<std::string, T*>(filename, resource));
+
+		printf_s("//////////////////////////////////////////////\n\n");
+
+		return resource;
+	}
+
+	//-----
+	//deleting an item
+
+	bool Unload(const std::string &filename, T* resource)
+	{
+		//check if filename is not empty
+		if (filename.empty())
 		{
-			// check if name is not empty
-			if (name.empty())
-				printf_s("Error: Null name is not allowed\n");
-			Name = name;
+			printf_s("Unload error: filename cannot be empty!\n");
 		}
 
-		//-----
-		//get name for database
-		const std::string &GetName() const { return Name; }
-		const int Size() const { return Map.size(); }
+		printf_s("Searching file to be unloaded: %s\n", filename.c_str());
 
+		//find the item to delete
+		std::unordered_map<std::string, T*>::iterator it = Map.find(filename);
 
-	private:
-		//data members
-		std::unordered_map<std::string, T*> Map;
-		std::string Name;
-
-		//copy constructor and = operator are kept private
-		ResourceManager(const ResourceManager&) {};
-		ResourceManager &operator = (const ResourceManager&) { return *this; }
-
-		//force removal for each node
-		void ReleaseAll()
+		if (it != Map.end())
 		{
-			std::unordered_map<std::string, T*>::iterator it = Map.begin();
+			//decrease references
+			printf_s("Decreasing reference count for file: %s\n\n", filename.c_str());
+			((ResourceBase*)(*it).second)->decReferences();
 
-			while (it != Map.end())
+			//if item had 0 references, meaning
+			//the item isn't more used,
+			//delete from main database
+			if (((ResourceBase*)(*it).second)->getReferenceCount() == 0)
 			{
-				delete (*it).second;
-				it = Map.erase(it);
+				delete((*it).second);
+				Map.erase(it);
 			}
+
+			return true;
 		}
+
+		printf_s("Error: cannot find file: %s\n", filename.c_str());
+		return false;
+	}
+
+	void initResourceManager(const std::string &name)
+	{
+		// check if name is not empty
+		if (name.empty())
+			printf_s("Error: Null name is not allowed\n");
+		Name = name;
+	}
+
+	//-----
+	//get name for database
+	const std::string &GetName() const { return Name; }
+	const int Size() const { return Map.size(); }
+
+
+private:
+	//data members
+	std::unordered_map<std::string, T*> Map;
+	std::string Name;
+
+	//copy constructor and = operator are kept private
+	ResourceManager(const ResourceManager&) {};
+	ResourceManager &operator = (const ResourceManager&) { return *this; }
+
+	//force removal for each node
+	void ReleaseAll()
+	{
+		std::unordered_map<std::string, T*>::iterator it = Map.begin();
+
+		while (it != Map.end())
+		{
+			delete (*it).second;
+			it = Map.erase(it);
+		}
+	}
 
 };
 

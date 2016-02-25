@@ -115,7 +115,7 @@
     <ClInclude Include="SceneManager.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="TempShader.h" />
-    <ClInclude Include="TestiFoo.h" />
+    <ClInclude Include="Resources.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
