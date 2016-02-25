@@ -12,60 +12,135 @@ Shader::~Shader()
 bool Shader::Init()
 {
 	glewInit();
-	//luodaan ohjelma
-	ProgramID = glCreateProgram();
+	////luodaan ohjelma
+	//ProgramID = glCreateProgram();
 
-	//ladataan vertex Shader
-	VertexShaderID = LoadShaderFromFile("../data/shaders/VertexShaderTest.glvs", GL_VERTEX_SHADER);
+	////ladataan vertex Shader
+	//VertexShaderID = LoadShaderFromFile("../data/shaders/VertexShaderTest.glvs", GL_VERTEX_SHADER);
 
-	//tarkastetaan errorit
-	if (VertexShaderID == NULL)
+	////tarkastetaan errorit
+	//if (VertexShaderID == NULL)
+	//{
+	//	std::cout << "error while loading VertexShader" << VertexShaderID << "\n on line " << __LINE__ << std::endl;
+	//	glDeleteProgram(ProgramID);
+	//	ProgramID = 0;
+	//	return false;
+	//}
+
+	////Vertex shaderin kiinnitys ohjelmaan
+	//glAttachShader(ProgramID, VertexShaderID);
+
+	////ladataan Fragment Shader
+	//FragmentShaderID = LoadShaderFromFile("../data/shaders/FragmentShaderTestkisse.glfs", GL_FRAGMENT_SHADER);
+
+	////tarkastetaan errorit
+	//if (FragmentShaderID == NULL)
+	//{
+	//	std::cout << "error while loading FragmentShader" << FragmentShaderID << "\n on line " << __LINE__ << std::endl;
+	//	glDeleteShader(VertexShaderID);
+	//	glDeleteProgram(ProgramID);
+	//	ProgramID = NULL;
+	//	return false;
+	//}
+
+	////Fragment Shaderin kiinnitys ohjelmaan
+	//glAttachShader(ProgramID, FragmentShaderID);
+
+	////ohjelman linkkaus
+	//glLinkProgram(ProgramID);
+
+	////tarkastetaan errorit
+	//GLint LinkSuccess = GL_TRUE;
+	//glGetProgramiv(ProgramID, GL_LINK_STATUS, &LinkSuccess);
+
+	//if (LinkSuccess != GL_TRUE)
+	//{
+	//	std::cout << "error while linking program: " << ProgramID << std::endl;
+	//	glDeleteShader(VertexShaderID);
+	//	glDeleteShader(FragmentShaderID);
+	//	glDeleteProgram(ProgramID);
+	//	ProgramID = NULL;
+	//	return false;
+	//}
+
+	////poistetaan turhat shader referenssit, GL säilyttää ne automaattisesti mikäli ne ovat ohjelman käytössä
+	//glDeleteShader(VertexShaderID);
+	//glDeleteShader(FragmentShaderID);
+	//return true;
+
+
+
+	// 1. Retrieve the vertex/fragment source code from filePath
+	std::string vertexCode;
+	std::string fragmentCode;
+	std::ifstream vShaderFile;
+	std::ifstream fShaderFile;
+	// ensures ifstream objects can throw exceptions:
+	vShaderFile.exceptions(std::ifstream::badbit);
+	fShaderFile.exceptions(std::ifstream::badbit);
+	try
 	{
-		std::cout << "error while loading VertexShader" << VertexShaderID << "\n on line " << __LINE__ << std::endl;
-		glDeleteProgram(ProgramID);
-		ProgramID = 0;
-		return false;
+		// Open files
+		vShaderFile.open("../data/shaders/VertexShaderTest.glvs");
+		fShaderFile.open("../data/shaders/FragmentShaderTest.glfs");
+		std::stringstream vShaderStream, fShaderStream;
+		// Read file's buffer contents into streams
+		vShaderStream << vShaderFile.rdbuf();
+		fShaderStream << fShaderFile.rdbuf();
+		// close file handlers
+		vShaderFile.close();
+		fShaderFile.close();
+		// Convert stream into string
+		vertexCode = vShaderStream.str();
+		fragmentCode = fShaderStream.str();
 	}
-
-	//Vertex shaderin kiinnitys ohjelmaan
-	glAttachShader(ProgramID, VertexShaderID);
-
-	//ladataan Fragment Shader
-	FragmentShaderID = LoadShaderFromFile("../data/shaders/FragmentShaderTest.glfs", GL_FRAGMENT_SHADER);
-
-	//tarkastetaan errorit
-	if (FragmentShaderID == NULL)
+	catch (std::ifstream::failure e)
 	{
-		std::cout << "error while loading FragmentShader" << FragmentShaderID << "\n on line " << __LINE__ << std::endl;
-		glDeleteShader(VertexShaderID);
-		glDeleteProgram(ProgramID);
-		ProgramID = NULL;
-		return false;
+		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
 	}
-
-	//Fragment Shaderin kiinnitys ohjelmaan
-	glAttachShader(ProgramID, FragmentShaderID);
-
-	//ohjelman linkkaus
-	glLinkProgram(ProgramID);
-
-	//tarkastetaan errorit
-	GLint LinkSuccess = GL_TRUE;
-	glGetProgramiv(ProgramID, GL_LINK_STATUS, &LinkSuccess);
-
-	if (LinkSuccess != GL_TRUE)
+	const GLchar* vShaderCode = vertexCode.c_str();
+	const GLchar * fShaderCode = fragmentCode.c_str();
+	// 2. Compile shaders
+	GLuint vertex, fragment;
+	GLint success;
+	GLchar infoLog[512];
+	// Vertex Shader
+	vertex = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertex, 1, &vShaderCode, NULL);
+	glCompileShader(vertex);
+	// Print compile errors if any
+	glGetShaderiv(vertex, GL_COMPILE_STATUS, &success);
+	if (!success)
 	{
-		std::cout << "error while linking program: " << ProgramID << std::endl;
-		glDeleteShader(VertexShaderID);
-		glDeleteShader(FragmentShaderID);
-		glDeleteProgram(ProgramID);
-		ProgramID = NULL;
-		return false;
+		glGetShaderInfoLog(vertex, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
 	}
-
-	//poistetaan turhat shader referenssit, GL säilyttää ne automaattisesti mikäli ne ovat ohjelman käytössä
-	glDeleteShader(VertexShaderID);
-	glDeleteShader(FragmentShaderID);
+	// Fragment Shader
+	fragment = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragment, 1, &fShaderCode, NULL);
+	glCompileShader(fragment);
+	// Print compile errors if any
+	glGetShaderiv(fragment, GL_COMPILE_STATUS, &success);
+	if (!success)
+	{
+		glGetShaderInfoLog(fragment, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
+	}
+	// Shader Program
+	this->ProgramID = glCreateProgram();
+	glAttachShader(this->ProgramID, vertex);
+	glAttachShader(this->ProgramID, fragment);
+	glLinkProgram(this->ProgramID);
+	// Print linking errors if any
+	glGetProgramiv(this->ProgramID, GL_LINK_STATUS, &success);
+	if (!success)
+	{
+		glGetProgramInfoLog(this->ProgramID, 512, NULL, infoLog);
+		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
+	}
+	// Delete the shaders as they're linked into our program now and no longer necessery
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
 	return true;
 }
 

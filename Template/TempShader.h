@@ -5,6 +5,10 @@
 #include <iostream>
 #include <glm\glm.hpp>
 
+#include <fstream>
+#include <istream>
+#include <sstream>
+
 class Shader
 {
 public:

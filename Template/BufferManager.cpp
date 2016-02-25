@@ -55,33 +55,33 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 	int blockn = 1;
 	for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
 	{
-		std::cout << "//////////////Vertex block of data: "<< blockn <<  " //////////// \n";
-		std::cout << "\n Position \n";
-		std::cout << (itvertexBuffer)->Position.x << "\n";
-		std::cout << (itvertexBuffer)->Position.y << "\n";
-		std::cout << (itvertexBuffer)->Position.z << "\n";
-		std::cout << "\n Normal \n";
-		std::cout << (itvertexBuffer)->Normal.x << "\n";
-		std::cout << (itvertexBuffer)->Normal.y << "\n";
-		std::cout << (itvertexBuffer)->Normal.z << "\n";
-		std::cout << "\n TexCoords \n";
-		std::cout << (itvertexBuffer)->TexCoords.x << "\n";
-		std::cout << (itvertexBuffer)->TexCoords.y << "\n";
-		std::cout << "\n Color \n";
-		std::cout << (itvertexBuffer)->Color.x << "\n";
-		std::cout << (itvertexBuffer)->Color.y << "\n";
-		std::cout << (itvertexBuffer)->Color.z << "\n";
-		std::cout << "\n";
-		blockn++;
-		std::cout << "///////////////////////////////////// \n";
+	//	std::cout << "//////////////Vertex block of data: "<< blockn <<  " //////////// \n";
+	//	std::cout << "\n Position \n";
+	//	std::cout << (itvertexBuffer)->Position.x << "\n";
+	//	std::cout << (itvertexBuffer)->Position.y << "\n";
+	//	std::cout << (itvertexBuffer)->Position.z << "\n";
+	//	std::cout << "\n Normal \n";
+	//	std::cout << (itvertexBuffer)->Normal.x << "\n";
+	//	std::cout << (itvertexBuffer)->Normal.y << "\n";
+	//	std::cout << (itvertexBuffer)->Normal.z << "\n";
+	//	std::cout << "\n TexCoords \n";
+	//	std::cout << (itvertexBuffer)->TexCoords.x << "\n";
+	//	std::cout << (itvertexBuffer)->TexCoords.y << "\n";
+		//std::cout << "\n Color \n";
+		//std::cout << (itvertexBuffer)->Color.x << "\n";
+		//std::cout << (itvertexBuffer)->Color.y << "\n";
+		//std::cout << (itvertexBuffer)->Color.z << "\n";
+		//std::cout << "\n";
+	//	blockn++;
+	//	std::cout << "///////////////////////////////////// \n";
 	}
-	
-	std::cout << "////////////////IndexBuffer///////////////// \n";
-	for (auto itindexBuffer = indicesBuffer.begin(); itindexBuffer != indicesBuffer.end(); itindexBuffer++)
-	{
-		std::cout << *itindexBuffer << "\n";
-	}
-	std::cout << "///////////////////////////////////// \n";
+	//
+	//std::cout << "////////////////IndexBuffer///////////////// \n";
+	//for (auto itindexBuffer = indicesBuffer.begin(); itindexBuffer != indicesBuffer.end(); itindexBuffer++)
+	//{
+	//	std::cout << *itindexBuffer << "\n";
+	//}
+	//std::cout << "///////////////////////////////////// \n";
 
 	this->addBuffer();
 }
@@ -116,8 +116,8 @@ void BufferManager::addBuffer()
 
 	//Vertex Color
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, 0,
-		(GLvoid*)0);
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+		(GLvoid*)offsetof(BufferVertex, Color));
 }
 
 void BufferManager::testBuffer()
@@ -435,17 +435,28 @@ void BufferManager::testBox()
 	std::vector<BufferVertex> v;
 	std::vector<BufferTexture> tex1;
 
-	for (int i = 0; i < 36; i++)
+	for (int i = 0; i <= 36; i++)
 	{
 		BufferVertex BV1;
 
 		BV1.Position = glm::vec3(vertices[i*5], vertices[i*5 + 1], vertices[i*5 + 2]);
 		BV1.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		BV1.TexCoords = glm::vec2(vertices[i * 5 + 3], vertices[i * 5 + 4]);
-		BV1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
 		
-		v.push_back(BV1);
+		if (i < 36)
+			BV1.Color = glm::vec3(1.0f, 1.0f, 1.0f);
+		if (i < 30)
+			BV1.Color = glm::vec3(1.0f, 1.0f, 0.0f);
+		if (i < 24)
+			BV1.Color = glm::vec3(1.0f, 0.0f, 1.0f);
+		if (i < 18)
+			BV1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
+		if (i < 12)
+			BV1.Color = glm::vec3(0.0f, 1.0f, 0.0f);
+		if (i < 6)
+			BV1.Color = glm::vec3(0.0f, 0.0f, 1.0f);
 
+		v.push_back(BV1);
 		
 		BufferTexture bt;
 		bt.id = 1;

@@ -94,10 +94,10 @@ void gameLoop()
 	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
 
-	//temporary rotation
+	//temporary rotation for a demo cube
 	glPushMatrix();
 	glRotatef(rotation, 0.0f, 1.0f, 0.0f);
-	glRotatef(rotation, 1.0f, 1.0f, 1.0f);
+	glRotatef(rotation, 0.0f, 1.0f, 1.0f);
 	rotation += 0.25f;
 	if (rotation > 360)
 		rotation = 0;
