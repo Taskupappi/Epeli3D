@@ -103,7 +103,9 @@
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Core.h" />
+    <ClInclude Include="Drawable.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="Input.h" />
