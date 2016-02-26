@@ -58,17 +58,17 @@ public:
 			std::string name = this->textures[i].type;
 			if (name == "texture_diffuse")
 			{
-				//Transder GLuint to stream
+				//Transfer GLuint to stream
 				ss << diffuseNr++;
 			}
 			else if (name == "texture_specular")
 			{
-				//Transder GLuint to stream
+				//Transfer GLuint to stream
 				ss << specularNr++;
 			}
 			number == ss.str();
 
-			glUniform1f(glGetUniformLocation(shader.GetShaderProgram, ("material." + name + number).c_str()), i);
+			glUniform1f(glGetUniformLocation(shader.GetShaderProgram(), ("material." + name + number).c_str()), i);
 			glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
 		}
 		glActiveTexture(GL_TEXTURE0);

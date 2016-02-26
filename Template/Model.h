@@ -1,6 +1,5 @@
-
-
-#pragma once
+#ifndef MODEL_H
+#define MODEL_H
 
 #include <string>
 #include <vector>
@@ -65,6 +64,8 @@ private:
 			//The scene contains all the data, node is just to keep stuff organized (like relations between nodes)
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
 			this->meshes.push_back(this->processMesh(mesh, scene));
+			//Model * model = (this->processMesh(mesh, scene));
+			// return model;
 		}
 		// After we've processed all of the meshes (if any) we then recursively process each of the children nodes
 		for (GLuint i = 0; i < node->mNumChildren; i++)
@@ -84,23 +85,25 @@ private:
 		for (GLuint i = 0; i < mesh->mNumVertices; i++)
 		{
 			Vertex vertex;
-			glm::vec3 vector; // We declare a placeholder vector since assimp uses its own vector class that doesn't directly convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
-			// Positions
+			//Placeholder vector since assimp uses its own vector class that doesn't directly
+			//convert to glm's vec3 class so we transfer the data to this placeholder glm::vec3 first.
+			glm::vec3 vector;
+			//Positions
 			vector.x = mesh->mVertices[i].x;
 			vector.y = mesh->mVertices[i].y;
 			vector.z = mesh->mVertices[i].z;
 			vertex.Position = vector;
-			// Normals
+			//Normals
 			vector.x = mesh->mNormals[i].x;
 			vector.y = mesh->mNormals[i].y;
 			vector.z = mesh->mNormals[i].z;
 			vertex.Normal = vector;
-			// Texture Coordinates
+			//Texture Coordinates
 			if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
 			{
 				glm::vec2 vec;
-				// A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-				// use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+				//A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+				//use models where a vertex can have multiple texture coordinates so we always take the first set (0).
 				vec.x = mesh->mTextureCoords[0][i].x;
 				vec.y = mesh->mTextureCoords[0][i].y;
 				vertex.TexCoords = vec;
@@ -109,11 +112,11 @@ private:
 				vertex.TexCoords = glm::vec2(0.0f, 0.0f);
 			vertices.push_back(vertex);
 		}
-		// Now wak through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
+		//Now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
 		for (GLuint i = 0; i < mesh->mNumFaces; i++)
 		{
 			aiFace face = mesh->mFaces[i];
-			// Retrieve all indices of the face and store them in the indices vector
+			//Retrieve all indices of the face and store them in the indices vector
 			for (GLuint j = 0; j < face.mNumIndices; j++)
 				indices.push_back(face.mIndices[j]);
 		}
@@ -176,3 +179,4 @@ private:
 //	
 //}
 
+#endif
