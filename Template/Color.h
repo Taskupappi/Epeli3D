@@ -1,8 +1,10 @@
 #ifndef COLOR_H
 #define COLOR_H
 #include <glm/vec4.hpp>
+#include <glm/matrix.hpp>
+#include <glm/gtx/matrix_cross_product.hpp>
 //Enums for colors AARRGGBB
-enum class Colors
+enum class Colors:uint32_t
 {
 	AliceBlue = 0xFFF0F8FF,
 	AntiqueWhite = 0xFFFAEBD7,
@@ -157,7 +159,7 @@ enum class Colors
 class Color
 {
 public:
-	
+	//From Colors enum values as hexcodes
 	Color(Colors c)
 	{
 		_color.r = getR(c);
@@ -166,8 +168,10 @@ public:
 		_color.a = getA(c);
 	};
 	Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a = 255) :_color(r,g,b,a){;}
-	Color();
-	~Color();
+	Color():_color(0, 0, 0, 255){};
+	~Color(){};
+	//Gets color values as 0 - 1.0
+	glm::vec4 getAsOGLVec(){ return glm::vec4(_color.r / 255, _color.g / 255, _color.b / 255, _color.a / 255); }
 	glm::vec4 getColor(){ return _color; }
 	Color& operator-=(const Color& rhs)
 	{
@@ -237,10 +241,4 @@ private:
 	//glm::vec4 _color;
 	glm::tvec4<uint8_t, glm::precision::lowp> _color;
 };
-
-Color::Color() :_color(0,0,0,0)
-{}
-
-Color::~Color()
-{}
 #endif
