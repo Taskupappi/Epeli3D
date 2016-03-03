@@ -22,7 +22,6 @@ const GLfloat ZOOM = 45.0f;
 class Camera
 {
 public:
-	//Camera(glm::vec2 size);
 	Camera();
 	Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch);
 

@@ -14,6 +14,8 @@ BufferManager::BufferManager()
 	cam  = new Camera();
 	cam->init();
 	
+
+	angle = 0;
 	//
 }
 
@@ -90,8 +92,8 @@ void BufferManager::addBuffer()
 {
 
 	glBindVertexArray(this->VertexArrayObject);
-	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
 
+	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(BufferVertex),
 		&this->vertexBuffer[0], GL_STATIC_DRAW);
 
@@ -128,37 +130,33 @@ void BufferManager::testBuffer()
 
 void BufferManager::drawBuffer(Shader shader)
 {
-
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-	GLuint diffuseNr = 1;
-	GLuint specularNr = 1;
-
-	for (GLuint i = 0; i < this->textures.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + 1);
-
-		std::stringstream ss;
-		std::string number;
-		std::string name = this->textures[i].type;
-		if (name == "texture_diffuse")
-		{
-			ss << diffuseNr++;
-		}
-
-		else if (name == "texture_specular")
-		{
-			ss << specularNr++;
-		}
-
-		number = ss.str();
-
-		glUniform1i(glGetUniformLocation(shader.GetShaderProgram(), ("material." + name + number).c_str()), i);
-		glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
-	}
-
-	glUniform1f(glGetUniformLocation(shader.GetShaderProgram(), "material.shininess"), 16.0f);
+	//GLuint diffuseNr = 1;
+	//GLuint specularNr = 1;
+	//
+	//for (GLuint i = 0; i < this->textures.size(); i++)
+	//{
+	//	glActiveTexture(GL_TEXTURE0 + 1);
+	//
+	//	std::stringstream ss;
+	//	std::string number;
+	//	std::string name = this->textures[i].type;
+	//	if (name == "texture_diffuse")
+	//	{
+	//		ss << diffuseNr++;
+	//	}
+	//
+	//	else if (name == "texture_specular")
+	//	{
+	//		ss << specularNr++;
+	//	}
+	//
+	//	number = ss.str();
+	//
+	//	glUniform1i(glGetUniformLocation(shader.GetShaderProgram(), ("material." + name + number).c_str()), i);
+	//	glBindTexture(GL_TEXTURE_2D, this->textures[i].id);
+	//}
+	//
+	//glUniform1f(glGetUniformLocation(shader.GetShaderProgram(), "material.shininess"), 16.0f);
 	
 	//draw mesh
 	glBindVertexArray(this->VertexArrayObject);
@@ -265,27 +263,101 @@ void BufferManager::testBox()
 	for (int i = 0; i < 36; i++)
 		testIndices.push_back(i);
 
-
-
 	//multiple cubes
-	//std::vector<BufferVertex> vcopy;
-	//std::vector<BufferTexture> tex1copy;
+	std::vector<BufferVertex> vcopy;
+	std::vector<BufferTexture> tex1copy;
 
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	vcopy.insert(vcopy.end(), v.begin(), v.end());
-	//	tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());		
+	for (int i = 0; i < 10; i++)
+	{
+		vcopy.insert(vcopy.end(), v.begin(), v.end());
+		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());		
 
-	//	for (int i = 0; i < 36; i++)
-	//		testIndices.push_back(i);
-	//}
-	//
-
+		for (int i = 0; i < 36; i++)
+			testIndices.push_back(i);
+	}
+	////
 	//multiple cubes
-	//addBufferData(vcopy, testIndices, tex1);
+	addBufferData(vcopy, testIndices, tex1copy);
 
 	//single cube
-	addBufferData(v, testIndices, tex1);
+	//addBufferData(v, testIndices, tex1);
+
+}
+
+void BufferManager::testBoxUpdate()
+{
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f, 0.0f, 0.0f)/*,
+		glm::vec3(2.0f, 5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f, 3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f, 2.0f, -2.5f),
+		glm::vec3(1.5f, 0.2f, -1.5f),
+		glm::vec3(-1.3f, 1.0f, -1.5f)*/
+	};	
+
+	getShader().Use();
+
+	// Create transformations
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
+
+	//Transform calculations
+	model = glm::rotate(model, (GLfloat)rotation / 10, glm::vec3(0.5f, 1.0f, 0.0f));
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+
+	// Camera/View transformation
+	GLfloat radius = 2.0f;
+	GLfloat camX = sin(rotation / 4) * radius;
+	GLfloat camZ = cos(rotation / 4) * radius;
+	view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	// Projection 
+	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+
+	// Get uniform locations
+	GLint modelLoc = glGetUniformLocation(getShader().GetShaderProgram(), "model");
+	GLint viewLoc = glGetUniformLocation(getShader().GetShaderProgram(), "view");
+	GLint projLoc = glGetUniformLocation(getShader().GetShaderProgram(), "projection");
+
+	// Pass uniform locations to the shaders
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+
+	////temporary rotation for a demo cube
+	//glPushMatrix();
+	//glRotatef(0.0f, 0.0f, 1.0f, 0.0f);
+	//glRotatef(0.0f, 0.0f, 1.0f, 1.0f);
+	//rotation += 0.25f;
+	//if (rotation > 360)
+	//	rotation = 0;
+
+	//buff->drawBuffer(buff->getBuffer(nam));
+	
+
+	model = glm::translate(model, cubePositions[0]);
+	if (!rewind)
+	{
+		angle += 0.02f;
+		if (angle = 720)
+			rewind = true;
+	}
+	else if (rewind)
+	{
+		angle -= 0.02f;
+		if (angle < 0)
+			rewind = false;
+	}
+
+
+	model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));	
 
 }
 

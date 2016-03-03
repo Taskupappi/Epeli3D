@@ -35,7 +35,6 @@ public:
 	void SetVec4f(const GLchar *name, const glm::vec4 &value, GLboolean useShader = false);
 	void SetMatrix4(const GLchar *name, const glm::mat4 &matrix, GLboolean useShader = false);
 
-
 private:
 	GLuint ProgramID;
 	GLuint MatrixID;

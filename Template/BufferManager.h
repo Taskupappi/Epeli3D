@@ -11,18 +11,14 @@
 #include <glm\glm.hpp>
 #include "ShaderManager.h"
 
-
-
 //includes for the testBench
 #include "amp.h"
 #include "TempShader.h"
 #include "Camera.h"
 
-
 //
 #include <ctime>
 #include <glm\gtc\type_ptr.hpp>
-
 
 //TO DO:
 //Make shaders work properly with the buffer manager
@@ -81,17 +77,19 @@ public:
 	void testBuffer();
 	void initTest();
 	void testBox();
+	void testBoxUpdate();
 	Shader getShader();
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
+	float rotation = 0;
+	////
 
-	//cam
+	//Cam
 	Camera *cam;
 	GLuint matrixID;
 	glm::mat4 MVP;
-	//
-
+	////
 
 	//Buffer Data Vectors
 	std::vector<BufferVertex> vertexBuffer;
@@ -115,7 +113,8 @@ private:
 	GLuint shaderProgram;
 	float tempColor = 0;
 	Shader testShader;
-
+	bool rewind;
+	GLfloat angle;
 	//testbench values
 	int pos = 0;	
 };

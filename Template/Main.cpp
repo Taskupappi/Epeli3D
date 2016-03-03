@@ -11,7 +11,6 @@ BufferManager* buff = new BufferManager;
 GLfloat *arr = new GLfloat[9];
 GLuint *indices = new GLuint[3];
 GLuint *something = new GLuint;
-float rotation = 0;
 bool pressed = false;
 glm::vec2 mouseClickPos;
 std::string nam = "vertexbuffer";
@@ -48,70 +47,15 @@ void gameInit()
 	buff->getShader().Use();
 	buff->testBuffer();
 	
-	//buff->initTest();
-	//arr[0] = 1.0f;
-	//arr[1] = 2.0f;
-	//arr[3] = 1.0f;
-	//arr[4] = 0.2f;
-	//arr[5] = 1.0f;
-	//arr[6] = 0.4f;
-	//arr[7] = 1.0f;
-	//arr[8] = 1.0f;
-	//arr[9] = 0.0f;
 
-	//indices[0] = 1;
-	//indices[1] = 2;
-	//indices[2] = 3;
-
-	//*something = 3;
-	//
-	//buff->addVertexData(arr, 9);
-	//buff->addIndexData(indices, something);
 }
 //Game mainloop
 void gameLoop()
 {
-	buff->getShader().Use();
+	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	// Create transformations
-	glm::mat4 model;
-	glm::mat4 view;
-	glm::mat4 projection;
-
-	//Transform calculations
-	model = glm::rotate(model, (GLfloat)rotation /  10, glm::vec3(0.5f, 1.0f, 0.0f));
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));		
-	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
-
-	// Camera/View transformation
-	GLfloat radius = 10.0f;
-	GLfloat camX = sin(rotation / 4) * radius;
-	GLfloat camZ = cos(rotation / 4) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-	// Projection 
-	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
-
-	// Get uniform locations
-	GLint modelLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "model");
-	GLint viewLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "view");
-	GLint projLoc = glGetUniformLocation(buff->getShader().GetShaderProgram(), "projection");
-
-	// Pass uniform locations to the shaders
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
-
-	//temporary rotation for a demo cube
-	glPushMatrix();
-	glRotatef(0.0f, 0.0f, 1.0f, 0.0f);
-	glRotatef(0.0f, 0.0f, 1.0f, 1.0f);
-	rotation += 0.25f;
-	if (rotation > 360)
-		rotation = 0;
-
-	//buff->drawBuffer(buff->getBuffer(nam));
-
+	buff->testBoxUpdate();
 	buff->testBuffer();
 	glPopMatrix();
 	gCon->swap();
@@ -181,8 +125,6 @@ int main(int argc, char** argv)
 
 	return 0;
 }
-
-
 
 GLfloat* drawPoly(int sides, float radius, float scale, GLfloat rotation, GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat cx, GLfloat cy, GLfloat cz, GLfloat ca)
 {
@@ -280,4 +222,20 @@ GLfloat* drawPoly(int sides, float radius, float scale, GLfloat rotation, GLfloa
 	}
 
 	return data;
+}
+
+void initCamera()
+{
+	//glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	//glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	//glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+	//GLfloat yaw = -90.0f;	// Yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right (due to how Eular angles work) so we initially rotate a bit to the left.
+	//GLfloat pitch = 0.0f;
+	//GLfloat lastX = 800 / 2.0;
+	//GLfloat lastY = 600 / 2.0;
+	//GLfloat fov = 45.0f;
+
+	//Camera *cam = new Camera();
+	//cam->init(cameraPos, cameraFront, cameraUp, yaw, pitch, lastX, lastY, fov);
+
 }
