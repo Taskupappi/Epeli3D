@@ -3,17 +3,26 @@
 
 #include "Core.h"
 #include "ResourceBase.h"
+#include <string>
 
 class Text
 	: public ResourceBase
 {
 public:
-	Text(const std::string &resourcefilepath, std::string* txt) : ResourceBase(resourcefilepath, txt){};
+	Text(const std::string &resourcefilepath, SDL_RWops* txt) : ResourceBase(resourcefilepath, txt)
+	{
+	}
 	~Text(){};
 
 
 private:
-	std::string* txt = 0;
+	Text &operator=(Text &text)
+	{
+		if (this == &text)
+			return *this;
+	}
+
+	SDL_RWops* txt = 0;
 };
 
 #endif

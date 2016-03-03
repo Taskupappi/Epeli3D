@@ -11,28 +11,10 @@ class Texture
 public:
 	Texture(const std::string &resourcefilepath, SDL_Surface* image) : ResourceBase(resourcefilepath, image)
 	{
-		image = IMG_Load((resourcefilepath).c_str());
-		this->image = image;
-		// ???? mahtaakohan ees tehh‰ mith‰‰n ????
 	}
-	//Texture(SDL_Surface*){};
 	~Texture(){};
 
-	//Texture* loadFile(const std::string &resourcefilepath)
-	//{
-
-	//		/*if (!texturesInit)
-	//		{
-	//		textures.initResourceManager("TextureDataBase");
-	//		TextureMap.initMapper("TextureMap", &textures, true);
-	//		}*/
-	//		loadedResource = new Texture("Image", (IMG_Load((resourcefilepath).c_str())));
-	//		return loadedResource;
-	//
-	//}
-
 private:
-	//Texture(const Texture &texture) : ResourceBase(texture){ }
 
 	Texture &operator=(Texture &texture)
 	{
@@ -40,7 +22,6 @@ private:
 			return *this;
 	}
 
-	Texture* loadedResource;
 	SDL_Surface* image = 0;
 };
 

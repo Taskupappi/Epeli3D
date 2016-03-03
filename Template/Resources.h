@@ -7,6 +7,8 @@
 #include "Audio.h"
 #include "Text.h"
 #include <unordered_map>
+#include <iostream>
+#include <fstream>
 
 
 class Resources :
@@ -66,9 +68,6 @@ public:
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				tex->incReferences();
 				return tex;
-
-				//loadedResource = new Texture(FileName, (textureMap.getElement(FileName)).second);
-				//textureMap.addElement(FileName, resourcefilepath, loadedResource);
 			}
 		}
 
@@ -81,13 +80,36 @@ public:
 				audioMap.initMapper("AudioMap", &audioM, true);
 				audioInit = true;
 			}
-			sound = Mix_LoadMUS((resourcefilepath).c_str());
-			if (!sound)
-				printf_s("Mix_LoadMus: %s\n", Mix_GetError);
 
-			loadedResource = new Audio(resourcefilepath, sound);
+			if (audioMap.getElement(FileName))
+				isLoaded = true;
+			else if (!audioMap.getElement(FileName))
+				isLoaded = false;
 
-			audioMap.addElement(loadedResource->getResourceFileName(), resourcefilepath, loadedResource);
+			// if file has not been loaded, load it
+			if (!isLoaded)
+			{
+				sound = Mix_LoadMUS((resourcefilepath).c_str());
+				if (!sound)
+					printf_s("Mix_LoadMus: %s\n", Mix_GetError);
+
+				loadedResource = new Audio(resourcefilepath, sound);
+
+				audioMap.addElement(FileName, resourcefilepath, loadedResource);
+			}
+			// if file has already been loaded, skip loading
+			else if (isLoaded)
+			{
+				T * audio = (T*)audioMap.getElement(FileName);
+				printf_s("File %s already loaded\n", FileName.c_str());
+				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
+				audio->incReferences();
+				return audio;
+			}
+
+
+
+			
 		}
 
 		// Init STRING manager and map, load file to map
@@ -100,9 +122,44 @@ public:
 				txtInit = true;
 			}
 
-			//loadedResource = new Text(resourcefilepath, txt.assign((std::istreambuf_iterator< char >(resourcefilepath).c_str()), std::istreambuf_iterator<char>()));
+			if (txtMap.getElement(FileName))
+				isLoaded = true;
+			else if (!txtMap.getElement(FileName))
+				isLoaded = false;
 
-			//txtMap.addElement(loadedResource->getResourceFileName(), resourcefilepath, loadedResource);
+			// if file has not been loaded, load it
+			if (!isLoaded)
+			{
+				SDL_RWops *txt = SDL_RWFromFile(resourcefilepath.c_str(), "r");
+				if (txt == NULL) {
+					fprintf(stderr, "Couldn't open %s\n", FileName.c_str());
+				}
+
+
+			/*	std::ifstream txtFile(resourcefilepath.c_str(), std::ios::binary | std::ios::ate);
+				std::ifstream::pos_type fileSize = txtFile.tellg();
+				txtFile.seekg(0, std::ios::beg);
+
+				std::vector<char> bytes(fileSize);
+				txtFile.read(&bytes[0], fileSize);
+
+				std::string string(&bytes[0], fileSize);
+				std::cout << "" << string << std::endl;*/
+
+				loadedResource = new Text(resourcefilepath, txt);
+
+
+				txtMap.addElement(FileName, resourcefilepath, loadedResource);
+			}
+			// if file has already been loaded, skip loading
+			else if (isLoaded)
+			{
+				T * text = (T*)txtMap.getElement(FileName);
+				printf_s("File %s already loaded\n", FileName.c_str());
+				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
+				text->incReferences();
+				return text;
+			}
 		}
 
 		//// Shader
@@ -111,7 +168,7 @@ public:
 		//
 
 
-		return (T*)loadedResource;
+		//return (T*)loadedResource;
 
 		// find "." in string
 		/*std::string extension = "";
@@ -210,7 +267,7 @@ private:
 	ResourceManager<ResourceBase>audioM;
 	ResourceMap<ResourceBase>audioMap;
 
-	std::string txt;		// for shaders/text files
+	SDL_RWops *txt = NULL;		// for shaders/text files
 	ResourceManager<ResourceBase>txtM;
 	ResourceMap<ResourceBase>txtMap;
 
