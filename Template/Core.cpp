@@ -78,11 +78,11 @@ void Engine::Init()
 	}
 	
 	Resources *res = new Resources("Resource", 0);
+
 	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-
-	std::string * string = res->loadFile<std::string>("../data/Resource/Shaders/FragmentShaderTest.glfs");
+	Text * txt = res->loadFile<Text>("../data/Resource/Shaders/FragmentShaderTest.glfs");
 
 	//mymap1.getElement("JPEG_Image");
 

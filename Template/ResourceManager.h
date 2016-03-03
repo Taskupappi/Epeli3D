@@ -83,7 +83,7 @@ public:
 			((ResourceBase*)(*it).second)->decReferences();
 
 			//if item had 0 references, meaning
-			//the item isn't more used,
+			//the item isn't used anymore,
 			//delete from main database
 			if (((ResourceBase*)(*it).second)->getReferenceCount() == 0)
 			{
@@ -167,6 +167,7 @@ private:
 //	void loadFont(const std::string fileName);
 //	void loadSound(const std::string fileName);
 //
+
 //private:
 //	SDL_Surface *image;
 //	Mix_Music *audio;

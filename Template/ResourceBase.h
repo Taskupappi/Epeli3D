@@ -8,7 +8,7 @@ class ResourceBase
 {
 	template < class T > friend class ResourceManager;
 	template < class T > friend class ResourceMap;
-
+	friend class Resources;
 public:
 	ResourceBase(const std::string& resourcefilepath, void *args) : resourcefilepath(resourcefilepath)
 	{

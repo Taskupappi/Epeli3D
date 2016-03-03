@@ -41,7 +41,7 @@ public:
 
 		if (it != Map.end())
 		{
-			printf_s("Increasing reference count for file: %s\n", (*it).first.c_str());
+			printf_s("Increasing reference count for file: %s\n\n", (*it).first.c_str());
 			(*it).second->incReferences();
 		}
 
@@ -55,7 +55,7 @@ public:
 				//increase references, this sets the references count to 1
 				printf_s("First reference of file: %s\n", resourcename.c_str());
 
-				printf_s("Adding element: %s\n", resourcename.c_str());
+				printf_s("Adding element: %s\n\n", resourcename.c_str());
 
 				//T* resource = ResourceManager->Load(filename, args);
 				// allocate new resource using the raii paradigm
@@ -200,7 +200,7 @@ public:
 			return it->second;
 		}
 		// if we get here, node couldn't be found
-		printf_s("Error: %s : couldn't find %s\n", Name.c_str(), resourcename.c_str());
+		printf_s("Error: couldn't find %s\n\n", resourcename.c_str());
 
 		// this point is never reached in case of failure
 
@@ -229,7 +229,7 @@ public:
 		else if (!duplicates)
 			printf_s("%s: Duplicates disallowed\n", name.c_str());
 
-		printf_s("Resource map '%s' initialised succesfully!\n", name.c_str());
+		printf_s("Resource map '%s' initialised succesfully!\n\n", name.c_str());
 	}
 
 private:

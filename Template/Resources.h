@@ -5,6 +5,7 @@
 #include "Core.h"
 #include "Texture.h"
 #include "Audio.h"
+#include "Text.h"
 #include <unordered_map>
 
 
@@ -22,26 +23,53 @@ public:
 	template <class T>
 	T* loadFile(const std::string &resourcefilepath)
 	{
-		//T * loadedResource = nullptr;
+		// T * loadedResource = nullptr;
 		ResourceBase * loadedResource = NULL;
+		bool isLoaded = NULL;
+
+		size_t pos = resourcefilepath.find_last_of("/");
+		if (pos != std::string::npos)
+			FileName = resourcefilepath.substr(pos + 1);
+
 		// Init TEXTURE manager and map, load file to map
 		if (typeid(T).hash_code() == typeid(Texture).hash_code())
 		{
 			if (!texturesInit)
 			{
-				texM.initResourceManager("TextureDataBase");
-				txtMap.initMapper("TextureMap", &texM, true);
+				textureM.initResourceManager("TextureDataBase");
+				textureMap.initMapper("TextureMap", &textureM, true);
 				texturesInit = true;
 			}
-			image = IMG_Load((resourcefilepath).c_str());
+			// check if file has already been loaded
+			if (textureMap.getElement(FileName))
+				isLoaded = true;
+			else if (!textureMap.getElement(FileName))
+				isLoaded = false;
 
-			if (!image)
-				printf_s("Texture ei toimi\n");
+			// if file has not been loaded, load it
+			if (!isLoaded)
+			{
+				image = IMG_Load((resourcefilepath).c_str());
 
-			loadedResource = new Texture(resourcefilepath, image);
+				if (!image)
+					printf("IMG_Load: %s\n", IMG_GetError());
 
-			txtMap.addElement(loadedResource->getResourceFileName(), resourcefilepath, loadedResource);
+				loadedResource = new Texture(resourcefilepath, image);
 
+				textureMap.addElement(FileName, resourcefilepath, loadedResource);
+			}
+			// if file has already been loaded, skip loading
+			else if (isLoaded)
+			{
+				T * tex = (T*)textureMap.getElement(FileName);
+				printf_s("File %s already loaded\n", FileName.c_str());
+				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
+				tex->incReferences();
+				return tex;
+
+				//loadedResource = new Texture(FileName, (textureMap.getElement(FileName)).second);
+				//textureMap.addElement(FileName, resourcefilepath, loadedResource);
+			}
 		}
 
 		// Init AUDIO manager and map, load file to map
@@ -55,7 +83,7 @@ public:
 			}
 			sound = Mix_LoadMUS((resourcefilepath).c_str());
 			if (!sound)
-				printf_s("Audio ei toimi\n");
+				printf_s("Mix_LoadMus: %s\n", Mix_GetError);
 
 			loadedResource = new Audio(resourcefilepath, sound);
 
@@ -63,20 +91,19 @@ public:
 		}
 
 		// Init STRING manager and map, load file to map
-		//else if (typeid(T).hash_code() == typeid(std::string).hash_code())
-		//{
-		//	if (!stringInit)
-		//	{
-		//		stringM.initResourceManager("StringDataBase");
-		//		stringMap.initMapper("StringMap", &stringM, true);
-		//		stringInit = true;
-		//	}
-		//	/*sound = Mix_LoadMUS((resourcefilepath).c_str());
-		//	if (!sound)
-		//		printf_s("Audio ei toimi\n");
+		else if (typeid(T).hash_code() == typeid(Text).hash_code())
+		{
+			if (!txtInit)
+			{
+				txtM.initResourceManager("TextDataBase");
+				txtMap.initMapper("TextMap", &txtM, true);
+				txtInit = true;
+			}
 
-		//	loadedResource = new Audio(resourcefilepath, sound);*/
-		//}
+			//loadedResource = new Text(resourcefilepath, txt.assign((std::istreambuf_iterator< char >(resourcefilepath).c_str()), std::istreambuf_iterator<char>()));
+
+			//txtMap.addElement(loadedResource->getResourceFileName(), resourcefilepath, loadedResource);
+		}
 
 		//// Shader
 		//else if (typeid(T).hash_code() == typeid(std::string).hash_code())
@@ -161,6 +188,7 @@ public:
 	//}
 
 private:
+
 	////////////////////////////////////
 	// copy constructor and overload operator are private
 	// no copies allowed since classes are referenced
@@ -175,25 +203,27 @@ private:
 	}
 	SDL_Surface *image = NULL;		// for all textures
 
-	ResourceManager<ResourceBase>texM;
-	ResourceMap<ResourceBase>txtMap;
+	ResourceManager<ResourceBase>textureM;
+	ResourceMap<ResourceBase>textureMap;
 
 	Mix_Music *sound = NULL;		// for all audio files
 	ResourceManager<ResourceBase>audioM;
 	ResourceMap<ResourceBase>audioMap;
 
-	//	std::string string = NULL;		// for shaders
-	//ResourceManager<std::string>stringM;
-	//ResourceMap<std::string>stringMap;
+	std::string txt;		// for shaders/text files
+	ResourceManager<ResourceBase>txtM;
+	ResourceMap<ResourceBase>txtMap;
 
 
 	/*ResourceManager<Audio> audioM;
 	ResourceMap<Audio>audioMap;*/
 	bool texturesInit = false;
 	bool audioInit = false;
-	bool stringInit = false;
+	bool txtInit = false;
 
-	ResourceManager<std::string> txt;
+	std::string FileName;
+
+
 };
 
 #endif
