@@ -149,16 +149,6 @@ public:
 					fprintf(stderr, "Error: couldn't open %s\n\n", FileName.c_str());
 				}
 
-			/*	std::ifstream txtFile(resourcefilepath.c_str(), std::ios::binary | std::ios::ate);
-				std::ifstream::pos_type fileSize = txtFile.tellg();
-				txtFile.seekg(0, std::ios::beg);
-
-				std::vector<char> bytes(fileSize);
-				txtFile.read(&bytes[0], fileSize);
-
-				std::string string(&bytes[0], fileSize);
-				std::cout << "" << string << std::endl;*/
-
 				loadedResource = new Text(resourcefilepath, txt);
 				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
