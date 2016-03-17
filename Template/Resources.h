@@ -55,10 +55,21 @@ public:
 
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
+								
+				glGenTextures(1, &texture);
+				glBindTexture(GL_TEXTURE_2D, texture);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-				loadedResource = new Texture(resourcefilepath, image);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 124, 124, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
+				glBindTexture(GL_TEXTURE_2D, texture);
 
+				loadedResource = new Texture(texture);
+				
 				textureMap.addElement(FileName, resourcefilepath, loadedResource);
+
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -105,11 +116,7 @@ public:
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				audio->incReferences();
 				return audio;
-			}
-
-
-
-			
+			}									
 		}
 
 		// Init STRING manager and map, load file to map
@@ -130,11 +137,17 @@ public:
 			// if file has not been loaded, load it
 			if (!isLoaded)
 			{
-				SDL_RWops *txt = SDL_RWFromFile(resourcefilepath.c_str(), "r");
-				if (txt == NULL) {
-					fprintf(stderr, "Couldn't open %s\n", FileName.c_str());
+				SDL_RWops *txt = SDL_RWFromFile(resourcefilepath.c_str(), "r"); // rb = read only
+				if (txt != NULL)
+				{
+					char content[310000];
+					if (txt->read(txt, content, sizeof(content), 1) > 0)
+						printf_s("%s", content);
+					txt->close(txt);
 				}
-
+				if (txt == NULL) {
+					fprintf(stderr, "Error: couldn't open %s\n\n", FileName.c_str());
+				}
 
 			/*	std::ifstream txtFile(resourcefilepath.c_str(), std::ios::binary | std::ios::ate);
 				std::ifstream::pos_type fileSize = txtFile.tellg();
@@ -147,8 +160,7 @@ public:
 				std::cout << "" << string << std::endl;*/
 
 				loadedResource = new Text(resourcefilepath, txt);
-
-
+				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 			}
 			// if file has already been loaded, skip loading
@@ -161,15 +173,7 @@ public:
 				return text;
 			}
 		}
-
-		//// Shader
-		//else if (typeid(T).hash_code() == typeid(std::string).hash_code())
-		//	loadedResource = txt.Load(ShaderString.assign((std::istreambuf_iterator< char >(resourcefilepath).c_str()), std::istreambuf_iterator<char>());
-		//
-
-
-		//return (T*)loadedResource;
-
+				
 		// find "." in string
 		/*std::string extension = "";
 		size_t pos = resourcefilepath.find_last_of(".");*/
@@ -208,42 +212,6 @@ public:
 		//else
 		//	printf_s("Could not determine file extension\n");
 	}
-	// esim sprite luokkaan SDL_Surface*Sprite::Load(filepath)
-	//Texture* loadImage(const std::string &resourcefilepath)
-	//{
-	//	image = IMG_Load((resourcefilepath).c_str());
-	//	
-	//	if (!image)
-	//	{
-	//		printf_s("IMG_Load: %s\n", IMG_GetError());
-	//		//handle error
-	//	}
-	//	else
-	//		printf_s("Image file %s loaded succesfully!\n", resourcefilepath.c_str());
-
-	//	texture = new Texture(image);
-
-	//	return texture;
-	//}
-
-	//Audio loadSound(const std::string &resourcefilepath)
-	//{
-	//	// WAV-filuja ei voi ladata Mix_LoadMUS:n avulla, tarvitsee Mix_LoadWAV koska syyt
-	//	// ehkä mixerin vaihto openAL ????
-	//			
-	//	sound = Mix_LoadMUS((resourcefilepath).c_str());
-	//	
-	//	if (!sound)
-	//	{
-	//		printf("Mix_LoadMUS: %s\n", Mix_GetError());
-	//	}
-	//	else
-	//		printf_s("Audio file %s loaded succesfully!\n", resourcefilepath.c_str());
-	//	audio = new Audio(sound);
-
-	//	return *audio;
-	//}
-
 private:
 
 	////////////////////////////////////
@@ -259,6 +227,7 @@ private:
 		return *this;
 	}
 	SDL_Surface *image = NULL;		// for all textures
+	GLuint texture = NULL;
 
 	ResourceManager<ResourceBase>textureM;
 	ResourceMap<ResourceBase>textureMap;

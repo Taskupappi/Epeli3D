@@ -9,8 +9,9 @@ class Texture
 	: public ResourceBase
 {
 public:
-	Texture(const std::string &resourcefilepath, SDL_Surface* image) : ResourceBase(resourcefilepath, image)
+	Texture(GLuint image) : ResourceBase(resourcefilepath, nullptr)
 	{
+		_image = image;
 	}
 	~Texture(){};
 
@@ -22,7 +23,7 @@ private:
 			return *this;
 	}
 
-	SDL_Surface* image = 0;
+	GLuint _image;
 };
 
 #endif
