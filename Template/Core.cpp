@@ -7,6 +7,9 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//_resMngr = new ResourceManager();
 	_scnMngr = new SceneManager();
 	_input = new Input();
+	_bufMngr = new BufferManager();
+	_sprtMngr = new graphics::SpriteManager(_bufMngr);
+
 	//TO DO:
 	//
 	//shaderManager = nullptr;
@@ -105,7 +108,13 @@ void Engine::Uninit()
 	//SDL Uninit
 	atexit(SDL_Quit);
 }
-
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex)
+{
+	graphics::Sprite * sprt = nullptr;
+	//TODO: uncomment once textures are done
+	//sprt = _sprtMngr->createSprite(glm::vec3(position.x, position.y, z), size, glm::vec2(size.x / 2, size.y / 2), tex, 1, 1);
+	return sprt;
+}
 void Engine::processInput()
 {
 	//SDL Input handler here

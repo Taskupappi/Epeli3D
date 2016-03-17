@@ -36,6 +36,8 @@ void SpriteManager::drawSprites()
 	{
 		// TODO: needs to bind texture here
 		//it->first->bind();
+		//Should check for changes before batching
+		batchSprites(&it->second);
 		for(sIt = it->second.begin(); sIt != it->second.end(); sIt++)
 		{
 			sprt = *sIt;
@@ -72,7 +74,19 @@ void SpriteManager::drawSprites()
 		//it->first->unbind();
 	}
 }
+void SpriteManager::batchSprites(std::vector<Sprite*> *toBatch)
+{
+	auto sortSprt = [](Sprite * s1, Sprite * s2)
+	{
+		if(s1->getPosition().z >= s2->getPosition().z)
+			return true;
+		return false;
+	};
 
+	std::sort(toBatch->begin(), toBatch->end(), sortSprt);
+
+	return;
+}
 SpriteManager::~SpriteManager()
 {
 	std::vector<Sprite*> *sprts;

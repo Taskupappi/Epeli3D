@@ -23,6 +23,7 @@ void extern userUnInit();
 #include <freetype-2.6.1/include/ft2build.h>
 //#include FT_FREETYPE_H
 #include "SceneManager.h"
+#include "SpriteManager.h"
 #include "ResourceManager.h"
 #include "ResourceMap.h"
 #include "ResourceBase.h"
@@ -30,11 +31,13 @@ void extern userUnInit();
 #include "Input.h"
 #include "Texture.h"
 #include "Audio.h"
+
 //Assimp
 #include <assimp/Importer.hpp>
 
 namespace core
 {
+	//class SpriteManager;
 	class Engine
 	{
 	public:
@@ -45,12 +48,13 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
+		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex);
 		Scene * createScene()
 		{
 			return nullptr;
 			//return _scnMngr->createScene(); 
 		}
-		//Needs to read managers from scene and set them as current
+		//TODO: Needs to read managers from scene and set them as current
 		bool useScene(Scene * sc){ return true; }
 		core::Input * getInput(){ return _input; }
 	protected:
@@ -59,16 +63,15 @@ namespace core
 
 		//TO DO:
 		//textureManager = nullptr;
-		//sceneManager = nullptr;
 		//shaderManager = nullptr;
-		//spriteeManager = nullptr;
 		//audioManager = nullptr;
 		//3DobjectManager = nullptr;
-		//bufferManager = nullptr;
-	private:
 		//ResourceManager *_resMngr;
-		core::Input * _input;
+		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
+		graphics::SpriteManager * _sprtMngr;
+	private:
+		core::Input * _input;
 		bool _mainInit; //Has main initialization been done
 		bool _exit; //Has exit been called
 		static Engine *_instance;
