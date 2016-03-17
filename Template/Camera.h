@@ -4,6 +4,9 @@
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm\gtc\type_ptr.hpp>
+#include "TempShader.h"
+#include <glm\gtx\transform.hpp>
 
 enum Camera_Movement{
 	FORWARD,
@@ -23,30 +26,50 @@ class Camera
 {
 public:
 	Camera();
+	Camera(glm::vec3 position);
 	Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch);
-
 	Camera(GLfloat posX, GLfloat posY, GLfloat posZ,
 		GLfloat upX, GLfloat upY, GLfloat upZ,
 		GLfloat yaw, GLfloat pitch);
-	
+
 	~Camera();
 
-	void init();
-	void setPosition(glm::vec3 pos);
-	void setScale(GLfloat Scale);
-	void setRotation(GLfloat angle);
-	void setSize(glm::vec2 size);
 	glm::mat4 getViewMatrix();
+	void setView(const glm::mat4 &v);
+	void setView(glm::vec3 pos, glm::vec3 camDir, glm::vec3 camUp);
+
+	void setPosition(glm::vec3 position);
+	void rotate(GLfloat rotation, glm::vec3 axises);
+
+	void update(float deltaTime);
+	void setShader(Shader *shader);
+	void setProjection(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far);
+
+	glm::mat4 getModel();
+	glm::mat4 getView();
+	glm::mat4 getProjection();
+
+	glm::vec3 getPosition();
+	glm::vec3 getUp();
+
+	//void init();
+	void mouseUpdate(const glm::vec2& newMousePosition);
+
+	//void setPosition(glm::vec3 pos);
+	//void setScale(GLfloat Scale);
+	//void setRotation(GLfloat angle);
+	//void setSize(glm::vec2 size);
+
 
 private:
 	//
 	void updateCameraVectors();
 	//camera attributes
-	glm::vec3 pos,
-		right, 
+	glm::vec3 position,
+		right,
 		up,
-		front,
-		targetNeg,
+		viewDirection,
+		lookAt,
 		direction,
 		worldUp;
 
@@ -59,10 +82,18 @@ private:
 	GLfloat mouseSensitivity;
 	GLfloat Zoom;
 
+	glm::mat4 view, projection, model;
+
+	Shader *shader;
 	//GLfloat x, y, z;
 	//glm::mat4 modelLoc, viewLoc, projLoc; //, MVP;
 	//GLfloat rotation, scale;
 	//glm::vec2 size;
+
+	//mouse
+
+	glm::vec2 oldMousePosition;
+	//
 };
 
 #endif

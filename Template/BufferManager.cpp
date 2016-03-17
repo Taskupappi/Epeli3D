@@ -11,9 +11,14 @@ BufferManager::BufferManager()
 	testShader.Init();
 
 	//camera
-	cam  = new Camera();
-	cam->init();
-	
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+
+	cam = new Camera();
+
+	cam->setShader(&testShader);
+	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
 	//
@@ -29,14 +34,14 @@ BufferManager::~BufferManager()
 	if (indexbufID != 0)
 	{
 		glDeleteBuffers(1, &indexbufID);
-	}	
+	}
 }
 
 void BufferManager::bindBuffer()
 {
 	if (vertexBuffer.size() != 0)
 	{
-	
+
 	}
 }
 
@@ -53,29 +58,29 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 	vertexBuffer.insert(vertexBuffer.end(), vertices.begin(), vertices.end());
 	indicesBuffer.insert(indicesBuffer.end(), indices.begin(), indices.end());
 	this->textures.insert(this->textures.end(), textures.begin(), textures.end()); //not needed here
-	
+
 	int blockn = 1;
 	for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
 	{
-	//	std::cout << "//////////////Vertex block of data: "<< blockn <<  " //////////// \n";
-	//	std::cout << "\n Position \n";
-	//	std::cout << (itvertexBuffer)->Position.x << "\n";
-	//	std::cout << (itvertexBuffer)->Position.y << "\n";
-	//	std::cout << (itvertexBuffer)->Position.z << "\n";
-	//	std::cout << "\n Normal \n";
-	//	std::cout << (itvertexBuffer)->Normal.x << "\n";
-	//	std::cout << (itvertexBuffer)->Normal.y << "\n";
-	//	std::cout << (itvertexBuffer)->Normal.z << "\n";
-	//	std::cout << "\n TexCoords \n";
-	//	std::cout << (itvertexBuffer)->TexCoords.x << "\n";
-	//	std::cout << (itvertexBuffer)->TexCoords.y << "\n";
+		//	std::cout << "//////////////Vertex block of data: "<< blockn <<  " //////////// \n";
+		//	std::cout << "\n Position \n";
+		//	std::cout << (itvertexBuffer)->Position.x << "\n";
+		//	std::cout << (itvertexBuffer)->Position.y << "\n";
+		//	std::cout << (itvertexBuffer)->Position.z << "\n";
+		//	std::cout << "\n Normal \n";
+		//	std::cout << (itvertexBuffer)->Normal.x << "\n";
+		//	std::cout << (itvertexBuffer)->Normal.y << "\n";
+		//	std::cout << (itvertexBuffer)->Normal.z << "\n";
+		//	std::cout << "\n TexCoords \n";
+		//	std::cout << (itvertexBuffer)->TexCoords.x << "\n";
+		//	std::cout << (itvertexBuffer)->TexCoords.y << "\n";
 		//std::cout << "\n Color \n";
 		//std::cout << (itvertexBuffer)->Color.x << "\n";
 		//std::cout << (itvertexBuffer)->Color.y << "\n";
 		//std::cout << (itvertexBuffer)->Color.z << "\n";
 		//std::cout << "\n";
-	//	blockn++;
-	//	std::cout << "///////////////////////////////////// \n";
+		//	blockn++;
+		//	std::cout << "///////////////////////////////////// \n";
 	}
 	//
 	//std::cout << "////////////////IndexBuffer///////////////// \n";
@@ -157,11 +162,11 @@ void BufferManager::drawBuffer(Shader shader)
 	//}
 	//
 	//glUniform1f(glGetUniformLocation(shader.GetShaderProgram(), "material.shininess"), 16.0f);
-	
+
 	//draw mesh
 	glBindVertexArray(this->VertexArrayObject);
 	glDrawElements(GL_TRIANGLES, this->indicesBuffer.size(), GL_UNSIGNED_INT, 0);
-		
+
 	glBindVertexArray(0);
 
 	for (GLuint i = 0; i < this->textures.size(); i++)
@@ -179,49 +184,62 @@ void BufferManager::initTest()
 void BufferManager::testBox()
 {
 
-		GLfloat vertices[] = {
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
-			0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+	GLfloat vertices[] = {
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
+		0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
-			-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
 
-			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
 
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
+		0.5f, -0.5f, -0.5f, 1.0f, 1.0f,
+		0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+		0.5f, -0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f, -0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, -0.5f, -0.5f, 0.0f, 1.0f,
 
-			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
-			0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
-			-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
-			-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
-		};
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f,
+		0.5f, 0.5f, -0.5f, 1.0f, 1.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		0.5f, 0.5f, 0.5f, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0.5f, 0.0f, 0.0f,
+		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
+	};
+
+	glm::vec3 cubePositions[] = {
+		glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3(2.0f, 5.0f, -15.0f),
+		glm::vec3(-1.5f, -2.2f, -2.5f),
+		glm::vec3(-3.8f, -2.0f, -12.3f),
+		glm::vec3(2.4f, -0.4f, -3.5f),
+		glm::vec3(-1.7f, 3.0f, -7.5f),
+		glm::vec3(1.3f, -2.0f, -2.5f),
+		glm::vec3(1.5f, 2.0f, -2.5f),
+		glm::vec3(1.5f, 0.2f, -1.5f),
+		glm::vec3(-1.3f, 1.0f, -1.5f)
+	};
 
 	std::vector<BufferVertex> v;
 	std::vector<BufferTexture> tex1;
@@ -230,10 +248,10 @@ void BufferManager::testBox()
 	{
 		BufferVertex BV1;
 
-		BV1.Position = glm::vec3(vertices[i*5], vertices[i*5 + 1], vertices[i*5 + 2]);
+		BV1.Position = glm::vec3(vertices[i * 5], vertices[i * 5 + 1], vertices[i * 5 + 2]);
 		BV1.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		BV1.TexCoords = glm::vec2(vertices[i * 5 + 3], vertices[i * 5 + 4]);
-		
+
 		if (i < 36)
 			BV1.Color = glm::vec3(1.0f, 1.0f, 1.0f);
 		if (i < 30)
@@ -248,7 +266,7 @@ void BufferManager::testBox()
 			BV1.Color = glm::vec3(0.0f, 0.0f, 1.0f);
 
 		v.push_back(BV1);
-		
+
 		BufferTexture bt;
 		bt.id = 1;
 		bt.type = "texture_diffuse";
@@ -270,7 +288,7 @@ void BufferManager::testBox()
 	for (int i = 0; i < 10; i++)
 	{
 		vcopy.insert(vcopy.end(), v.begin(), v.end());
-		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());		
+		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());
 
 		for (int i = 0; i < 36; i++)
 			testIndices.push_back(i);
@@ -286,39 +304,42 @@ void BufferManager::testBox()
 
 void BufferManager::testBoxUpdate()
 {
-	glm::vec3 cubePositions[] = {
-		glm::vec3(0.0f, 0.0f, 0.0f)/*,
-		glm::vec3(2.0f, 5.0f, -15.0f),
-		glm::vec3(-1.5f, -2.2f, -2.5f),
-		glm::vec3(-3.8f, -2.0f, -12.3f),
-		glm::vec3(2.4f, -0.4f, -3.5f),
-		glm::vec3(-1.7f, 3.0f, -7.5f),
-		glm::vec3(1.3f, -2.0f, -2.5f),
-		glm::vec3(1.5f, 2.0f, -2.5f),
-		glm::vec3(1.5f, 0.2f, -1.5f),
-		glm::vec3(-1.3f, 1.0f, -1.5f)*/
-	};	
-
 	getShader().Use();
 
 	// Create transformations
-	glm::mat4 model;
+	/*glm::mat4 model;
 	glm::mat4 view;
-	glm::mat4 projection;
+	glm::mat4 projection;*/
 
-	//Transform calculations
-	model = glm::rotate(model, (GLfloat)rotation / 10, glm::vec3(0.5f, 1.0f, 0.0f));
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+	////Transform calculations
+	//cam->rotate(180, glm::vec3(0.5f, 1.0f, 0.0f));
+	//cam->rotate((GLfloat)angle / 3.14/180, glm::vec3(0.5f, 1.0f, 0.0f));
+	//model = glm::rotate(model, (GLfloat)rotation / 10, glm::vec3(0.5f, 1.0f, 0.0f));
+
+	//cam->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
+	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	//cam->setProjection(45, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+	//projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+
+	rotation += 0.02;
+	if (rotation > 360)
+	{
+		rotation = 0;
+	}
 
 	// Camera/View transformation
 	GLfloat radius = 2.0f;
-	GLfloat camX = sin(rotation / 4) * radius;
+	GLfloat camX = sin(rotation / 4) * radius;	
+	GLfloat camY = tan(rotation / 4) * radius;
 	GLfloat camZ = cos(rotation / 4) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	/*view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
 
 	// Projection 
-	projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+	cam->setProjection(90.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+	/*projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);*/
 
 	// Get uniform locations
 	GLint modelLoc = glGetUniformLocation(getShader().GetShaderProgram(), "model");
@@ -326,9 +347,9 @@ void BufferManager::testBoxUpdate()
 	GLint projLoc = glGetUniformLocation(getShader().GetShaderProgram(), "projection");
 
 	// Pass uniform locations to the shaders
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projection));
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(cam->getView()));
+	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
 
 	////temporary rotation for a demo cube
 	//glPushMatrix();
@@ -339,26 +360,27 @@ void BufferManager::testBoxUpdate()
 	//	rotation = 0;
 
 	//buff->drawBuffer(buff->getBuffer(nam));
-	
 
-	model = glm::translate(model, cubePositions[0]);
-	if (!rewind)
-	{
-		angle += 0.02f;
-		if (angle = 720)
-			rewind = true;
-	}
-	else if (rewind)
-	{
-		angle -= 0.02f;
-		if (angle < 0)
-			rewind = false;
-	}
+	//cam->setPosition(cubePositions[0]);
+	//cam->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
+	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
 
+	model = glm::translate(model, glm::vec3(.0f, .0f, .0f));
+	//model = glm::rotate(model, angle, glm::vec3(1.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-	model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));	
+	angle = 0.02f;
+	//for (int i = 0; i < 10; i++)
+	//{		
+	//	model = glm::translate(model, cubePositions[i]);
+	//	//model = glm::rotate(model, angle, glm::vec3(1.0f, 1.0f, 0.0f));
+	//	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+	//}	
+}
 
+Camera* BufferManager::getCamera()
+{
+	return cam;
 }
 
 Shader BufferManager::getShader()

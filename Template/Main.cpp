@@ -81,6 +81,9 @@ void gameLoop()
 			pressed = true;
 			glm::vec2 movement = eng->getInput()->getMouseMovement();
 			SDL_Log("Mouse Moved: %f / %f", movement.x, movement.y);
+
+			//test for camera movement below
+			buff->getCamera()->mouseUpdate(movement);
 		}
 	}
 	else

@@ -63,7 +63,7 @@ public:
 	//called in the constructor
 	void initBuffers();
 	//temporary init for shaders
-	void initShaders();	
+	void initShaders();
 
 	//add data to the buffers in following format
 	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
@@ -71,7 +71,7 @@ public:
 	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
-	void drawBuffer(Shader shader);	
+	void drawBuffer(Shader shader);
 
 	//TestBench for the buffer
 	void testBuffer();
@@ -86,6 +86,7 @@ public:
 	////
 
 	//Cam
+	Camera* getCamera();
 	Camera *cam;
 	GLuint matrixID;
 	glm::mat4 MVP;
@@ -116,7 +117,7 @@ private:
 	bool rewind;
 	GLfloat angle;
 	//testbench values
-	int pos = 0;	
+	int pos = 0;
 };
 
 
