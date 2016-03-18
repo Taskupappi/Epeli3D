@@ -200,7 +200,7 @@ public:
 			return it->second;
 		}
 		// if we get here, node couldn't be found
-		printf_s("Error: couldn't find %s\n\n", resourcename.c_str());
+		printf_s("Couldn't find %s\n\n", resourcename.c_str());
 
 		// this point is never reached in case of failure
 

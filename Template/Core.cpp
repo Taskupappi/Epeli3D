@@ -85,7 +85,7 @@ void Engine::Init()
 	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = res->loadFile<Text>("../data/Resource/Shaders/FragmentShaderTest.glfs");
+	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	//mymap1.getElement("JPEG_Image");
 

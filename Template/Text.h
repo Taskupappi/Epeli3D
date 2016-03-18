@@ -9,8 +9,9 @@ class Text
 	: public ResourceBase
 {
 public:
-	Text(const std::string &resourcefilepath, SDL_RWops* txt) : ResourceBase(resourcefilepath, txt)
+	Text(const std::string &resourcefilepath, std::string txt) : ResourceBase(resourcefilepath, nullptr)
 	{
+		_txt = txt;
 	}
 	~Text(){};
 
@@ -22,7 +23,7 @@ private:
 			return *this;
 	}
 
-	SDL_RWops* txt = 0;
+	std::string _txt;
 };
 
 #endif

@@ -42,10 +42,10 @@ public:
 				textureMap.initMapper("TextureMap", &textureM, true);
 				texturesInit = true;
 			}
-			// check if file has already been loaded
+			printf_s("Checking if file has already been loaded\n");
 			if (textureMap.getElement(FileName))
 				isLoaded = true;
-			else if (!textureMap.getElement(FileName))
+			else
 				isLoaded = false;
 
 			// if file has not been loaded, load it
@@ -66,7 +66,7 @@ public:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 124, 124, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 				glBindTexture(GL_TEXTURE_2D, texture);
 
-				loadedResource = new Texture(texture);
+				loadedResource = new Texture(resourcefilepath, texture);
 				
 				textureMap.addElement(FileName, resourcefilepath, loadedResource);
 
@@ -91,10 +91,10 @@ public:
 				audioMap.initMapper("AudioMap", &audioM, true);
 				audioInit = true;
 			}
-
+			printf_s("Checking if file has already been loaded\n");
 			if (audioMap.getElement(FileName))
 				isLoaded = true;
-			else if (!audioMap.getElement(FileName))
+			else
 				isLoaded = false;
 
 			// if file has not been loaded, load it
@@ -128,28 +128,35 @@ public:
 				txtMap.initMapper("TextMap", &txtM, true);
 				txtInit = true;
 			}
-
+			printf_s("Checking if file has already been loaded\n");
 			if (txtMap.getElement(FileName))
 				isLoaded = true;
-			else if (!txtMap.getElement(FileName))
+			else
 				isLoaded = false;
 
 			// if file has not been loaded, load it
 			if (!isLoaded)
 			{
-				SDL_RWops *txt = SDL_RWFromFile(resourcefilepath.c_str(), "r"); // rb = read only
+				txt = SDL_RWFromFile(resourcefilepath.c_str(), "r"); // read only
+				fileSize = SDL_RWsize(txt);
+
 				if (txt != NULL)
 				{
-					char content[310000];
+					char content[300];
 					if (txt->read(txt, content, sizeof(content), 1) > 0)
 						printf_s("%s", content);
 					txt->close(txt);
+
+					txtcontent = std::string(content);
+					std::cout << txtcontent;
+
+					content[0];
 				}
 				if (txt == NULL) {
 					fprintf(stderr, "Error: couldn't open %s\n\n", FileName.c_str());
 				}
 
-				loadedResource = new Text(resourcefilepath, txt);
+				loadedResource = new Text(resourcefilepath, txtcontent);
 				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 			}
@@ -163,44 +170,6 @@ public:
 				return text;
 			}
 		}
-				
-		// find "." in string
-		/*std::string extension = "";
-		size_t pos = resourcefilepath.find_last_of(".");*/
-
-		//// check if position is valid
-		//if (pos != std::string::npos)
-		//	extension = resourcefilepath.substr(pos + 1);
-		//
-		////compare to IMAGE extensions
-		//if (extension == "png" | extension == "jpeg" | extension == "webp")
-		//	loadImage(resourcefilepath);
-
-		//compare to AUDIO extensions
-		//else if (extension == "wav" | extension == "mp3" | extension == "flac" | extension == "ogg")
-		//	loadSound(resourcefilepath);
-
-		////compare to SHADER extensions
-		//else if (extension == "glfs" | extension == "glvs")
-		//	loadShader(resourcefilepath);
-		//
-		////compare to FONT extensions
-		//else if (extension == "ttf")
-		//	loadFont(resourcefilepath);
-		//
-		////compare to AUDIO extensions
-		//else if (extension == "glfs" | extension == "glvs")
-		//	loadShader(resourcefilepath);
-		//
-		////compare to 3D MODEL extensions
-		//else if (extension == "obj" | extension == "blend" | extension == "dae" 
-		//	| extension == "xml" | extension == "3ds" | extension == "ase" 
-		//	| extension == "smd" | extension == "vta" | extension == "x" 
-		//	| extension == "dxf")
-		//	load3DModel(resourcefilepath);
-
-		//else
-		//	printf_s("Could not determine file extension\n");
 	}
 private:
 
@@ -227,19 +196,16 @@ private:
 	ResourceMap<ResourceBase>audioMap;
 
 	SDL_RWops *txt = NULL;		// for shaders/text files
+	std::string txtcontent;
 	ResourceManager<ResourceBase>txtM;
 	ResourceMap<ResourceBase>txtMap;
 
-
-	/*ResourceManager<Audio> audioM;
-	ResourceMap<Audio>audioMap;*/
 	bool texturesInit = false;
 	bool audioInit = false;
 	bool txtInit = false;
 
 	std::string FileName;
-
-
+	int fileSize = 0;
 };
 
 #endif

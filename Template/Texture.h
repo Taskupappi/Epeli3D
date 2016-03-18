@@ -9,7 +9,7 @@ class Texture
 	: public ResourceBase
 {
 public:
-	Texture(GLuint image) : ResourceBase(resourcefilepath, nullptr)
+	Texture(const std::string &resourcefilepath, GLuint image) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_image = image;
 	}
