@@ -25,13 +25,13 @@ public:
 		this->loadModel(path);
 	}
 	
-	void Draw(Shader shader)
-	{
-		for (GLuint i = 0; i < this->meshes.size(); i++)
-		{
-			this->meshes[i].Draw(shader);
-		}
-	}
+	//void Draw(Shader shader)
+	//{
+	//	for (GLuint i = 0; i < this->meshes.size(); i++)
+	//	{
+	//		this->meshes[i].Draw(shader);
+	//	}
+	//}
 
 private:
 	std::vector<Mesh> meshes;
@@ -41,7 +41,7 @@ private:
 	{
 		//Read file via assimp
 		Assimp::Importer importer;
-		const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+		aiScene const* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
 		//Check for errors
 		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) //if is not zero
 		{
@@ -79,7 +79,7 @@ private:
 		//Data to fill
 		std::vector<Vertex> vertices;
 		std::vector<GLuint> indices;
-		std::vector<Texture> textures;
+		//std::vector<Texture> textures;
 
 		//Walk through each of the mesh's vertices
 		for (GLuint i = 0; i < mesh->mNumVertices; i++)
@@ -141,7 +141,7 @@ private:
 		//}
 
 		// Return a mesh object created from the extracted mesh data
-		return Mesh(vertices, indices, textures);
+		return Mesh(vertices, indices/*, textures*/);
 	
 	}
 
