@@ -5,7 +5,7 @@
 #include <ctime>
 #include <vector>
 #include <iostream>
-
+#include <array>
 #include <sstream>  
 
 #include <glm\glm.hpp>
@@ -101,7 +101,7 @@ protected:
 
 private:
 
-	GLuint VertexArrayObject, VertexBufferObject, ElementBufferObject;
+	GLuint VertexArrayObject, VertexBufferObject, ElementBufferObject, NormalBufferObject;
 
 	//delete these?
 	GLuint vertexbufId;

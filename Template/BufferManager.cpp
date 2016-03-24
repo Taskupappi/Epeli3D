@@ -51,6 +51,7 @@ void BufferManager::initBuffers()
 	glGenVertexArrays(1, &this->VertexArrayObject);
 	glGenBuffers(1, &VertexBufferObject);
 	glGenBuffers(1, &ElementBufferObject);
+	glGenBuffers(1, &NormalBufferObject);
 }
 
 void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
@@ -59,9 +60,9 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 	indicesBuffer.insert(indicesBuffer.end(), indices.begin(), indices.end());
 	this->textures.insert(this->textures.end(), textures.begin(), textures.end()); //not needed here
 
-	int blockn = 1;
-	for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
-	{
+	//int blockn = 1;
+	//for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
+	//{
 		//	std::cout << "//////////////Vertex block of data: "<< blockn <<  " //////////// \n";
 		//	std::cout << "\n Position \n";
 		//	std::cout << (itvertexBuffer)->Position.x << "\n";
@@ -81,7 +82,7 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 		//std::cout << "\n";
 		//	blockn++;
 		//	std::cout << "///////////////////////////////////// \n";
-	}
+	//}
 	//
 	//std::cout << "////////////////IndexBuffer///////////////// \n";
 	//for (auto itindexBuffer = indicesBuffer.begin(); itindexBuffer != indicesBuffer.end(); itindexBuffer++)
@@ -95,7 +96,6 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 
 void BufferManager::addBuffer()
 {
-
 	glBindVertexArray(this->VertexArrayObject);
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
@@ -244,7 +244,7 @@ void BufferManager::testBox()
 	std::vector<BufferVertex> v;
 	std::vector<BufferTexture> tex1;
 
-	for (int i = 0; i <= 36; i++)
+	for (int i = 0; i < 36; i++)
 	{
 		BufferVertex BV1;
 
@@ -265,6 +265,8 @@ void BufferManager::testBox()
 		if (i < 6)
 			BV1.Color = glm::vec3(0.0f, 0.0f, 1.0f);
 
+		//BV1.Color = glm::vec3(0.0f, 0.0f, 0.0f);
+
 		v.push_back(BV1);
 
 		BufferTexture bt;
@@ -274,31 +276,81 @@ void BufferManager::testBox()
 		tex1.push_back(bt);
 	}
 
-	GLuint indicesArray1[36] = {};
-
 	std::vector<GLuint> testIndices;
+	//GLushort cubeIndices[] = {
+	//	// front
+	//	0, 1, 2,
+	//	2, 3, 0,
+	//	// top
+	//	1, 5, 6,
+	//	6, 2, 1,
+	//	// back
+	//	7, 6, 5,
+	//	5, 4, 7,
+	//	// bottom
+	//	4, 0, 3,
+	//	3, 7, 4,
+	//	// left
+	//	4, 5, 1,
+	//	1, 0, 4,
+	//	// right
+	//	3, 2, 6,
+	//	6, 7, 3,
+	//};
+	//
+	//for (int i = 0; i < 36; i++)
+	//{
+	//	testIndices.push_back(cubeIndices[i]);
+	//}
 
+	
 	for (int i = 0; i < 36; i++)
 		testIndices.push_back(i);
 
 	//multiple cubes
+	int numCubes = 4;
 	std::vector<BufferVertex> vcopy;
 	std::vector<BufferTexture> tex1copy;
+	std::vector<GLuint> testIndicescopy;
 
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		vcopy.insert(vcopy.end(), v.begin(), v.end());
 		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());
 
-		for (int i = 0; i < 36; i++)
-			testIndices.push_back(i);
+	
 	}
+
+
+	for (int i = 0; i < 72; i++)
+		testIndicescopy.push_back(i);
+
+	for (int i = 36; i < 72; i++)
+	{
+		vcopy[i].Position += 2;
+	}
+
 	////
 	//multiple cubes
-	addBufferData(vcopy, testIndices, tex1copy);
+	//addBufferData(vcopy, testIndicescopy, tex1copy);
 
 	//single cube
 	//addBufferData(v, testIndices, tex1);
+
+	//multiple cubes using single cube data
+
+	addBufferData(v, testIndices, tex1);
+
+	for (int i = 0; i < 36; i++)
+	{
+		v[i].Position += 1.5;
+		testIndices[i] += 36;
+		v[i].Color = glm::vec3(1.0f, 1.0f, 1.0f);
+	}
+
+
+	addBufferData(v, testIndices, tex1);
+
 
 }
 
@@ -330,9 +382,9 @@ void BufferManager::testBoxUpdate()
 
 	// Camera/View transformation
 	GLfloat radius = 2.0f;
-	GLfloat camX = sin(rotation / 4) * radius;	
-	GLfloat camY = tan(rotation / 4) * radius;
-	GLfloat camZ = cos(rotation / 4) * radius;
+	GLfloat camX = 2; // sin(rotation / 3) * radius;
+	GLfloat camY = 4; //cos(rotation / 8) * radius;
+	GLfloat camZ =  cos(rotation / 3) * radius;
 
 	cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	/*view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
@@ -342,6 +394,7 @@ void BufferManager::testBoxUpdate()
 	/*projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);*/
 
 	// Get uniform locations
+	/*Objects get these from a camera and send them to the shader instead of doing new ones*/
 	GLint modelLoc = glGetUniformLocation(getShader().GetShaderProgram(), "model");
 	GLint viewLoc = glGetUniformLocation(getShader().GetShaderProgram(), "view");
 	GLint projLoc = glGetUniformLocation(getShader().GetShaderProgram(), "projection");
@@ -366,10 +419,10 @@ void BufferManager::testBoxUpdate()
 	//glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
 
 	model = glm::translate(model, glm::vec3(.0f, .0f, .0f));
-	//model = glm::rotate(model, angle, glm::vec3(1.0f, 1.0f, 0.0f));
+	//model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
-	angle = 0.02f;
+	angle = 0.2f;
 	//for (int i = 0; i < 10; i++)
 	//{		
 	//	model = glm::translate(model, cubePositions[i]);

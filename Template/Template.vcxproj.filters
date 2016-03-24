@@ -117,4 +117,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\data\shaders\FragmentShaderTest.glfs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\shaders\VertexShaderTest.glvs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\shaders\FragmentShaderLightSource.glfs">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\data\shaders\VertexShaderLightSource.glvs">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

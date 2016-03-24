@@ -123,6 +123,12 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\data\shaders\FragmentShaderLightSource.glfs" />
+    <None Include="..\data\shaders\FragmentShaderTest.glfs" />
+    <None Include="..\data\shaders\VertexShaderLightSource.glvs" />
+    <None Include="..\data\shaders\VertexShaderTest.glvs" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
