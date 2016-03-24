@@ -142,15 +142,16 @@ public:
 
 				if (txt != NULL)
 				{
-					char content[300];
-					if (txt->read(txt, content, sizeof(content), 1) > 0)
-						printf_s("%s", content);
+					char *content = new char[fileSize];
+					content[fileSize] = '\0';
+
+					txt->read(txt, content, fileSize, 1);
 					txt->close(txt);
 
-					txtcontent = std::string(content);
-					std::cout << txtcontent;
+					txtcontent = content;
+					std::cout << txtcontent << std::endl << std::endl;
 
-					content[0];
+					content[1];
 				}
 				if (txt == NULL) {
 					fprintf(stderr, "Error: couldn't open %s\n\n", FileName.c_str());
