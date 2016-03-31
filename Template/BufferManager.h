@@ -20,6 +20,10 @@
 #include "TempShader.h"
 #include "Camera.h"
 
+////3d object loading
+#include "Object3D.h"
+
+#include <math.h>
 //
 
 
@@ -65,6 +69,7 @@ public:
 	void addVertexData(GLfloat *data, GLsizei size);
 	void addIndexData(GLuint *data, GLuint *size);
 
+
 	void bindBuffer();
 	void unbindBuffer();
 	std::vector<GLuint> getBuffer(std::string bufferName);
@@ -77,6 +82,7 @@ public:
 	//add data to the buffers in following format
 	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
 	void addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
+	void setBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
 	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
@@ -111,6 +117,12 @@ public:
 	std::vector<BufferVertex> vertexBuffer;
 	std::vector<GLuint> indicesBuffer;
 	std::vector<BufferTexture> textures;
+	/////
+
+
+	////3DModel loading
+	//Object3D *model;
+	/////
 
 protected:
 

@@ -10,7 +10,7 @@ BufferManager::BufferManager()
 	testShader.Init("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
 	testLampShader.Init("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
 	//camera
-	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -84,6 +84,52 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 		//std::cout << "\n";
 		//	blockn++;
 		//	std::cout << "///////////////////////////////////// \n";
+	//}
+	//
+	//std::cout << "////////////////IndexBuffer///////////////// \n";
+	//for (auto itindexBuffer = indicesBuffer.begin(); itindexBuffer != indicesBuffer.end(); itindexBuffer++)
+	//{
+	//	std::cout << *itindexBuffer << "\n";
+	//}
+	//std::cout << "///////////////////////////////////// \n";
+
+	this->addBuffer();
+}
+
+void BufferManager::setBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
+{
+	//should sort indices in some way
+	//will cause problems in the future otherwise
+	vertexBuffer.clear();
+	indicesBuffer.clear();
+	this->textures.clear();
+
+	vertexBuffer.insert(vertexBuffer.begin(), vertices.begin(), vertices.end());
+	indicesBuffer.insert(indicesBuffer.begin(), indices.begin(), indices.end());
+	this->textures.insert(this->textures.begin(), textures.begin(), textures.end()); //not needed here
+
+	//int blockn = 1;
+	//for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
+	//{
+	//	std::cout << "//////////////Vertex block of data: "<< blockn <<  " //////////// \n";
+	//	std::cout << "\n Position \n";
+	//	std::cout << (itvertexBuffer)->Position.x << "\n";
+	//	std::cout << (itvertexBuffer)->Position.y << "\n";
+	//	std::cout << (itvertexBuffer)->Position.z << "\n";
+	//	std::cout << "\n Normal \n";
+	//	std::cout << (itvertexBuffer)->Normal.x << "\n";
+	//	std::cout << (itvertexBuffer)->Normal.y << "\n";
+	//	std::cout << (itvertexBuffer)->Normal.z << "\n";
+	//	std::cout << "\n TexCoords \n";
+	//	std::cout << (itvertexBuffer)->TexCoords.x << "\n";
+	//	std::cout << (itvertexBuffer)->TexCoords.y << "\n";
+	//std::cout << "\n Color \n";
+	//std::cout << (itvertexBuffer)->Color.x << "\n";
+	//std::cout << (itvertexBuffer)->Color.y << "\n";
+	//std::cout << (itvertexBuffer)->Color.z << "\n";
+	//std::cout << "\n";
+	//	blockn++;
+	//	std::cout << "///////////////////////////////////// \n";
 	//}
 	//
 	//std::cout << "////////////////IndexBuffer///////////////// \n";
@@ -189,6 +235,22 @@ void BufferManager::initTest()
 
 void BufferManager::testBox()
 {
+	////Model loading
+	/*model = new Object3D("../data/Resource/Models/nanosuit2.3ds");
+	
+
+	std::vector<BufferVertex> v3D;
+	std::vector<GLuint> indices3D;
+
+	std::vector<Mesh>::iterator *it;
+
+	for (it = model->get3DMesh().begin; it != model->get3DMesh().end; it++)
+	{
+		v3D.push_back((*it)->vertices);
+		indices3D.push_back((*it)->indices);
+	}*/
+	/////
+
 	////first Cube
 	GLfloat vertices[] = {
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
@@ -315,7 +377,11 @@ void BufferManager::testBox()
 	for (int i = 0; i < 36; i++)
 		testIndices.push_back(i);
 
+	//v.push_back(BV1);
+	
 	addBufferData(v, testIndices, tex1);
+
+	//drawTestBuffer(TEST);
 	/////
 
 	////multiple cubes
@@ -324,18 +390,31 @@ void BufferManager::testBox()
 	std::vector<BufferTexture> tex1copy;
 	std::vector<GLuint> testIndicescopy;
 
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < numCubes; i++)
 	{
 		vcopy.insert(vcopy.end(), v.begin(), v.end());
 		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());	
-	}
+	}	
 	
-	for (int i = 0; i < 36; i++)
-		testIndicescopy.push_back(i + testIndices.size());
+	for (int i = 0; i < 36 * numCubes; i++)
+	{
+		if (testIndicescopy.size() < 36)
+			testIndicescopy.push_back(i + testIndices.size());
+		else if (testIndicescopy.size() < 72)
+			testIndicescopy.push_back(i + testIndices.size());
+		else if (testIndicescopy.size() < 108)
+			testIndicescopy.push_back(i + testIndices.size());
+		else if (testIndicescopy.size() < 144)
+			testIndicescopy.push_back(i + testIndices.size());
+		else
+		int y = 0;
+		/*else
+			testIndicescopy.push_back(i + testIndicescopy.size());*/
+	}
 
 	//for (int i = 36; i < 72; i++)
 	//	vcopy[i].Position += 2;
-
+	//
 	////
 	//multiple cubes
 	//addBufferData(vcopy, testIndicescopy, tex1copy);
@@ -343,18 +422,43 @@ void BufferManager::testBox()
 	//single cube
 	//addBufferData(v, testIndices, tex1);
 
-	for (int i = 0; i < 36; i++)
+	int multiplier = 0;
+	multiplier = 0;
+
+	for (int i = 0; i < 36 * numCubes; i++)
 	{
-		vcopy[i].Position += 2.0;
+		if (remainder(i, 36) == 0)
+			multiplier -= 2;			
+
+		vcopy[i].Position.x += multiplier;
+		//if (i < 36)
+		//vcopy[i].Position += multiplier;
+		//else if (i < 36 * 2)
+		//{
+		//	vcopy[i].Position.x += multiplier + 2;
+		//}
+		//else if (i < 36 * 3)
+		//{
+		//	vcopy[i].Position.x += multiplier + 4;
+		//}
+		//else if (i < 36 * 4)
+		//{
+		//	vcopy[i].Position.x += multiplier + 6;
+		//}		
+
 		//testIndicescopy[i] += 36;
 		vcopy[i].Color = glm::vec3(1.0f, 1.0f, 1.0f);
 	}
 
 	//temporary fix
 	//to fix a bug
+	//vcopy.push_back(BV1);
+	
 	vcopy.push_back(BV1);
 
 	addBufferData(vcopy, testIndicescopy, tex1);
+
+	drawTestBuffer(TEST);
 	////
 
 	//lighting
