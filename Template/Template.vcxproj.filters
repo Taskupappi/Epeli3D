@@ -13,6 +13,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Allun filut">
+      <UniqueIdentifier>{5b936936-b504-4601-a3bc-a44e5ff8c1c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allun filut\Headers">
+      <UniqueIdentifier>{4ccd6f7f-b689-4069-bcdd-c2fca733d8c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Allun filut\Source">
+      <UniqueIdentifier>{93149328-c6f0-4b5e-80ce-5078fa0e24ca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -56,6 +65,12 @@
     </ClCompile>
     <ClCompile Include="3dObjectManager.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GameShader.cpp">
+      <Filter>Allun filut\Source</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -130,6 +145,18 @@
     </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Allun filut\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameResourceManager.h">
+      <Filter>Allun filut\Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GameShader.h">
+      <Filter>Allun filut\Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

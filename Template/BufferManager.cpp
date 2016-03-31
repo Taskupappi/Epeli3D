@@ -9,6 +9,7 @@ BufferManager::BufferManager()
 	
 	testShader.Init("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
 	testLampShader.Init("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
+	
 	//camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);

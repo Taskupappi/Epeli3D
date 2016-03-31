@@ -92,6 +92,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="GameShader.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -112,6 +113,9 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameResourceManager.h" />
+    <ClInclude Include="GameShader.h" />
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Mesh.h" />
