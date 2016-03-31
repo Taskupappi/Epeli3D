@@ -72,6 +72,9 @@
     <ClCompile Include="GameShader.cpp">
       <Filter>Allun filut\Source</Filter>
     </ClCompile>
+    <ClCompile Include="GameResourceManager.cpp">
+      <Filter>Allun filut\Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.h">

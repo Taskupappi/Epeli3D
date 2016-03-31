@@ -92,6 +92,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="GameResourceManager.cpp" />
     <ClCompile Include="GameShader.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
