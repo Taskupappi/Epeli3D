@@ -1,5 +1,6 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef OBJECT3D_H
+#define OBJECT3D_H
+
 
 #include <string>
 #include <vector>
@@ -10,21 +11,54 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-//#include <SOIL.h>
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "Mesh.h"
 
-class Model
+struct Vertex
+{
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	//glm::vec2 TexCoords;
+};
+
+//struct Texture
+//{
+//	GLuint id;
+//	std::string type;
+//	aiString path;
+//};
+
+class Mesh
 {
 public:
-	Model(GLchar* path)
+	Mesh(std::vector<Vertex> vertices, std::vector<GLuint> indices)
+	{
+		this->vertices = vertices;
+		this->indices = indices;
+	}
+	~Mesh();
+
+	//Data parameters
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
+	//std::vector<Texture> textures;
+};
+
+
+
+
+
+class Object3D
+{
+public:
+	Object3D(GLchar* path)
 	{
 		this->loadModel(path);
 	}
-	
+
 	//void Draw(Shader shader)
 	//{
 	//	for (GLuint i = 0; i < this->meshes.size(); i++)
@@ -98,20 +132,20 @@ private:
 			vector.y = mesh->mNormals[i].y;
 			vector.z = mesh->mNormals[i].z;
 			vertex.Normal = vector;
-			//Texture Coordinates
-			if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
-			{
-				glm::vec2 vec;
-				//A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-				//use models where a vertex can have multiple texture coordinates so we always take the first set (0).
-				vec.x = mesh->mTextureCoords[0][i].x;
-				vec.y = mesh->mTextureCoords[0][i].y;
-				vertex.TexCoords = vec;
-			}
-			else
-			{
-				vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-			}
+			////Texture Coordinates
+			//if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
+			//{
+			//	glm::vec2 vec;
+			//	//A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+			//	//use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+			//	vec.x = mesh->mTextureCoords[0][i].x;
+			//	vec.y = mesh->mTextureCoords[0][i].y;
+			//	vertex.TexCoords = vec;
+			//}
+			//else
+			//{
+			//	vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+			//}
 			vertices.push_back(vertex);
 		}
 		//Now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.
@@ -146,7 +180,7 @@ private:
 
 		// Return a mesh object created from the extracted mesh data
 		return Mesh(vertices, indices/*, textures*/);
-	
+
 	}
 
 	//std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName)
@@ -182,5 +216,8 @@ private:
 //	glBindTexture(GL_TEXTURE_2D, textureID);
 //	
 //}
+
+
+
 
 #endif
