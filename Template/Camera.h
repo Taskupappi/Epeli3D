@@ -35,7 +35,7 @@ public:
 	~Camera();
 
 	glm::mat4 getViewMatrix();
-	void setView(const glm::mat4 &v);
+	void setView(const glm::mat3 &v);
 	void setView(glm::vec3 pos, glm::vec3 camDir, glm::vec3 camUp);
 
 	void setPosition(glm::vec3 position);

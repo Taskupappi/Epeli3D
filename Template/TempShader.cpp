@@ -9,7 +9,7 @@ Shader::~Shader()
 {
 }
 
-bool Shader::Init()
+bool Shader::Init(std::string vertexShaderName, std::string fragmentShaderName)
 {
 	glewInit();
 	////luodaan ohjelma
@@ -80,9 +80,12 @@ bool Shader::Init()
 	fShaderFile.exceptions(std::ifstream::badbit);
 	try
 	{
+		const char *vShader = vertexShaderName.c_str();
+		const char *fShader = fragmentShaderName.c_str();
 		// Open files
-		vShaderFile.open("../data/shaders/VertexShaderTest.glvs");
-		fShaderFile.open("../data/shaders/FragmentShaderTest.glfs");
+
+		vShaderFile.open(vShader);
+		fShaderFile.open(fShader);
 		std::stringstream vShaderStream, fShaderStream;
 		// Read file's buffer contents into streams
 		vShaderStream << vShaderFile.rdbuf();
@@ -182,6 +185,20 @@ GLuint Shader::LoadShaderFromFile(const std::string filepath, GLenum ShaderType)
 
 	return ShaderID;
 
+}
+
+GLint Shader::getUniformLocation(std::string uniformLocName)
+{
+	const char *c = uniformLocName.c_str();
+	GLint uniformLocation = glGetUniformLocation(GetShaderProgram(), c);
+	return uniformLocation;
+}
+
+void Shader::setUniform3f(std::string uniformLocName, glm::vec3 value)
+{
+	const char *c = uniformLocName.c_str();
+	GLint uniformLocation = glGetUniformLocation(GetShaderProgram(), c);
+	glUniform3f(uniformLocation, value.x, value.y, value.z);
 }
 
 void Shader::Use()

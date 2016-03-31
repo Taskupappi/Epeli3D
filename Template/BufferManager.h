@@ -8,8 +8,12 @@
 #include <array>
 #include <sstream>  
 
+#include <ctime>
+#include <glm\gtc\type_ptr.hpp>
+
 #include <glm\glm.hpp>
-#include "ShaderManager.h"
+//#include "ShaderManager.h"
+
 
 //includes for the testBench
 #include "amp.h"
@@ -17,8 +21,7 @@
 #include "Camera.h"
 
 //
-#include <ctime>
-#include <glm\gtc\type_ptr.hpp>
+
 
 //TO DO:
 //Make shaders work properly with the buffer manager
@@ -44,6 +47,12 @@ struct BufferTexture
 {
 	GLuint id;
 	std::string type;
+};
+
+enum SHADERSELECTOR
+{
+	TEST = 1,
+	LAMP = 2
 };
 
 class BufferManager
@@ -73,16 +82,22 @@ public:
 	//RenderBuffers
 	void drawBuffer(Shader shader);
 
+	//binds a new Vertex Array Object for use
+	void newVAO(const GLuint vao);
+
 	//TestBench for the buffer
-	void testBuffer();
+	void drawTestBuffer(int x);
 	void initTest();
 	void testBox();
 	void testBoxUpdate();
-	Shader getShader();
+	Shader getShader(int x);
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
 	float rotation = 0;
+
+
+
 	////
 
 	//Cam
@@ -114,6 +129,7 @@ private:
 	GLuint shaderProgram;
 	float tempColor = 0;
 	Shader testShader;
+	Shader testLampShader;
 	bool rewind;
 	GLfloat angle;
 	//testbench values

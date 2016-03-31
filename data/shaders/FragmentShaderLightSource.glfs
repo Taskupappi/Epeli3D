@@ -3,17 +3,17 @@
 in vec3 objectColor;
 in vec2 TexCoord;
 
-out vec4 color; // Output data
-//uniform vec4 ourColor;
+out vec4 color; 
 
-//uniform sampler2D myTextureSampler; // Texture data
-//uniform sampler2D myTextureSampler2;
+//uniform vec3 objectColor;
+uniform vec3 lightColor;
 
 void main()
 {
-	//float ambientStrength = 0.1f;
-	//vec3 ambient = ambientStrength * lightColor;
+    float ambientStrength = 0.1f;
+	vec3 MaterialAmbientColor = vec3(0.1f, 0.1f, 0.1f);
+    vec3 ambient = ambientStrength * lightColor * MaterialAmbientColor;
 
-	//vec3 result = ambient * objectColor;
-    color= vec4(objectColor, 1.0f);
+    vec3 result = ambient * objectColor;
+    color= vec4(objectColor, 1.0f); //(objectColor * lightColor, 1.0f);
 }

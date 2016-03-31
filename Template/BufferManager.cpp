@@ -2,14 +2,13 @@
 
 BufferManager::BufferManager()
 {
-	//initShaders();
-
 	initBuffers();
 
-	//Testbench stuff
+	////Testbench stuff
 	//tempShader init
-	testShader.Init();
-
+	
+	testShader.Init("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
+	testLampShader.Init("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
 	//camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -21,7 +20,7 @@ BufferManager::BufferManager()
 	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
-	//
+	////
 }
 
 BufferManager::~BufferManager()
@@ -56,6 +55,9 @@ void BufferManager::initBuffers()
 
 void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
 {
+	//should sort indices in some way
+	//will cause problems in the future otherwise
+
 	vertexBuffer.insert(vertexBuffer.end(), vertices.begin(), vertices.end());
 	indicesBuffer.insert(indicesBuffer.end(), indices.begin(), indices.end());
 	this->textures.insert(this->textures.end(), textures.begin(), textures.end()); //not needed here
@@ -127,10 +129,14 @@ void BufferManager::addBuffer()
 		(GLvoid*)offsetof(BufferVertex, Color));
 }
 
-void BufferManager::testBuffer()
+void BufferManager::drawTestBuffer(int x)
 {
 	//draw what is in the buffer
-	drawBuffer(testShader);
+
+	if (x == TEST)
+		drawBuffer(testShader);
+	else if (x == LAMP)
+		drawBuffer(testLampShader);
 }
 
 void BufferManager::drawBuffer(Shader shader)
@@ -183,7 +189,7 @@ void BufferManager::initTest()
 
 void BufferManager::testBox()
 {
-
+	////first Cube
 	GLfloat vertices[] = {
 		-0.5f, -0.5f, -0.5f, 0.0f, 0.0f,
 		0.5f, -0.5f, -0.5f, 1.0f, 0.0f,
@@ -244,9 +250,12 @@ void BufferManager::testBox()
 	std::vector<BufferVertex> v;
 	std::vector<BufferTexture> tex1;
 
+	//declare outside of the for loop to temporary fix a bug with the buffer
+	BufferVertex BV1;
+
 	for (int i = 0; i < 36; i++)
 	{
-		BufferVertex BV1;
+		//BufferVertex BV1; temorarily outside of the for loop
 
 		BV1.Position = glm::vec3(vertices[i * 5], vertices[i * 5 + 1], vertices[i * 5 + 2]);
 		BV1.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
@@ -302,75 +311,74 @@ void BufferManager::testBox()
 	//{
 	//	testIndices.push_back(cubeIndices[i]);
 	//}
-
-	
+		
 	for (int i = 0; i < 36; i++)
 		testIndices.push_back(i);
 
-	//multiple cubes
+	addBufferData(v, testIndices, tex1);
+	/////
+
+	////multiple cubes
 	int numCubes = 4;
 	std::vector<BufferVertex> vcopy;
 	std::vector<BufferTexture> tex1copy;
 	std::vector<GLuint> testIndicescopy;
 
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		vcopy.insert(vcopy.end(), v.begin(), v.end());
-		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());
-
+		tex1copy.insert(tex1copy.end(), tex1.begin(), tex1.end());	
+	}
 	
-	}
+	for (int i = 0; i < 36; i++)
+		testIndicescopy.push_back(i + testIndices.size());
 
-
-	for (int i = 0; i < 72; i++)
-		testIndicescopy.push_back(i);
-
-	for (int i = 36; i < 72; i++)
-	{
-		vcopy[i].Position += 2;
-	}
+	//for (int i = 36; i < 72; i++)
+	//	vcopy[i].Position += 2;
 
 	////
 	//multiple cubes
 	//addBufferData(vcopy, testIndicescopy, tex1copy);
-
+	//
 	//single cube
 	//addBufferData(v, testIndices, tex1);
 
-	//multiple cubes using single cube data
-
-	addBufferData(v, testIndices, tex1);
-
 	for (int i = 0; i < 36; i++)
 	{
-		v[i].Position += 1.5;
-		testIndices[i] += 36;
-		v[i].Color = glm::vec3(1.0f, 1.0f, 1.0f);
+		vcopy[i].Position += 2.0;
+		//testIndicescopy[i] += 36;
+		vcopy[i].Color = glm::vec3(1.0f, 1.0f, 1.0f);
 	}
 
+	//temporary fix
+	//to fix a bug
+	vcopy.push_back(BV1);
 
-	addBufferData(v, testIndices, tex1);
+	addBufferData(vcopy, testIndicescopy, tex1);
+	////
 
-
+	//lighting
+	//GLuint lighting;
+	//newVAO(lighting);
 }
 
 void BufferManager::testBoxUpdate()
 {
-	getShader().Use();
+	getShader(TEST).Use();
 
 	// Create transformations
 	/*glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;*/
-
+	//
 	////Transform calculations
 	//cam->rotate(180, glm::vec3(0.5f, 1.0f, 0.0f));
 	//cam->rotate((GLfloat)angle / 3.14/180, glm::vec3(0.5f, 1.0f, 0.0f));
 	//model = glm::rotate(model, (GLfloat)rotation / 10, glm::vec3(0.5f, 1.0f, 0.0f));
-
+	//
 	//cam->setPosition(glm::vec3(0.0f, 0.0f, 3.0f));
 	//view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
+	//
 	//cam->setProjection(45, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 	//projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 
@@ -395,14 +403,14 @@ void BufferManager::testBoxUpdate()
 
 	// Get uniform locations
 	/*Objects get these from a camera and send them to the shader instead of doing new ones*/
-	GLint modelLoc = glGetUniformLocation(getShader().GetShaderProgram(), "model");
-	GLint viewLoc = glGetUniformLocation(getShader().GetShaderProgram(), "view");
-	GLint projLoc = glGetUniformLocation(getShader().GetShaderProgram(), "projection");
+	GLint boxModelLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "model");
+	GLint boxViewLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "view");
+	GLint boxProjLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "projection");
 
 	// Pass uniform locations to the shaders
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
-	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(cam->getView()));
-	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
+	glUniformMatrix4fv(boxViewLoc, 1, GL_FALSE, glm::value_ptr(cam->getView()));
+	glUniformMatrix4fv(boxProjLoc, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
 
 	////temporary rotation for a demo cube
 	//glPushMatrix();
@@ -420,7 +428,7 @@ void BufferManager::testBoxUpdate()
 
 	model = glm::translate(model, glm::vec3(.0f, .0f, .0f));
 	//model = glm::rotate(model, angle, glm::vec3(1.0f, 0.0f, 0.0f));
-	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 	angle = 0.2f;
 	//for (int i = 0; i < 10; i++)
@@ -431,14 +439,25 @@ void BufferManager::testBoxUpdate()
 	//}	
 }
 
+void BufferManager::newVAO(const GLuint vao)
+{
+	VertexArrayObject = vao;
+	glGenVertexArrays(1, &VertexArrayObject);
+	addBuffer();
+	//glBindVertexArray(VertexArrayObject);
+}
+
 Camera* BufferManager::getCamera()
 {
 	return cam;
 }
 
-Shader BufferManager::getShader()
+Shader BufferManager::getShader(int x)
 {
-	return testShader;
+	if (x == TEST)
+		return testShader;
+	else if (x == LAMP)
+		return testLampShader;	
 }
 
 void BufferManager::initShaders()

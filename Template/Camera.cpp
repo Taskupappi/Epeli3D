@@ -80,7 +80,7 @@ void Camera::setShader(Shader *shader)
 	this->shader = shader;
 }
 
-void Camera::setView(const glm::mat4 &v)
+void Camera::setView(const glm::mat3 &v)
 {
 	glm::vec3 xAxis = glm::vec3(v[0][0], v[0][1], v[0][2]);
 	glm::vec3 yAxis = glm::vec3(v[1][0], v[1][1], v[1][2]);
