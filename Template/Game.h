@@ -25,7 +25,7 @@
 #include "Camera.h"
 
 
-enum GateState{
+enum GameState{
 	GAMEACTIVE,
 	GAMEMENU,
 	GAMEWIN
@@ -44,7 +44,7 @@ public:
 	void render();
 
 private:
-	//GameState State;
+	GameState State;
 	GLboolean keys[1024];
 	GLuint Width, Height;
 

@@ -22,6 +22,9 @@
     <Filter Include="Allun filut\Source">
       <UniqueIdentifier>{93149328-c6f0-4b5e-80ce-5078fa0e24ca}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Allun filut\Obj Files">
+      <UniqueIdentifier>{de1d8b08-e12f-4aad-81e4-ab1a813390d6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -73,6 +76,12 @@
       <Filter>Allun filut\Source</Filter>
     </ClCompile>
     <ClCompile Include="GameResourceManager.cpp">
+      <Filter>Allun filut\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTextures2D.cpp">
+      <Filter>Allun filut\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
       <Filter>Allun filut\Source</Filter>
     </ClCompile>
   </ItemGroup>
@@ -161,6 +170,9 @@
     <ClInclude Include="GameShader.h">
       <Filter>Allun filut\Headers</Filter>
     </ClInclude>
+    <ClInclude Include="GameTexture2D.h">
+      <Filter>Allun filut\Headers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\data\shaders\FragmentShaderTest.glfs">
@@ -175,5 +187,19 @@
     <None Include="..\data\shaders\VertexShaderLightSource.glvs">
       <Filter>Resource Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="..\3rdparty\include\SOIL\SOIL.obj">
+      <Filter>Allun filut\Obj Files</Filter>
+    </Object>
+    <Object Include="..\3rdparty\include\SOIL\stb_image_aug.obj">
+      <Filter>Allun filut\Obj Files</Filter>
+    </Object>
+    <Object Include="..\3rdparty\include\SOIL\image_DXT.obj">
+      <Filter>Allun filut\Obj Files</Filter>
+    </Object>
+    <Object Include="..\3rdparty\include\SOIL\image_helper.obj">
+      <Filter>Allun filut\Obj Files</Filter>
+    </Object>
   </ItemGroup>
 </Project>
