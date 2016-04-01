@@ -8,8 +8,9 @@ class Audio
 	: public ResourceBase
 {
 public:
-	Audio(const std::string &resourcefilepath, Mix_Music* sound) : ResourceBase(resourcefilepath, nullptr)
+	Audio(Mix_Music* sound) : ResourceBase(resourcefilepath, nullptr)
 	{
+		_sound = sound;
 	}
 	~Audio(){};
 
@@ -21,7 +22,7 @@ private:
 			return *this;
 	}
 
-	Mix_Music* sound = 0;
+	Mix_Music* _sound;
 };
 
 #endif

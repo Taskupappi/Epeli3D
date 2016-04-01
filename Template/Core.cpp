@@ -81,11 +81,16 @@ void Engine::Init()
 	}
 	
 	Resources *res = new Resources("Resource", 0);
-
+	// TODO: TextureManager
 	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderLightSource.glfs");
+	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+
+	//Mix_PlayMusic(audio, 1);
 
 	//mymap1.getElement("JPEG_Image");
 

@@ -66,10 +66,9 @@ public:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 124, 124, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
 				glBindTexture(GL_TEXTURE_2D, texture);
 
-				loadedResource = new Texture(resourcefilepath, texture);
+				loadedResource = new Texture(texture);
 				
 				textureMap.addElement(FileName, resourcefilepath, loadedResource);
-
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -104,8 +103,8 @@ public:
 				if (!sound)
 					printf_s("Mix_LoadMus: %s\n", Mix_GetError);
 
-				loadedResource = new Audio(resourcefilepath, sound);
-
+				loadedResource = new Audio(sound);
+				
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
 			}
 			// if file has already been loaded, skip loading
