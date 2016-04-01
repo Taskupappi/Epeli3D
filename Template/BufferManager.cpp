@@ -21,7 +21,6 @@ BufferManager::BufferManager()
 
 	angle = 0;
 
-
 	//model loading
 	//model3D = new Object3D("../data/Resource/Models/nanosuit2.obj");
 	////
@@ -104,13 +103,33 @@ void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLui
 {
 	//should sort indices in some way
 	//will cause problems in the future otherwise
-	vertexBuffer.clear();
-	indicesBuffer.clear();
-	this->textures.clear();
+	std::vector<Vertex> vt{};
+	std::vector<GLuint> it{};
+	std::vector<BufferTexture> bt{};
+
+	vertexBuffer.swap(vt);
+	indicesBuffer.swap(it);
+	this->textures.swap(bt);
+
+	//vertexBuffer.clear();
+	//indicesBuffer.clear();
+	//this->textures.clear();
 
 	vertexBuffer.insert(vertexBuffer.begin(), vertices.begin(), vertices.end());
 	indicesBuffer.insert(indicesBuffer.begin(), indices.begin(), indices.end());
 	this->textures.insert(this->textures.begin(), textures.begin(), textures.end()); //not needed here
+
+
+	//temporarily fix - TAKE CARE OF THIS PLEASE!
+	Vertex BV1;
+	BV1.Color = glm::vec3(.0f, .0f, .0f);
+	BV1.Normal = glm::vec3(.0f, .0f, .0f);
+	BV1.Position = glm::vec3(.0f, .0f, .0f);
+	BV1.TexCoords = glm::vec2(.0f, .0f);
+	
+	vertexBuffer.push_back(BV1);
+	////
+
 
 	//int blockn = 1;
 	//for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
@@ -350,15 +369,15 @@ void BufferManager::testBox()
 
 		if (i < 36)
 			BV1.Color = glm::vec3(1.0f, 1.0f, 1.0f);
-		else if (i < 30)
+		if (i < 30)
 			BV1.Color = glm::vec3(1.0f, 1.0f, 0.0f);
-		else if(i < 24)
+		if(i < 24)
 			BV1.Color = glm::vec3(1.0f, 0.0f, 1.0f);
-		else if (i < 18)
+		if (i < 18)
 			BV1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
-		else if (i < 12)
+		if (i < 12)
 			BV1.Color = glm::vec3(0.0f, 1.0f, 0.0f);
-		else if (i < 6)
+		if (i < 6)
 			BV1.Color = glm::vec3(0.0f, 0.0f, 1.0f);
 
 		//BV1.Color = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -406,7 +425,7 @@ void BufferManager::testBox()
 	
 	addBufferData(v, testIndices, tex1);
 
-	//drawTestBuffer(TEST);
+	drawTestBuffer(TEST);
 	/////
 
 	////multiple cubes
@@ -479,9 +498,9 @@ void BufferManager::testBox()
 	//to fix a bug
 	//vcopy.push_back(BV1);
 	
-	vcopy.push_back(BV1);
+	//vcopy.push_back(BV1);
 
-	addBufferData(vcopy, testIndicescopy, tex1);
+	setBufferData(vcopy, testIndicescopy, tex1);
 
 	drawTestBuffer(TEST);
 	////
