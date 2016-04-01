@@ -34,7 +34,7 @@ public:
 			FileName = resourcefilepath.substr(pos + 1);
 
 		// Init TEXTURE manager and map, load file to map
-		if (typeid(T).hash_code() == typeid(Texture).hash_code())
+		if (typeid(T).hash_code() == typeid(SDL_Surface).hash_code())
 		{
 			if (!texturesInit)
 			{
@@ -55,17 +55,8 @@ public:
 
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
-								
-				glGenTextures(1, &texture);
-				glBindTexture(GL_TEXTURE_2D, texture);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 124, 124, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-				glBindTexture(GL_TEXTURE_2D, texture);
-
+						
+				return image;
 				loadedResource = new Texture(texture);
 				
 				textureMap.addElement(FileName, resourcefilepath, loadedResource);
@@ -147,7 +138,7 @@ public:
 					txt->read(txt, content, fileSize, 1);
 					txt->close(txt);
 
-					txtcontent = content;
+					//txtcontent = content;
 					std::cout << txtcontent << std::endl << std::endl;
 
 					content[1];
@@ -156,7 +147,7 @@ public:
 					fprintf(stderr, "Error: couldn't open %s\n\n", FileName.c_str());
 				}
 
-				loadedResource = new Text(resourcefilepath, txtcontent);
+				loadedResource = new Text(txtcontent);
 				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 			}

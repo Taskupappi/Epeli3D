@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "TextureManager.h"
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;
@@ -81,8 +82,13 @@ void Engine::Init()
 	}
 	
 	Resources *res = new Resources("Resource", 0);
-	// TODO: TextureManager
-	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+
+	TextureManager texM;
+	Texture *tex;
+	// TODO: fix this
+	tex = new Texture(texM.createTexture("asd"));
+
+	//Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");

@@ -9,7 +9,7 @@ class Text
 	: public ResourceBase
 {
 public:
-	Text(const std::string &resourcefilepath, std::string txt) : ResourceBase(resourcefilepath, nullptr)
+	Text(std::string txt) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_txt = txt;
 	}

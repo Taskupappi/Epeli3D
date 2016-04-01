@@ -9,11 +9,13 @@ class Texture
 	: public ResourceBase
 {
 public:
-	Texture(GLuint image) : ResourceBase(resourcefilepath, nullptr)
+	Texture(GLuint _texture) : ResourceBase(resourcefilepath, nullptr)
 	{
-		_image = image;
+		_texture = NULL;
 	}
 	~Texture(){};
+
+	GLuint _texture;
 
 private:
 
@@ -23,7 +25,6 @@ private:
 			return *this;
 	}
 
-	GLuint _image;
 };
 
 #endif
