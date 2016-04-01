@@ -16,13 +16,14 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Vertex.h"
 
-struct Vertex
-{
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	//glm::vec2 TexCoords;
-};
+//struct Vertex
+//{
+//	glm::vec3 Position;
+//	glm::vec3 Normal;
+//	//glm::vec2 TexCoords;
+//};
 
 //struct Texture
 //{
@@ -30,6 +31,8 @@ struct Vertex
 //	std::string type;
 //	aiString path;
 //};
+
+
 
 class Mesh
 {
@@ -57,6 +60,11 @@ public:
 	Object3D(GLchar* path)
 	{
 		this->loadModel(path);
+	}
+
+	std::vector<Mesh> getMeshVec()
+	{
+		return meshes;
 	}
 
 	//void Draw(Shader shader)

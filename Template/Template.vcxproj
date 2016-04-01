@@ -129,6 +129,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\data\shaders\FragmentShaderLightSource.glfs" />

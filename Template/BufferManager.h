@@ -13,7 +13,7 @@
 
 #include <glm\glm.hpp>
 //#include "ShaderManager.h"
-
+#include "Vertex.h"
 
 //includes for the testBench
 #include "amp.h"
@@ -38,14 +38,6 @@ GLfloat position [x, y, z]
 GLfloats color [r, g, b, a]
 GLfloats texture coords [x, y]
 */
-
-struct BufferVertex
-{
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoords;
-	glm::vec3 Color;
-};
 
 struct BufferTexture
 {
@@ -81,8 +73,8 @@ public:
 
 	//add data to the buffers in following format
 	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
-	void addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
-	void setBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
+	void addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
+	void setBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
 	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
@@ -114,14 +106,14 @@ public:
 	////
 
 	//Buffer Data Vectors
-	std::vector<BufferVertex> vertexBuffer;
+	std::vector<Vertex> vertexBuffer;
 	std::vector<GLuint> indicesBuffer;
 	std::vector<BufferTexture> textures;
 	/////
 
 
 	////3DModel loading
-	//Object3D *model;
+	//Object3D *model3D;
 	/////
 
 protected:
@@ -130,6 +122,9 @@ private:
 
 	GLuint VertexArrayObject, VertexBufferObject, ElementBufferObject, NormalBufferObject;
 
+
+	//Struct 
+	struct Vertex vertex;
 	//delete these?
 	GLuint vertexbufId;
 	GLuint indexbufID;

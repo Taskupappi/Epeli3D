@@ -20,6 +20,10 @@ BufferManager::BufferManager()
 	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
+
+
+	//model loading
+	//model3D = new Object3D("../data/Resource/Models/nanosuit2.obj");
 	////
 }
 
@@ -53,10 +57,10 @@ void BufferManager::initBuffers()
 	glGenBuffers(1, &NormalBufferObject);
 }
 
-void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
+void BufferManager::addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
 {
 	//should sort indices in some way
-	//will cause problems in the future otherwise
+	//might cause problems in the future otherwise
 
 	vertexBuffer.insert(vertexBuffer.end(), vertices.begin(), vertices.end());
 	indicesBuffer.insert(indicesBuffer.end(), indices.begin(), indices.end());
@@ -96,7 +100,7 @@ void BufferManager::addBufferData(std::vector<BufferVertex> vertices, std::vecto
 	this->addBuffer();
 }
 
-void BufferManager::setBufferData(std::vector<BufferVertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
+void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures)
 {
 	//should sort indices in some way
 	//will cause problems in the future otherwise
@@ -147,7 +151,7 @@ void BufferManager::addBuffer()
 	glBindVertexArray(this->VertexArrayObject);
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(BufferVertex),
+	glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(Vertex),
 		&this->vertexBuffer[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ElementBufferObject);
@@ -156,23 +160,23 @@ void BufferManager::addBuffer()
 
 	//Vertex Positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(GLvoid*)0);
 
 	//Vertex Normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
-		(GLvoid*)offsetof(BufferVertex, Normal));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)offsetof(Vertex, Normal));
 
 	//Vertex Texture Coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
-		(GLvoid*)offsetof(BufferVertex, TexCoords));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)offsetof(Vertex, TexCoords));
 
 	//Vertex Color
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(BufferVertex),
-		(GLvoid*)offsetof(BufferVertex, Color));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)offsetof(Vertex, Color));
 }
 
 void BufferManager::drawTestBuffer(int x)
@@ -233,23 +237,43 @@ void BufferManager::initTest()
 	testBox();
 }
 
+
 void BufferManager::testBox()
 {
 	////Model loading
-	/*model = new Object3D("../data/Resource/Models/nanosuit2.3ds");
+	//model = new Object3D("../data/Resource/Models/nanosuit2.3ds");
 	
 
-	std::vector<BufferVertex> v3D;
+	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
 
-	std::vector<Mesh>::iterator *it;
+	//for (auto it : model->getMeshVec().begin)
+	//{
+	//
+	//}
 
-	for (it = model->get3DMesh().begin; it != model->get3DMesh().end; it++)
+	int meshCounter = 0;
+	int vertexCounter = 0;
+	std::vector<Mesh>::iterator *MeshIt;
+	std::vector<Vertex>::iterator *VertexIt;
+/*
+	for (MeshIt = model->getMeshVec().begin; MeshIt != model->getMeshVec().end; MeshIt++)
 	{
-		v3D.push_back((*it)->vertices);
-		indices3D.push_back((*it)->indices);
+		for (VertexIt = &(*MeshIt)->vertices.begin(); VertexIt != &(*MeshIt)->vertices.end(); VertexIt++)
+		{
+			v3D.push_back((*MeshIt)->vertices[meshCounter]);
+			if ((*MeshIt)->indices[meshCounter] != NULL);
+			indices3D.push_back((*MeshIt)->indices[meshCounter]);
+			meshCounter++;
+		}
+		meshCounter = 0;		
 	}*/
+
+	//model = new Object3D("../data/Resource/Models/nanosuit2.3ds");
+	
+
 	/////
+
 
 	////first Cube
 	GLfloat vertices[] = {
@@ -309,11 +333,11 @@ void BufferManager::testBox()
 		glm::vec3(-1.3f, 1.0f, -1.5f)
 	};
 
-	std::vector<BufferVertex> v;
+	std::vector<Vertex> v;
 	std::vector<BufferTexture> tex1;
 
 	//declare outside of the for loop to temporary fix a bug with the buffer
-	BufferVertex BV1;
+	Vertex BV1;
 
 	for (int i = 0; i < 36; i++)
 	{
@@ -323,17 +347,18 @@ void BufferManager::testBox()
 		BV1.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
 		BV1.TexCoords = glm::vec2(vertices[i * 5 + 3], vertices[i * 5 + 4]);
 
+
 		if (i < 36)
 			BV1.Color = glm::vec3(1.0f, 1.0f, 1.0f);
-		if (i < 30)
+		else if (i < 30)
 			BV1.Color = glm::vec3(1.0f, 1.0f, 0.0f);
-		if (i < 24)
+		else if(i < 24)
 			BV1.Color = glm::vec3(1.0f, 0.0f, 1.0f);
-		if (i < 18)
+		else if (i < 18)
 			BV1.Color = glm::vec3(1.0f, 0.0f, 0.0f);
-		if (i < 12)
+		else if (i < 12)
 			BV1.Color = glm::vec3(0.0f, 1.0f, 0.0f);
-		if (i < 6)
+		else if (i < 6)
 			BV1.Color = glm::vec3(0.0f, 0.0f, 1.0f);
 
 		//BV1.Color = glm::vec3(0.0f, 0.0f, 0.0f);
@@ -386,7 +411,7 @@ void BufferManager::testBox()
 
 	////multiple cubes
 	int numCubes = 4;
-	std::vector<BufferVertex> vcopy;
+	std::vector<Vertex> vcopy;
 	std::vector<BufferTexture> tex1copy;
 	std::vector<GLuint> testIndicescopy;
 
