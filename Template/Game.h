@@ -6,7 +6,6 @@
 #include "Camera.h"
 #include "BufferManager.h"
 #include "Input.h"
-#include "TempShader.h"
 
 #include <GL/glew.h>
 #include <ctime>
@@ -21,10 +20,10 @@
 #include <glm\glm.hpp>
 
 #include "amp.h"
-#include "TempShader.h"
 #include "Camera.h"
 
 //
+#include "GameSpriteRenderer.h"
 #include "GameShader.h"
 #include "GameResourceManager.h"
 #include "GameTexture2D.h"
@@ -52,11 +51,13 @@ public:
 	GraphicContext* getGraphCon();
 
 private:
-	GameState State;
+	GameState state;
 	GLboolean keys[1024];
-	GLuint Width, Height;
+	GLuint width, height;
 
 	GraphicContext *gContex;
 	Camera *cam;
+	Shader* shader;
+	GameSpriteRender *renderer;
 };
 #endif

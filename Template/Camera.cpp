@@ -112,6 +112,11 @@ void Camera::setProjection(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat fa
 	updateCameraVectors();
 }
 
+void Camera::setProjection2D(GLfloat resolutionX, GLfloat resolutionY)
+{
+	projection = glm::ortho(.0f, resolutionX, resolutionY, .0f, -1.0f, 1.0f);
+}
+
 void init()
 {
 

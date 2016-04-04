@@ -95,6 +95,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameResourceManager.cpp" />
     <ClCompile Include="GameShader.cpp" />
+    <ClCompile Include="GameSpriteRenderer.cpp" />
     <ClCompile Include="GameTextures2D.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -119,6 +120,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameResourceManager.h" />
     <ClInclude Include="GameShader.h" />
+    <ClInclude Include="GameSpriteRenderer.h" />
     <ClInclude Include="GameTexture2D.h" />
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="Input.h" />

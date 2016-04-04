@@ -102,8 +102,6 @@ public:
 	glm::mat4 projection;
 	float rotation = 0;
 
-
-
 	////
 
 	//Cam

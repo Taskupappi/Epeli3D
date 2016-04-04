@@ -44,7 +44,8 @@ public:
 	void update(float deltaTime);
 	void setShader(Shader *shader);
 	void setProjection(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far);
-
+	//for 2D game
+	void setProjection2D(GLfloat resolutionX, GLfloat resolutionY);
 	glm::mat4 getModel();
 	glm::mat4 getView();
 	glm::mat4 getProjection();

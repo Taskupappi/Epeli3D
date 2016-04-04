@@ -68,10 +68,6 @@ void Engine::Init()
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
-
-	glewExperimental = GL_TRUE;
-	if (glewInit() != GLEW_OK)
-		throw std::runtime_error("glewInit failed");
 }
 
 

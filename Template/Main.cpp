@@ -1,6 +1,7 @@
 #include "Core.h"
 //#include "BufferManager.h"
 //#include "GraphicContext.h"
+#include "GameResourceManager.h"
 
 #include "Game.h"
 
@@ -12,6 +13,15 @@ glm::vec2 mouseClickPos;
 //Test Stuff
 SYSTEMTIME syst;
 //
+//default values for resolution
+const GLuint screenWidth = 1024;
+const GLuint screenHeight = 800;
+float deltaTime = .0f;
+long lastTime = .0f;
+long currentTime = SDL_GetTicks();
+//GraphicContext *gc = new GraphicContext();
+Game *game = new Game(screenWidth, screenHeight);
+
 
 core::Engine * eng = core::Engine::UI();
 //Called before engine closes
@@ -19,18 +29,29 @@ void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
-
+	game->init();
 }
 
 //Game mainloop
 void gameLoop()
 {
-	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+	if (currentTime > lastTime)
+	{
+		deltaTime = ((float)(currentTime - lastTime)) / 1000;
+		lastTime = currentTime;
+	}
+	//currentFrame = glfwGetTime();
+	//deltaTime = currentFrame - lastFrame;
+	//lastFrame = currentFrame;
+	//glfwPollEvents();
 
+	//Inputs
+	game->processInput(deltaTime);
+	//Update
+	game->update(deltaTime);
+	//Render
+	game->render();
 
-	//glPopMatrix();
-	//gCon->swap();
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
@@ -76,6 +97,8 @@ int main(int argc, char** argv)
 	eng->Init();
 	eng->run();
 	eng->Uninit();
+
+	GameResourceManager::clear();
 	return 0;
 }
 

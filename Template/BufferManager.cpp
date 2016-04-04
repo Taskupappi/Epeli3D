@@ -2,8 +2,8 @@
 
 BufferManager::BufferManager()
 {
-	
-
+	glewExperimental = GL_TRUE;
+	glewInit();
 	////Testbench stuff
 	//tempShader init
 	
