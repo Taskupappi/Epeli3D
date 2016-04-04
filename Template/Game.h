@@ -24,6 +24,12 @@
 #include "TempShader.h"
 #include "Camera.h"
 
+//
+#include "GameShader.h"
+#include "GameResourceManager.h"
+#include "GameTexture2D.h"
+////
+
 
 enum GameState{
 	GAMEACTIVE,
@@ -43,10 +49,14 @@ public:
 	void update(GLfloat dt);
 	void render();
 
+	GraphicContext* getGraphCon();
+
 private:
 	GameState State;
 	GLboolean keys[1024];
 	GLuint Width, Height;
 
+	GraphicContext *gContex;
+	Camera *cam;
 };
 #endif

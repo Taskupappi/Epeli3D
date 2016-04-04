@@ -39,34 +39,6 @@ GLfloats color [r, g, b, a]
 GLfloats texture coords [x, y]
 */
 
-
-enum GateState{
-	GAMEACTIVE,
-	GAMEMENU,
-	GAMEWIN
-};
-
-class Game
-{
-public:
-	Game(GLuint width, GLuint height);
-	~Game();
-	//init
-	void init();
-	//gameloop
-	void processInput(GLfloat dt);
-	void update(GLfloat dt);
-	void render();
-
-private:
-	//GameState State;
-	GLboolean keys[1024];
-	GLuint Width, Height;
-
-};
-
-
-
 struct BufferVertex
 {
 	glm::vec3 Position;

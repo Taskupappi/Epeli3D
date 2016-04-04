@@ -2,7 +2,7 @@
 
 BufferManager::BufferManager()
 {
-	initBuffers();
+	
 
 	////Testbench stuff
 	//tempShader init
@@ -22,6 +22,8 @@ BufferManager::BufferManager()
 
 	angle = 0;
 	////
+
+	initBuffers();
 }
 
 BufferManager::~BufferManager()
@@ -562,7 +564,9 @@ Shader BufferManager::getShader(int x)
 	if (x == TEST)
 		return testShader;
 	else if (x == LAMP)
-		return testLampShader;	
+		return testLampShader;
+	else
+		return testShader;
 }
 
 void BufferManager::initShaders()

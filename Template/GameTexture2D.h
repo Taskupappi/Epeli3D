@@ -3,7 +3,8 @@
 
 #include <GL\glew.h>
 
-class GameTexture2D
+class 
+	GameTexture2D
 {
 public:
 	

@@ -9,15 +9,6 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_input = new Input();
 	_bufMngr = new BufferManager();
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
-
-	//TO DO:
-	//
-	//shaderManager = nullptr;
-	//bufferManager = nullptr;
-	//textureManager = nullptr;
-	//spriteManager = nullptr;
-	//textManager = nullptr;
-	//audioManager = nullptr;
 }
 Engine* Engine::UI()
 {
@@ -54,13 +45,11 @@ Engine::~Engine()
 
 void Engine::Init()
 {
-
-	
 	//SDL Init()
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
-		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());		
-	}	
+		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());
+	}
 
 	// SDL audio init
 	int flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG;
@@ -79,31 +68,17 @@ void Engine::Init()
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
-	
-	Resources *res = new Resources("Resource", 0);
 
-	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderLightSource.glfs");
-
-	//mymap1.getElement("JPEG_Image");
-
-	//mymap1.removeElement("JPEG_Image");
-
-	//mymap1.dump();
-
-	//freetype init()
-	//
-	//Do we even want this here?
-	//
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
+		throw std::runtime_error("glewInit failed");
 }
 
 
 void Engine::Uninit()
 {
-	Mix_CloseAudio();
-	Mix_Quit();
+	//Mix_CloseAudio();
+	//Mix_Quit();
 
 	//SDL Uninit
 	atexit(SDL_Quit);

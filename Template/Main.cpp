@@ -1,49 +1,25 @@
 #include "Core.h"
-#include "BufferManager.h"
-#include "GraphicContext.h"
+//#include "BufferManager.h"
+//#include "GraphicContext.h"
+
+#include "Game.h"
 
 #include <ctime>
 
-GraphicContext* gCon = new GraphicContext;
-BufferManager* buff = new BufferManager;
-
-
-GLfloat *arr = new GLfloat[9];
-GLuint *indices = new GLuint[3];
-GLuint *something = new GLuint;
 bool pressed = false;
 glm::vec2 mouseClickPos;
-std::string nam = "vertexbuffer";
 
 //Test Stuff
 SYSTEMTIME syst;
 //
 
-//SDL_Window *window = nullptr;
-//SDL_Renderer *renderer = nullptr;
-//SDL_GLContext glcontext;
 core::Engine * eng = core::Engine::UI();
 //Called before engine closes
 void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
-	//core::Scene * sc= eng->createScene();
 
-	//buff->initBuffers();
-	//buff->initShaders();	
-
-	//buff->getBuffer("vertexbuffer")
-	//buff->drawBuffer();
-	//gCon->swap();
-	////sc = eng->_scnMngr->getScene(1);
-	////window = SDL_CreateWindow("Epeli3D", 10, 30, 640, 480,SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-	////glcontext = SDL_GL_CreateContext(window);
-	////renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	//
-	buff->initTest();
-	buff->getShader(TEST).Use();
-	buff->drawTestBuffer(TEST);
 }
 
 //Game mainloop
@@ -52,10 +28,9 @@ void gameLoop()
 	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	buff->testBoxUpdate();
-	buff->drawTestBuffer(TEST);
-	glPopMatrix();
-	gCon->swap();
+
+	//glPopMatrix();
+	//gCon->swap();
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
@@ -78,9 +53,6 @@ void gameLoop()
 			pressed = true;
 			glm::vec2 movement = eng->getInput()->getMouseMovement();
 			SDL_Log("Mouse Moved: %f / %f", movement.x, movement.y);
-
-			//test for camera movement below
-			buff->getCamera()->mouseUpdate(movement);
 		}
 	}
 	else
@@ -97,19 +69,6 @@ void gameLoop()
 			pressed = false;
 		}
 	}
-	//glClearColor(0, 255, 255, 1);
-	//glClear(GL_COLOR_BUFFER_BIT);
-	//SDL_Rect rects;
-	//rects.x = 320;
-	//rects.y = 200;
-	//rects.w = 80;
-	//rects.h = 80;
-	//SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-	//SDL_RenderClear(renderer);
-	//SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-	//SDL_RenderFillRects(renderer,&rects, 1);
-	//SDL_RenderPresent(renderer);
-	//SDL_GL_SwapWindow(window);
 }
 
 int main(int argc, char** argv)
@@ -117,9 +76,6 @@ int main(int argc, char** argv)
 	eng->Init();
 	eng->run();
 	eng->Uninit();
-	
-	//SDL_Init(SDL_INIT_EVERYTHING);
-
 	return 0;
 }
 

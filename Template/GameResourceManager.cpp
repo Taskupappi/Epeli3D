@@ -96,4 +96,10 @@ GameTexture2D GameResourceManager::loadTextureFromFile(const GLchar *file, GLboo
 	//load image
 	int width, height;
 	unsigned char* image = SOIL_load_image(file, &width, &height, 0, texture.ImageFormat == GL_RGBA ? SOIL_LOAD_RGBA : SOIL_LOAD_RGB);
+
+	//generate texture
+	texture.generate(width, height, image);
+	//free image data
+	SOIL_free_image_data(image);
+	return texture;
 }
