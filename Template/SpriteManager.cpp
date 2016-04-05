@@ -27,7 +27,7 @@ void SpriteManager::drawSprites()
 	Shader * shdr = nullptr;
 	Sprite * sprt;
 
-	std::vector<BufferVertex> vertices;
+	std::vector<Vertex> vertices;
 	std::vector<GLuint> indecis;
 	std::vector<BufferTexture> bufTex;
 	std::vector<Sprite*>::iterator sIt;
@@ -52,7 +52,7 @@ void SpriteManager::drawSprites()
 			glm::vec4 color = sprt->Color.getAsOGLVec();
 			for(int i = 0; i < 4; i++)
 			{
-				BufferVertex vertice;
+				Vertex vertice;
 				vertice.Position = points[i];
 				vertice.Normal = glm::vec3(0, 0, 0);
 				vertice.TexCoords = texBounds;
