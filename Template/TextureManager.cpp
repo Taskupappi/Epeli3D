@@ -7,9 +7,8 @@ TextureManager::~TextureManager()
 }
 
 // load image file, bind it to a texture and insert to a map
-Texture TextureManager::createTexture(const std::string& resourcefilepath)
+Texture TextureManager::makeTexture(SDL_Surface *image)
 {
-	image = res->loadFile<SDL_Surface>(resourcefilepath);
 
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);

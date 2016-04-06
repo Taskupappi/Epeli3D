@@ -84,14 +84,14 @@ void Engine::Init()
 	Resources *res = new Resources("Resource", 0);
 
 	TextureManager texM;
-	Texture *tex;
+	Texture *tex = new Texture(0);
 	// TODO: fix this
-	tex = new Texture(texM.createTexture("asd"));
+	tex->createTexture("../data/Resource/Images/sample.png");
 
 	//Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");

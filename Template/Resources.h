@@ -56,7 +56,7 @@ public:
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
 						
-				return image;
+				return (SDL_Surface*)image;
 				loadedResource = new Texture(texture);
 				
 				textureMap.addElement(FileName, resourcefilepath, loadedResource);
