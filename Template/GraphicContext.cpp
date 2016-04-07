@@ -20,13 +20,40 @@ GraphicContext::GraphicContext()
 	glewInit();
 
 	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_TEXTURE_2D);
+	//glShadeModel(GL_SMOOTH);
 }
 
 GraphicContext::GraphicContext(int xRes, int yRes)
 {
 	x = xRes;
 	y = yRes;
-	GraphicContext::GraphicContext();
+	
+	window = nullptr;
+
+	window = SDL_CreateWindow(
+		"Epeli3D",
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		x,
+		y,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+
+	//openGL context
+	glcontext = SDL_GL_CreateContext(window);
+
+	//GlewInit()
+	glewExperimental = GL_TRUE;
+	glewInit();
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_TEXTURE_2D);
+	//glShadeModel(GL_SMOOTH);
 }
 
 GraphicContext::~GraphicContext()

@@ -159,6 +159,8 @@ public:
 				loadedResource = new Text(resourcefilepath, txtcontent);
 				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
+
+				//return (T*)txtcontent;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)

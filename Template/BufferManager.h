@@ -19,6 +19,7 @@
 #include "amp.h"
 #include "TempShader.h"
 #include "Camera.h"
+#include "Input.h"
 
 ////3d object loading
 #include "Object3D.h"
@@ -75,6 +76,7 @@ public:
 	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
 	void addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
 	void setBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices, std::vector<BufferTexture> textures);
+	void clearBuffers();
 	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
@@ -94,6 +96,8 @@ public:
 	glm::mat4 projection;
 	float rotation = 0;
 
+	//lightPos
+	glm::vec3 lightPos;
 
 
 	////
@@ -109,6 +113,8 @@ public:
 	std::vector<Vertex> vertexBuffer;
 	std::vector<GLuint> indicesBuffer;
 	std::vector<BufferTexture> textures;
+	std::vector<GLuint> VertexArrayObjects;
+	std::vector<GLuint>::iterator VAOIter;
 	/////
 
 
@@ -120,8 +126,8 @@ protected:
 
 private:
 
-	GLuint VertexArrayObject, VertexBufferObject, ElementBufferObject, NormalBufferObject;
-
+	GLuint VertexBufferObject, ElementBufferObject, NormalBufferObject;
+	GLuint VertexArrayObject;
 
 	//Struct 
 	struct Vertex vertex;

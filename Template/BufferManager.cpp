@@ -21,9 +21,12 @@ BufferManager::BufferManager()
 
 	angle = 0;
 
+	lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
+
+
 	//model loading
 	//model3D = new Object3D("../data/Resource/Models/nanosuit2.obj");
-	////
+	///////
 }
 
 BufferManager::~BufferManager()
@@ -50,7 +53,7 @@ void BufferManager::bindBuffer()
 
 void BufferManager::initBuffers()
 {
-	glGenVertexArrays(1, &this->VertexArrayObject);
+	//glGenVertexArrays(1, &this->VertexArrayObject);
 	glGenBuffers(1, &VertexBufferObject);
 	glGenBuffers(1, &ElementBufferObject);
 	glGenBuffers(1, &NormalBufferObject);
@@ -63,7 +66,7 @@ void BufferManager::addBufferData(std::vector<Vertex> vertices, std::vector<GLui
 
 	vertexBuffer.insert(vertexBuffer.end(), vertices.begin(), vertices.end());
 	indicesBuffer.insert(indicesBuffer.end(), indices.begin(), indices.end());
-	this->textures.insert(this->textures.end(), textures.begin(), textures.end()); //not needed here
+	this->textures.insert(this->textures.end(), textures.begin(), textures.end()); //not needed here done on class that sends the other data in
 
 	//int blockn = 1;
 	//for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
@@ -120,16 +123,16 @@ void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLui
 	this->textures.insert(this->textures.begin(), textures.begin(), textures.end()); //not needed here
 
 
-	//temporarily fix - TAKE CARE OF THIS PLEASE!
-	Vertex BV1;
-	BV1.Color = glm::vec3(.0f, .0f, .0f);
-	BV1.Normal = glm::vec3(.0f, .0f, .0f);
-	BV1.Position = glm::vec3(.0f, .0f, .0f);
-	BV1.TexCoords = glm::vec2(.0f, .0f);
-	
-	vertexBuffer.push_back(BV1);
+	//temporarily fix - TAKE CARE OF THIS PLEASE!s
+	//adds one vertex to the vertex vec to prevent the last one from being a black ones
+	//Vertex BV1;
+	//BV1.Color = glm::vec3(.0f, .0f, .0f);
+	//BV1.Normal = glm::vec3(.0f, .0f, .0f);
+	//BV1.Position = glm::vec3(.0f, .0f, .0f);
+	//BV1.TexCoords = glm::vec2(.0f, .0f);
+	//
+	//vertexBuffer.push_back(BV1);
 	////
-
 
 	//int blockn = 1;
 	//for (auto itvertexBuffer = vertexBuffer.begin(); itvertexBuffer != vertexBuffer.end(); itvertexBuffer++)
@@ -165,9 +168,18 @@ void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLui
 	this->addBuffer();
 }
 
-void BufferManager::addBuffer()
+void BufferManager::clearBuffers()
 {
-	glBindVertexArray(this->VertexArrayObject);
+	//glClearBufferData(VertexArrayObject);
+	glBindVertexArray(0);
+
+}
+
+void BufferManager::addBuffer()
+{	
+	GLuint newVAO;
+	glGenVertexArrays(1, &newVAO);
+	glBindVertexArray(newVAO);
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(Vertex),
@@ -196,6 +208,10 @@ void BufferManager::addBuffer()
 	glEnableVertexAttribArray(3);
 	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(GLvoid*)offsetof(Vertex, Color));
+
+	VertexArrayObjects.push_back(newVAO);
+
+	glBindVertexArray(0);
 }
 
 void BufferManager::drawTestBuffer(int x)
@@ -206,6 +222,9 @@ void BufferManager::drawTestBuffer(int x)
 		drawBuffer(testShader);
 	else if (x == LAMP)
 		drawBuffer(testLampShader);
+	//default case:
+	else
+		drawBuffer(testShader);
 }
 
 void BufferManager::drawBuffer(Shader shader)
@@ -238,17 +257,25 @@ void BufferManager::drawBuffer(Shader shader)
 	//
 	//glUniform1f(glGetUniformLocation(shader.GetShaderProgram(), "material.shininess"), 16.0f);
 
-	//draw mesh
-	glBindVertexArray(this->VertexArrayObject);
-	glDrawElements(GL_TRIANGLES, this->indicesBuffer.size(), GL_UNSIGNED_INT, 0);
-
-	glBindVertexArray(0);
-
-	for (GLuint i = 0; i < this->textures.size(); i++)
+	int counter = 0;
+	VAOIter = VertexArrayObjects.begin();
+	for (VAOIter; VAOIter != VertexArrayObjects.end(); VAOIter++)
 	{
-		glActiveTexture(GL_TEXTURE0 + 1);
-		glBindTexture(GL_TEXTURE_2D, 0);
+		//draw mesh
+		glBindVertexArray(this->VertexArrayObjects[counter]);
+		glDrawElements(GL_TRIANGLES, this->indicesBuffer.size(), GL_UNSIGNED_INT, 0);
+
+		glBindVertexArray(0);
+
+		for (GLuint i = 0; i < this->textures.size(); i++)
+		{
+			glActiveTexture(GL_TEXTURE0 + 1);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
+		counter++;
 	}
+
+
 }
 
 void BufferManager::initTest()
@@ -275,6 +302,7 @@ void BufferManager::testBox()
 	int vertexCounter = 0;
 	std::vector<Mesh>::iterator *MeshIt;
 	std::vector<Vertex>::iterator *VertexIt;
+	
 /*
 	for (MeshIt = model->getMeshVec().begin; MeshIt != model->getMeshVec().end; MeshIt++)
 	{
@@ -339,6 +367,62 @@ void BufferManager::testBox()
 		-0.5f, 0.5f, -0.5f, 0.0f, 1.0f
 	};
 
+	std::vector<glm::vec3> normals;
+
+			
+	normals.push_back(glm::vec3(0.0f, 0.0f, 1.0f));
+	normals.push_back(glm::vec3(0.0f, 0.0f, -1.0f));
+	normals.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
+
+	normals.push_back(glm::vec3(0.0f, -1.0f, 0.0f));
+	normals.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
+	normals.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
+	
+
+	/*GLfloat normals[] = {
+		-1.0f,
+		-1.0f,
+		-1.0f,
+		-1.0f,
+		-1.0f,
+		-1.0f,
+
+		1.0f,
+		1.0f,
+		1.0f,
+		1.0f,
+		1.0f,
+		1.0f,
+
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f,
+		0.0f
+	};*/
+
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(2.0f, 5.0f, -15.0f),
@@ -352,6 +436,7 @@ void BufferManager::testBox()
 		glm::vec3(-1.3f, 1.0f, -1.5f)
 	};
 
+
 	std::vector<Vertex> v;
 	std::vector<BufferTexture> tex1;
 
@@ -363,10 +448,22 @@ void BufferManager::testBox()
 		//BufferVertex BV1; temorarily outside of the for loop
 
 		BV1.Position = glm::vec3(vertices[i * 5], vertices[i * 5 + 1], vertices[i * 5 + 2]);
-		BV1.Normal = glm::vec3(0.0f, 1.0f, 0.0f);
+		
+		if (i < 36)
+			BV1.Normal = normals[5];
+		if (i < 30)
+			BV1.Normal = normals[4];
+		if (i < 24)
+			BV1.Normal = normals[3];
+		if (i < 18)
+			BV1.Normal = normals[2];
+		if (i < 12)
+			BV1.Normal = normals[1];
+		if (i < 6)
+			BV1.Normal = normals[0];
+
 		BV1.TexCoords = glm::vec2(vertices[i * 5 + 3], vertices[i * 5 + 4]);
-
-
+		
 		if (i < 36)
 			BV1.Color = glm::vec3(1.0f, 1.0f, 1.0f);
 		if (i < 30)
@@ -423,7 +520,7 @@ void BufferManager::testBox()
 
 	//v.push_back(BV1);
 	
-	addBufferData(v, testIndices, tex1);
+	setBufferData(v, testIndices, tex1);
 
 	drawTestBuffer(TEST);
 	/////
@@ -500,7 +597,7 @@ void BufferManager::testBox()
 	
 	//vcopy.push_back(BV1);
 
-	setBufferData(vcopy, testIndicescopy, tex1);
+	addBufferData(vcopy, testIndicescopy, tex1);
 
 	drawTestBuffer(TEST);
 	////
@@ -513,6 +610,9 @@ void BufferManager::testBox()
 void BufferManager::testBoxUpdate()
 {
 	getShader(TEST).Use();
+
+	GLint lightPosLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "lightPos");
+	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 
 	// Create transformations
 	/*glm::mat4 model;
@@ -668,3 +768,8 @@ void BufferManager::initShaders()
 
 	//End of Shader init and linking
 }
+
+
+
+
+
