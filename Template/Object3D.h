@@ -42,7 +42,7 @@ public:
 		this->vertices = vertices;
 		this->indices = indices;
 	}
-	~Mesh();
+	~Mesh(){};
 
 	//Data parameters
 	std::vector<Vertex> vertices;
@@ -61,10 +61,14 @@ public:
 	{
 		this->loadModel(path);
 	}
+	Object3D()
+	{};
+	~Object3D()
+	{};
 
 	std::vector<Mesh> getMeshVec()
 	{
-		return meshes;
+		return model;
 	}
 
 	//void Draw(Shader shader)
@@ -76,7 +80,7 @@ public:
 	//}
 
 private:
-	std::vector<Mesh> meshes;
+	std::vector<Mesh> model;
 	std::string directory;
 
 	void loadModel(std::string path)
@@ -95,6 +99,8 @@ private:
 
 		//process assimp's root node recursively
 		this->processNode(scene->mRootNode, scene);
+
+		return;
 	}
 
 	void processNode(aiNode* node, const aiScene* scene)
@@ -105,7 +111,7 @@ private:
 			//The node object only contains indices to index the actual objects in the scene.
 			//The scene contains all the data, node is just to keep stuff organized (like relations between nodes)
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			this->meshes.push_back(this->processMesh(mesh, scene));
+			this->model.push_back(this->processMesh(mesh, scene));
 			//Model* model = (this->processMesh(mesh, scene));
 			//return model;
 		}

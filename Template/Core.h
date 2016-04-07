@@ -32,6 +32,8 @@ void extern userUnInit();
 #include "Texture.h"
 #include "Audio.h"
 
+#include "Object3D.h"
+
 //Assimp
 #include <assimp/Importer.hpp>
 

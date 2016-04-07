@@ -90,6 +90,9 @@ void Engine::Init()
 	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
+	std::cout << "Model loading:" << std::endl;
+	Object3D object("../data/Resource/Models/FinalBaseMesh.obj");
+
 	//Mix_PlayMusic(audio, 1);
 
 	//mymap1.getElement("JPEG_Image");
