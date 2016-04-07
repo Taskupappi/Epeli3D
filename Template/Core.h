@@ -57,6 +57,7 @@ namespace core
 		//TODO: Needs to read managers from scene and set them as current
 		bool useScene(Scene * sc){ return true; }
 		core::Input * getInput(){ return _input; }
+		Resources * getResources(){ return _resMngr; }
 	protected:
 		virtual ~Engine();
 		Engine();
@@ -70,6 +71,7 @@ namespace core
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
+		Resources * _resMngr;
 	private:
 		core::Input * _input;
 		bool _mainInit; //Has main initialization been done
