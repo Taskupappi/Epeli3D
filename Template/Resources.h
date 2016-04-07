@@ -2,7 +2,7 @@
 #define Resources_H
 
 #include "ResourceBase.h"
-#include "Core.h"
+//#include "Core.h"
 #include "Texture.h"
 #include "Audio.h"
 #include "Text.h"
@@ -38,12 +38,12 @@ public:
 		{
 			if (!texturesInit)
 			{
-				textureM.initResourceManager("TextureDataBase");
-				textureMap.initMapper("TextureMap", &textureM, true);
+				imageM.initResourceManager("ImageDataBase");
+				imageMap.initMapper("ImageMap", &imageM, true);
 				texturesInit = true;
 			}
 			printf_s("Checking if file has already been loaded\n");
-			if (textureMap.getElement(FileName))
+			if (imageMap.getElement(FileName))
 				isLoaded = true;
 			else
 				isLoaded = false;
@@ -55,16 +55,18 @@ public:
 
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
-						
-				return (SDL_Surface*)image;
-				loadedResource = new Texture(texture);
+					
+				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
+				loadedResource = (T*)image;
+				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				
-				textureMap.addElement(FileName, resourcefilepath, loadedResource);
+				// HAX???
+				return (T*)image;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
 			{
-				T * tex = (T*)textureMap.getElement(FileName);
+				T * tex = (T*)imageMap.getElement(FileName);
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				tex->incReferences();
@@ -97,6 +99,7 @@ public:
 				loadedResource = new Audio(sound);
 				
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
+				return (T*)sound;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -150,6 +153,8 @@ public:
 				loadedResource = new Text(txtcontent);
 				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
+
+				return (T*)txtcontent;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -179,8 +184,8 @@ private:
 	SDL_Surface *image = NULL;		// for all textures
 	GLuint texture = NULL;
 
-	ResourceManager<ResourceBase>textureM;
-	ResourceMap<ResourceBase>textureMap;
+	ResourceManager<ResourceBase>imageM;
+	ResourceMap<ResourceBase>imageMap;
 
 	Mix_Music *sound = NULL;		// for all audio files
 	ResourceManager<ResourceBase>audioM;

@@ -15,7 +15,8 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//
 	//shaderManager = nullptr;
 	//bufferManager = nullptr;
-	//textureManager = nullptr;
+	_res = new Resources("Resource", 0);
+	_txtrMngr = new TextureManager(_res);
 	//spriteManager = nullptr;
 	//textManager = nullptr;
 	//audioManager = nullptr;
@@ -81,20 +82,17 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
 	
-	Resources *res = new Resources("Resource", 0);
-
-	TextureManager texM;
-	Texture *tex = new Texture(0);
+	
 	// TODO: fix this
-	tex->createTexture("../data/Resource/Images/sample.png");
+	_txtrMngr->createTexture("../data/Resource/Images/sample.png");
 
 	//Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Audio * audio = _res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Text * txt = _res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio2 = _res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Text * txt2 = _res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	//Mix_PlayMusic(audio, 1);
 
@@ -119,7 +117,7 @@ void Engine::Uninit()
 	//SDL Uninit
 	atexit(SDL_Quit);
 }
-graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex)
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager &txtrMngr)
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done

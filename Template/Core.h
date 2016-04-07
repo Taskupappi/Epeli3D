@@ -34,6 +34,7 @@ void extern userUnInit();
 
 //Assimp
 #include <assimp/Importer.hpp>
+class TextureManager;
 
 namespace core
 {
@@ -41,14 +42,13 @@ namespace core
 	class Engine
 	{
 	public:
-
 		static Engine* UI();
 		void Init();
 		void Uninit();
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
-		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex);
+		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager& txtrMngr);
 		Scene * createScene()
 		{
 			return nullptr;
@@ -62,11 +62,11 @@ namespace core
 		Engine();
 
 		//TO DO:
-		//textureManager = nullptr;
 		//shaderManager = nullptr;
 		//audioManager = nullptr;
 		//3DobjectManager = nullptr;
-		//ResourceManager *_resMngr;
+		Resources * _res;
+		TextureManager * _txtrMngr;
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
@@ -80,4 +80,4 @@ namespace core
 	};
 }
 
-#endif;
+#endif
