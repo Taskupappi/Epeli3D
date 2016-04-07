@@ -11,11 +11,15 @@ uniform mat4 model;
 
 out vec3 objectColor;
 out vec2 TexCoord; 
+out vec3 Normal;
+out vec3 fragPos;
  
 void main()
-{
-   
+{   
     gl_Position = projection * view * model *  vec4(position, 1.0f);
     TexCoord = vec2(texCoords.x, 1.0 - texCoords.y);
+	fragPos = vec3(model * vec4(position, 1.0f));
     objectColor = color;
+	//normal matrix should be calculated on CPU to increase performance
+	Normal = mat3(transpose(inverse(model))) * normal;
 }

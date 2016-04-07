@@ -1,5 +1,4 @@
 #include "Core.h"
-#include "TextureManager.h"
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;
@@ -10,13 +9,12 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_input = new Input();
 	_bufMngr = new BufferManager();
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
-
+	_resMngr = new Resources("Resource", 0);
 	//TO DO:
 	//
 	//shaderManager = nullptr;
 	//bufferManager = nullptr;
-	_res = new Resources("Resource", 0);
-	_txtrMngr = new TextureManager(_res);
+	//textureManager = nullptr;
 	//spriteManager = nullptr;
 	//textManager = nullptr;
 	//audioManager = nullptr;
@@ -51,7 +49,11 @@ void Engine::userInit()
 };
 Engine::~Engine()
 {
-
+	delete _resMngr;
+	delete _sprtMngr;
+	delete _bufMngr;
+	delete _input;
+	delete _scnMngr;
 }
 
 void Engine::Init()
@@ -82,17 +84,18 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
 	
-	
-	// TODO: fix this
-	_txtrMngr->createTexture("../data/Resource/Images/sample.png");
-
-	//Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	Resources *res = _resMngr;
+	// TODO: TextureManager
+	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	Audio * audio = _res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = _res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Audio * audio2 = _res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Text * txt2 = _res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+
+	std::cout << "Model loading:" << std::endl;
+	Object3D object("../data/Resource/Models/FinalBaseMesh.obj");
 
 	//Mix_PlayMusic(audio, 1);
 
@@ -116,8 +119,9 @@ void Engine::Uninit()
 
 	//SDL Uninit
 	atexit(SDL_Quit);
+	delete this;
 }
-graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager &txtrMngr)
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex)
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done
@@ -144,8 +148,12 @@ void Engine::processInput()
 			SDL_Log("Key Down %s", SDL_GetKeyName(e.key.keysym.sym));
 			//Not necessarily needed for pressed keys uses SDL_GetKeyboardState
 			_input->addPressedKey(e.key.keysym.sym);
-			if (e.key.keysym.sym == SDLK_ESCAPE)
+			//if (e.key.keysym.sym == SDLK_ESCAPE)
+			//	_exit = true;
+			//ALT + F4 pressed
+			if((_input->isKeyPressed(SDLK_LALT)) && (e.key.keysym.sym == SDLK_F4))
 				_exit = true;
+
 		}
 		if (e.type == SDL_MOUSEMOTION)
 		{
