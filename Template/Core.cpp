@@ -97,7 +97,14 @@ void Engine::Init()
 	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	std::cout << "Model loading:" << std::endl;
-	Object3D object("../data/Resource/Models/FinalBaseMesh.obj");
+	Object3D object("../data/Resource/Models/boy.obj");
+	Object3D object2("../data/Resource/Models/boy.3ds");
+	Object3D object3("../data/Resource/Models/boy.lwo");
+	Object3D object4("../data/Resource/Models/Shark.dae");
+	Object3D object5("../data/Resource/Models/Shark.stl");
+	Object3D object6("../data/Resource/Models/smg_low.ply"); //hiukan hidas
+	Object3D object7("../data/Resource/Models/smg_low.x");
+	std::cout << "Model loading end." << std::endl;
 
 	//Mix_PlayMusic(audio, 1);
 
