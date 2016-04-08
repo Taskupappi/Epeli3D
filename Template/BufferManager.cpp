@@ -679,6 +679,28 @@ void BufferManager::testBoxUpdate()
 	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 	angle = 0.2f;
+
+
+
+	//ShaderManager test;
+	//std::string kisse = "kansio1/kansio2/kansio3/kisse.obj";
+	//test.initShader(kisse);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//for (int i = 0; i < 10; i++)
 	//{		
 	//	model = glm::translate(model, cubePositions[i]);
@@ -707,69 +729,3 @@ Shader BufferManager::getShader(int x)
 	else if (x == LAMP)
 		return testLampShader;	
 }
-
-void BufferManager::initShaders()
-{
-
-
-	// Shaders
-	const GLchar* vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 position;\n"
-		"void main()\n"
-		"{\n"
-		"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
-		"}\0";
-	const GLchar* fragmentShaderSource = "#version 330 core\n"
-		"in vec3 color; \n"
-		"out vec4 Fcolor;\n"
-		"void main()\n"
-		"{\n"
-		"Fcolor = vec4(color, 1.0f);\n"
-		"}\n\0";
-
-
-	//vertex shader
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-	glCompileShader(vertexShader);
-	GLint success;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	// Fragment shader
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	// Check for compile time errors
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	// Link shaders
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	// Check for linking errors
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	//End of Shader init and linking
-}
-
-
-
-
-

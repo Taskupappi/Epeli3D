@@ -18,6 +18,7 @@
 //includes for the testBench
 #include "amp.h"
 #include "TempShader.h"
+#include "ShaderManager.h"
 #include "Camera.h"
 #include "Input.h"
 

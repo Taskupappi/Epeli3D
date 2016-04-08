@@ -9,6 +9,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_input = new Input();
 	_bufMngr = new BufferManager();
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
+	//_shdrMngr = new graphics::ShaderManager();
 	_resMngr = new Resources("Resource", 0);
 	//TO DO:
 	//
@@ -54,6 +55,7 @@ Engine::~Engine()
 	delete _bufMngr;
 	delete _input;
 	delete _scnMngr;
+	//delete _shdrMngr;
 }
 
 void Engine::Init()

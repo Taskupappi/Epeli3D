@@ -22,6 +22,7 @@ void extern userUnInit();
 //FreeType
 #include <freetype-2.6.1/include/ft2build.h>
 //#include FT_FREETYPE_H
+#include "ShaderManager.h"
 #include "SceneManager.h"
 #include "SpriteManager.h"
 #include "ResourceManager.h"
@@ -70,9 +71,11 @@ namespace core
 		//audioManager = nullptr;
 		//3DobjectManager = nullptr;
 		//ResourceManager *_resMngr;
+		
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
+		//graphics::ShaderManager * _shdrMngr;
 		Resources * _resMngr;
 	private:
 		core::Input * _input;

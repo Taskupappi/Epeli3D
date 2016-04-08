@@ -1,6 +1,6 @@
 //#include "Shader.h"
 //
-//Shader::Shader(std::string fileName)
+//Shader::Shader()
 //{
 //	//ResourceMap.getElement(fileName);
 //}

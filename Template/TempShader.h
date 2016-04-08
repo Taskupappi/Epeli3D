@@ -29,8 +29,6 @@ public:
 	//utility stuff
 	void setUniform3f(std::string uniformLocation, glm::vec3 values);
 
-
-
 	void SetFloat(const GLchar *name, GLfloat value, GLboolean useShader = false);
 	void SetInteger(const GLchar *name, GLfloat value, GLboolean usehader = false);
 	void SetVec2f(const GLchar *name, GLfloat x, GLfloat y, GLboolean useShader = false);

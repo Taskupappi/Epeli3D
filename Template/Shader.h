@@ -16,7 +16,7 @@
 //class Shader
 //{
 //public:
-//	Shader(std::string fileName);
+//	Shader();
 //	~Shader();
 //
 //	//I assume these are not needed
@@ -45,7 +45,7 @@
 //	GLuint programID;
 //	GLuint matrixID;
 //	GLuint vertexShaderID;
-//	GLuint fragmentShaderID
+//	GLuint fragmentShaderID;
 //
 //};
 //
