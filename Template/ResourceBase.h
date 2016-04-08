@@ -43,7 +43,6 @@ public:
 	{
 		return resourcefilepath;
 	}
-	virtual void loadfile(std::string filePath){};
 	const int getReferenceCount() const
 	{
 		return references;

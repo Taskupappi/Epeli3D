@@ -1,9 +1,5 @@
 #include "TextureManager.h"
 
-TextureManager::~TextureManager()
-{
-}
-
 // load image file, bind it to a texture and insert to a map
 GLuint TextureManager::createTexture(const std::string &resourcefilepath)
 {
@@ -11,7 +7,9 @@ GLuint TextureManager::createTexture(const std::string &resourcefilepath)
 	
 	width = image->w;
 	height = image->h;
-	// BIND
+	
+	// Call bind method
+	bindTexture(*image);
 }	
 // Bind texture
 GLuint TextureManager::bindTexture(SDL_Surface &image)

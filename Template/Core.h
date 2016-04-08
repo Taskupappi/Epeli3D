@@ -50,7 +50,7 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
-		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager& txtrMngr);
+		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager& _txtrMngr);
 		Scene * createScene()
 		{
 			return nullptr;
@@ -68,7 +68,6 @@ namespace core
 		//shaderManager = nullptr;
 		//audioManager = nullptr;
 		//3DobjectManager = nullptr;
-		Resources * _res;
 		TextureManager * _txtrMngr;
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;

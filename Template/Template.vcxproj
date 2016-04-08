@@ -114,6 +114,7 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="GraphicContext.h" />
+    <ClInclude Include="ImageResource.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />

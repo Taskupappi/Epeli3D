@@ -2,7 +2,6 @@
 
 Shader::Shader(std::string fileName)
 {
-	ResourceMap.getElement(fileName);
 }
 
 Shader::~Shader()

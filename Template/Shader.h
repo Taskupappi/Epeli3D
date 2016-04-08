@@ -45,7 +45,7 @@ private:
 	GLuint programID;
 	GLuint matrixID;
 	GLuint vertexShaderID;
-	GLuint fragmentShaderID
+	GLuint fragmentShaderID;
 
 };
 

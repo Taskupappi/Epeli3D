@@ -4,6 +4,7 @@
 #include "ResourceBase.h"
 //#include "Core.h"
 #include "Texture.h"
+#include "ImageResource.h"
 #include "Audio.h"
 #include "Text.h"
 #include <unordered_map>
@@ -57,7 +58,7 @@ public:
 					printf("IMG_Load: %s\n", IMG_GetError());
 					
 				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
-				loadedResource = (T*)image;
+				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				// HAX???
@@ -99,7 +100,7 @@ public:
 				loadedResource = new Audio(sound);
 				
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
-				return (T*)sound;
+				//return (T*)sound;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -154,7 +155,7 @@ public:
 				
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 
-				return (T*)txtcontent;
+				//return (T*)txtcontent;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)

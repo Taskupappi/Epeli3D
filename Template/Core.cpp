@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "TextureManager.h"
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;
@@ -10,6 +11,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_bufMngr = new BufferManager();
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
 	_resMngr = new Resources("Resource", 0);
+	_txtrMngr = new TextureManager(_resMngr);
 	//TO DO:
 	//
 	//shaderManager = nullptr;
@@ -84,15 +86,15 @@ void Engine::Init()
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
 	
-	Resources *res = _resMngr;
-	// TODO: TextureManager
-	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	// TODO: fix this
+	_txtrMngr->createTexture("../data/Resource/Images/sample.png");
+
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	std::cout << "Model loading:" << std::endl;
 	Object3D object("../data/Resource/Models/FinalBaseMesh.obj");
@@ -121,7 +123,7 @@ void Engine::Uninit()
 	atexit(SDL_Quit);
 	delete this;
 }
-graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex)
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager &_txtmMngr)
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done

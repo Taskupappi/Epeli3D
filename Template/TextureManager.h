@@ -17,7 +17,7 @@ public:
 		width = 0;
 		height = 0;
 	}
-	~TextureManager();
+	~TextureManager(){};
 
 	GLuint createTexture(const std::string& resourcefilepath);
 	GLuint bindTexture(SDL_Surface& image);
