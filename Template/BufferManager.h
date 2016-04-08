@@ -23,7 +23,6 @@
 
 ////3d object loading
 #include "Object3D.h"
-
 #include <math.h>
 //
 
@@ -62,7 +61,6 @@ public:
 	void addVertexData(GLfloat *data, GLsizei size);
 	void addIndexData(GLuint *data, GLuint *size);
 
-
 	void bindBuffer();
 	void unbindBuffer();
 	std::vector<GLuint> getBuffer(std::string bufferName);
@@ -98,8 +96,6 @@ public:
 
 	//lightPos
 	glm::vec3 lightPos;
-
-
 	////
 
 	//Cam
@@ -148,6 +144,4 @@ private:
 	//testbench values
 	int pos = 0;
 };
-
-
 #endif

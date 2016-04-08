@@ -5,11 +5,13 @@
 //add shader class to the manager
 //
 
-
-#include <glm\glm.hpp>
+#include "Shader.h"
+//#include <glm\glm.hpp>
 #include <GL\glew.h>
 #include <SDL\SDL_assert.h>
-#include <iostream>
+//#include <iostream>
+#include <map>
+//#include <
 
 class ShaderManager
 {
@@ -18,19 +20,23 @@ public:
 	~ShaderManager();
 
 	//init shaders
-	bool initShader(/*insert shader class here*/);
+	bool initShader(std::string filename);
+
 	//uninit shaders
-	void uninit(void);
+	void uninitShaders(void);
+
 	//Load shader from resource manager
 	void loadshader(/*insert shader class here*/);
+
 	//Bind shader to the program
 	void bind();
-	//use shader the given shaders in the application
-	void useShader(/*insert shader class here*/);
+
 	//set the active shaders
 	//Shader &SetActive();
 	//get shader
-	GLuint GetShaderProgram();
+	/*GLuint GetShader();
+
+	std::map<std::string, Shader*> Shaders;*/
 
 private:
 
