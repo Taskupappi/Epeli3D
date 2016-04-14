@@ -6,13 +6,14 @@ BufferManager::BufferManager()
 
 	////Testbench stuff
 	//tempShader init	
-	
-	testLampShader = new Shader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
-	testLampShader->init();
 
-	testShader = new Shader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
-	testShader->init();
+	shaderManager = new ShaderManager();
 	
+	shaderManager->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
+	shaderManager->createShader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs", "testShader");
+	
+	shaderManager->setActiveShader("testShader");
+
 	//camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -20,7 +21,7 @@ BufferManager::BufferManager()
 
 	cam = new Camera();
 
-	cam->setShader(testShader);
+	cam->setShader(shaderManager->getActiveShader());
 	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
@@ -220,14 +221,14 @@ void BufferManager::addBuffer()
 void BufferManager::drawTestBuffer(int x)
 {
 	//draw what is in the buffer
-
+	
 	if (x == TEST)
-		drawBuffer(testShader);
+		drawBuffer(shaderManager->getActiveShader());
 	else if (x == LAMP)
-		drawBuffer(testLampShader);
+		drawBuffer(shaderManager->getActiveShader());
 	//default case:
 	else
-		drawBuffer(testShader);
+		drawBuffer(shaderManager->getActiveShader());
 }
 
 void BufferManager::drawBuffer(Shader *shader)
@@ -612,9 +613,9 @@ void BufferManager::testBox()
 
 void BufferManager::testBoxUpdate()
 {
-	getShader(TEST)->use();
+	shaderManager->useActiveShader();
 
-	GLint lightPosLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "lightPos");
+	GLint lightPosLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "lightPos");
 	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 
 	// Create transformations
@@ -654,9 +655,9 @@ void BufferManager::testBoxUpdate()
 
 	// Get uniform locations
 	/*Objects get these from a camera and send them to the shader instead of doing new ones*/
-	GLint boxModelLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "model");
-	GLint boxViewLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "view");
-	GLint boxProjLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "projection");
+	GLint boxModelLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "model");
+	GLint boxViewLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "view");
+	GLint boxProjLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "projection");
 
 	// Pass uniform locations to the shaders
 	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
@@ -723,12 +724,4 @@ void BufferManager::newVAO(const GLuint vao)
 Camera* BufferManager::getCamera()
 {
 	return cam;
-}
-
-Shader* BufferManager::getShader(int x)
-{
-	if (x == TEST)
-		return testShader;
-	else if (x == LAMP)
-		return testLampShader;	
 }
