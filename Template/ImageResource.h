@@ -4,13 +4,6 @@
 #include "Core.h"
 #include "ResourceBase.h"
 
-struct imageData
-{
-	GLuint width;
-	GLuint height;
-	void* pixels;
-	std::string filePath;
-};
 
 class ImageResource
 	: public ResourceBase
@@ -19,12 +12,27 @@ public:
 	ImageResource(SDL_Surface* image) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_image = image;
-		data.width = _image->w;
-		data.height = _image->h;
-		data.pixels = _image->pixels;
-		data.filePath = resourcefilepath;
+		_width = 0;
+		_height = 0;
+		_pixelData = 0;
+		//setWidth(image->w);
+
+		//setHeight(image->h);
+
+		//setPixelData(image->pixels);
+
+		//filePath = resourcefilepath;
 	}
 	~ImageResource(){};
+
+	// FIX GETTERS
+	void setWidth(int width){ _width = width; }
+	void setHeight(int height){ _height = height; }
+	void setPixelData(void* data){ _pixelData = data; }
+
+	int getWidth(){	return _width; }
+	int getHeight(){ return _height; }
+	void* getPixelData(){ return _pixelData; }
 
 private:
 
@@ -34,7 +42,10 @@ private:
 			return *this;
 	}
 	SDL_Surface *_image;
-	imageData data;
+	int _width;
+	int _height;
+	void* _pixelData;
+	std::string _filePath;
 };
 
 #endif

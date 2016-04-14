@@ -1,43 +1,48 @@
 #ifndef SHADERMANAGER_H
 #define SHADERMANAGER_H
 
-//TO DO:
-//add shader class to the manager
-//
+#include "Shader.h"
 
-
-#include <glm\glm.hpp>
-#include <GL\glew.h>
 #include <SDL\SDL_assert.h>
-#include <iostream>
+#include <map>
 
+//#include "ResourceBase.h"
+
+namespace core
+{
+	class Engine;
+}
+
+//namespace graphics
+//{
 class ShaderManager
 {
+	friend class core::Engine;
+
 public:
+
+	//creates and initializes a shader
+	void createShader(std::string vertexFilepath, std::string fragmentFilepath, std::string shaderName);
+	//uninit shaders
+	void uninitShaders(void);
+
+	//set the active shader
+	void setActiveShader(std::string shaderName);
+	//get the active shader
+	Shader* getActiveShader();
+	//use the active shader
+	void useActiveShader();
+
 	ShaderManager();
 	~ShaderManager();
 
-	//init shaders
-	bool initShader(/*insert shader class here*/);
-	//uninit shaders
-	void uninit(void);
-	//Load shader from resource manager
-	void loadshader(/*insert shader class here*/);
-	//Bind shader to the program
-	void bind();
-	//use shader the given shaders in the application
-	void useShader(/*insert shader class here*/);
-	//set the active shaders
-	//Shader &SetActive();
-	//get shader
-	GLuint GetShaderProgram();
+protected:
+
 
 private:
-
-	GLuint programID, matrixID, vertexShaderID, fragmentShaderID;
-
-
+	std::map<std::string, Shader*> Shaders;
+	Shader* activeShader;
+	//Resources *resMngr;
 };
-
-
+//}
 #endif

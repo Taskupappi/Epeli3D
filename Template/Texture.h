@@ -28,8 +28,8 @@ private:
 
 	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
 	std::unordered_map<std::string, Texture>textureMap;
-	imageData data;
 	GLuint _texture;
+	ImageResource *img;
 
 };
 

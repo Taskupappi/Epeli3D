@@ -11,24 +11,21 @@
 
 //#include "ResourceMap.h"
 
-class ResourceMap;
+//class ResourceMap;
 
 class Shader
 {
 public:
-	Shader(std::string fileName);
+	Shader(const std::string vertexFilepath, const std::string fragmentFilepath);
 	~Shader();
 
-	//I assume these are not needed
 	bool init();
 	void uninit(void);
-	/////
-
 
 	GLuint loadShaderFromFile(const std::string filepath, GLenum ShaderType);
 	void use();
-	Shader &setActive();
 	GLuint getShaderProgram();
+	GLint getUniformLocation(std::string uniformLocName);
 
 	//utility stuff -- IS THIS NEEDED?
 	//void SetFloat(const GLchar *name, GLfloat value, GLboolean useShader = false);
@@ -46,6 +43,11 @@ private:
 	GLuint matrixID;
 	GLuint vertexShaderID;
 	GLuint fragmentShaderID;
+
+
+	std::string vertexShaderPath;
+	std::string fragmentShaderPath;
+
 
 };
 

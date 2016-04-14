@@ -4,10 +4,14 @@
 void TextureManager::createTexture(const std::string &resourcefilepath)
 {
 	 image = _res->loadFile<ImageResource>(resourcefilepath);
-	
-	//width = image->w;
-	//height = image->h;
-	
-	// Call bind method
-	//bindTexture(image);
-}	
+}
+
+//GLuint TextureManager::getWidth(ImageResource &image)
+//{
+//
+//}
+//
+//GLuint TextureManager::getHeight(ImageResource &image)
+//{
+//
+//}

@@ -61,8 +61,13 @@ public:
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				
+				// heittää exceptionia
+				img->setWidth(image->w);
+				img->setHeight(image->h);
+				img->setPixelData(image->pixels);
+				
 				// HAX?
-				//return (T*)image;
+				return (T*)image;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -183,7 +188,7 @@ private:
 		return *this;
 	}
 	SDL_Surface *image = NULL;		// for all textures
-	GLuint texture = NULL;
+	ImageResource *img = NULL;
 
 	ResourceManager<ResourceBase>imageM;
 	ResourceMap<ResourceBase>imageMap;
