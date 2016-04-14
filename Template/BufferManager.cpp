@@ -5,10 +5,14 @@ BufferManager::BufferManager()
 	initBuffers();
 
 	////Testbench stuff
-	//tempShader init
+	//tempShader init	
 	
-	testShader.Init("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
-	testLampShader.Init("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
+	testLampShader = new Shader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
+	testLampShader->init();
+
+	testShader = new Shader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
+	testShader->init();
+	
 	//camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -16,13 +20,12 @@ BufferManager::BufferManager()
 
 	cam = new Camera();
 
-	cam->setShader(&testShader);
+	cam->setShader(testShader);
 	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
 
 	lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
-
 
 	//model loading
 	//model3D = new Object3D("../data/Resource/Models/nanosuit2.obj");
@@ -227,7 +230,7 @@ void BufferManager::drawTestBuffer(int x)
 		drawBuffer(testShader);
 }
 
-void BufferManager::drawBuffer(Shader shader)
+void BufferManager::drawBuffer(Shader *shader)
 {
 	//GLuint diffuseNr = 1;
 	//GLuint specularNr = 1;
@@ -609,9 +612,9 @@ void BufferManager::testBox()
 
 void BufferManager::testBoxUpdate()
 {
-	getShader(TEST).Use();
+	getShader(TEST)->use();
 
-	GLint lightPosLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "lightPos");
+	GLint lightPosLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "lightPos");
 	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 
 	// Create transformations
@@ -651,9 +654,9 @@ void BufferManager::testBoxUpdate()
 
 	// Get uniform locations
 	/*Objects get these from a camera and send them to the shader instead of doing new ones*/
-	GLint boxModelLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "model");
-	GLint boxViewLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "view");
-	GLint boxProjLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "projection");
+	GLint boxModelLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "model");
+	GLint boxViewLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "view");
+	GLint boxProjLoc = glGetUniformLocation(getShader(TEST)->getShaderProgram(), "projection");
 
 	// Pass uniform locations to the shaders
 	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
@@ -722,7 +725,7 @@ Camera* BufferManager::getCamera()
 	return cam;
 }
 
-Shader BufferManager::getShader(int x)
+Shader* BufferManager::getShader(int x)
 {
 	if (x == TEST)
 		return testShader;

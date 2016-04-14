@@ -42,7 +42,7 @@ void gameInit()
 	////renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 	//
 	buff->initTest();
-	buff->getShader(TEST).Use();
+	buff->getShader(TEST)->use();
 	buff->drawTestBuffer(TEST);
 }
 

@@ -17,7 +17,7 @@
 
 //includes for the testBench
 #include "amp.h"
-#include "TempShader.h"
+#include "Shader.h"
 #include "ShaderManager.h"
 #include "Camera.h"
 #include "Input.h"
@@ -79,7 +79,7 @@ public:
 	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
-	void drawBuffer(Shader shader);
+	void drawBuffer(Shader *shader);
 
 	//binds a new Vertex Array Object for use
 	void newVAO(const GLuint vao);
@@ -89,7 +89,7 @@ public:
 	void initTest();
 	void testBox();
 	void testBoxUpdate();
-	Shader getShader(int x);
+	Shader* getShader(int x);
 	glm::mat4 model;
 	glm::mat4 view;
 	glm::mat4 projection;
@@ -133,13 +133,9 @@ private:
 	GLuint indexbufID;
 
 	// temporary shader
-	GLuint vertexShader;
-	GLuint fragmentShader;
-	GLchar infoLog[512];
-	GLuint shaderProgram;
 	float tempColor = 0;
-	Shader testShader;
-	Shader testLampShader;
+	Shader *testShader;
+	Shader *testLampShader;
 	bool rewind;
 	GLfloat angle;
 	//testbench values
