@@ -1,12 +1,12 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm\gtc\type_ptr.hpp>
 #include "Shader.h"
-#include <glm\gtx\transform.hpp>
+#include <glm/glm.hpp>
+#include <math.h>
 
 enum Camera_Movement{
 	FORWARD,
@@ -44,6 +44,8 @@ public:
 	void update(float deltaTime);
 	void setShader(Shader *shader);
 	void setProjection(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat far);
+
+	void move(glm::vec3 direction, float amount);
 
 	glm::mat4 getModel();
 	glm::mat4 getView();
@@ -95,5 +97,25 @@ private:
 	glm::vec2 oldMousePosition;
 	//
 };
+
+
+//#include <glm/glm.hpp>
+//
+//class Camera
+//{
+//	glm::vec3 position;
+//	glm::vec3 viewDirection;
+//	const glm::vec3 up;
+//	glm::vec2 oldMousePosition;
+//
+//public:
+//	Camera();
+//	~Camera();
+//
+//	glm::mat4 getWorldToViewMat() const;
+//	void mouseUpdate(const glm::vec2& newMousePosition);
+//
+//private:
+//};
 
 #endif

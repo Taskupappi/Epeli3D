@@ -23,8 +23,8 @@ BufferManager::BufferManager()
 
 	cam = new Camera();
 
-	cam->setShader(shaderManager->getActiveShader());
-	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
+	//cam->setShader(shaderManager->getActiveShader());
+	//cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
 
@@ -189,11 +189,11 @@ void BufferManager::addBuffer()
 
 	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, this->vertexBuffer.size()* sizeof(Vertex),
-		&this->vertexBuffer[0], GL_STATIC_DRAW);
+		&this->vertexBuffer[0], GL_DYNAMIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ElementBufferObject);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indicesBuffer.size() * sizeof(GLuint),
-		&this->indicesBuffer[0], GL_STATIC_DRAW);
+		&this->indicesBuffer[0], GL_DYNAMIC_DRAW);
 
 	//Vertex Positions
 	glEnableVertexAttribArray(0);
@@ -218,6 +218,11 @@ void BufferManager::addBuffer()
 	VertexArrayObjects.push_back(newVAO);
 
 	glBindVertexArray(0);
+}
+
+void BufferManager::mouseMoveEvent()
+{
+
 }
 
 void BufferManager::drawTestBuffer(int x)
@@ -321,42 +326,7 @@ void BufferManager::testBox()
 			}
 		}
 
-	//for (modelIter = model3D.getMeshVec().begin(); modelIter != model3D.getMeshVec().end(); modelIter++)
-	//{
-	//	//for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
-	//	//{
-	//	//	v3D.push_back((*vertexIter));
-	//	//}	
-
-	//	//for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
-	//	//{
-	//	//	indices3D.push_back((*indicesIter));
-	//	//}
-	//}
-
-	int meshCounter = 0;
-	int vertexCounter = 0;
-	std::vector<Mesh>::iterator *MeshIt;
-	std::vector<Vertex>::iterator *VertexIt;
-	
-/*
-	for (MeshIt = model->getMeshVec().begin; MeshIt != model->getMeshVec().end; MeshIt++)
-	{
-		for (VertexIt = &(*MeshIt)->vertices.begin(); VertexIt != &(*MeshIt)->vertices.end(); VertexIt++)
-		{
-			v3D.push_back((*MeshIt)->vertices[meshCounter]);
-			if ((*MeshIt)->indices[meshCounter] != NULL);
-			indices3D.push_back((*MeshIt)->indices[meshCounter]);
-			meshCounter++;
-		}
-		meshCounter = 0;		
-	}*/
-
-	//model = new Object3D("../data/Resource/Models/nanosuit2.3ds");
-	
-
 	/////
-
 
 	////first Cube
 	GLfloat vertices[] = {
@@ -414,51 +384,6 @@ void BufferManager::testBox()
 	normals.push_back(glm::vec3(1.0f, 0.0f, 0.0f));
 	normals.push_back(glm::vec3(-1.0f, 0.0f, 0.0f));
 	
-
-	/*GLfloat normals[] = {
-		-1.0f,
-		-1.0f,
-		-1.0f,
-		-1.0f,
-		-1.0f,
-		-1.0f,
-
-		1.0f,
-		1.0f,
-		1.0f,
-		1.0f,
-		1.0f,
-		1.0f,
-
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f,
-		0.0f
-	};*/
-
 	glm::vec3 cubePositions[] = {
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(2.0f, 5.0f, -15.0f),
@@ -525,31 +450,6 @@ void BufferManager::testBox()
 	}
 
 	std::vector<GLuint> testIndices;
-	//GLushort cubeIndices[] = {
-	//	// front
-	//	0, 1, 2,
-	//	2, 3, 0,
-	//	// top
-	//	1, 5, 6,
-	//	6, 2, 1,
-	//	// back
-	//	7, 6, 5,
-	//	5, 4, 7,
-	//	// bottom
-	//	4, 0, 3,
-	//	3, 7, 4,
-	//	// left
-	//	4, 5, 1,
-	//	1, 0, 4,
-	//	// right
-	//	3, 2, 6,
-	//	6, 7, 3,
-	//};
-	//
-	//for (int i = 0; i < 36; i++)
-	//{
-	//	testIndices.push_back(cubeIndices[i]);
-	//}
 		
 	for (int i = 0; i < 36; i++)
 		testIndices.push_back(i);
@@ -642,6 +542,9 @@ void BufferManager::testBox()
 	//lighting
 	//GLuint lighting;
 	//newVAO(lighting);
+
+
+	cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BufferManager::testBoxUpdate()
@@ -667,7 +570,7 @@ void BufferManager::testBoxUpdate()
 	//cam->setProjection(45, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 	//projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 
-	rotation += 0.02;
+	rotation += 2.0f;
 	if (rotation > 36000)
 	{
 		rotation = 0;
@@ -676,7 +579,9 @@ void BufferManager::testBoxUpdate()
 	//// Camera/View transformation
 	//glm::vec3 vec = glm::rotate(glm::vec3(0, camY, 0),rotation, glm::vec3(0, 0, camZ));
 
-	cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	cam->rotate(rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+
 	/*view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
 
 	// Projection 

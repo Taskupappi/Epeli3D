@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include <glm\gtx\transform.hpp>
 
 Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch) :viewDirection(glm::vec3(0.0f, 0.0f, -1.0f)), movementSpeed(SPEED), mouseSensitivity(SENSITIVITY), Zoom(ZOOM)
 {
@@ -30,7 +31,7 @@ Camera::Camera(GLfloat posX, GLfloat posY, GLfloat posZ, GLfloat upX, GLfloat up
 
 Camera::Camera()
 {
-	this->position = glm::vec3(0.0f, 0.0f, -10.0f);
+	this->position = glm::vec3(0.0f, 0.0f, -1.0f);
 	this->worldUp = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->yaw = YAW;
 	this->pitch = PITCH;
@@ -54,6 +55,8 @@ void Camera::updateCameraVectors()
 	//Re-calculate the right and up vector
 	this->right = glm::normalize(glm::cross(this->viewDirection, this->worldUp));
 	this->up = glm::normalize(glm::cross(this->right, this->viewDirection));
+
+	//glm::lookAt(this->position, this->position + this->viewDirection, this->up);
 }
 
 glm::mat4 Camera::getViewMatrix()
@@ -112,6 +115,11 @@ void Camera::setProjection(GLfloat fov, GLfloat aspect, GLfloat near, GLfloat fa
 	updateCameraVectors();
 }
 
+void Camera::move(glm::vec3 direction, float amount)
+{
+	position += direction * amount;
+}
+
 void init()
 {
 
@@ -145,75 +153,54 @@ glm::vec3 Camera::getUp()
 void Camera::mouseUpdate(const glm::vec2& newMousePosition)
 {
 	glm::vec2 mouseDelta = newMousePosition - oldMousePosition;
-	viewDirection = glm::mat3(glm::rotate(mouseDelta.x, up)) * viewDirection;
-	oldMousePosition = newMousePosition;
+	if (glm::length(mouseDelta) > 50.0f)
+	{
+		oldMousePosition = newMousePosition;
+	}
+	else
+	{
+		view = glm::rotate(mouseDelta.x * 0.01f, up) * view;
+		view = glm::rotate(mouseDelta.y * 0.01f, glm::cross(up,))
+		oldMousePosition = newMousePosition;
+		updateCameraVectors();
+	}
+
 	//std::cout << "mouseUpdate" << std::endl;
 }
 
 
 
-//void Camera::init()
-//{
-//
-//}
-//
-//
-//void Camera::setRotation()
-//{
-//
-//}
-//
-//void Camera::setpositionition(glm::vec3 position)
-//{
-//	modelLoc = glm::translate(modelLoc, glm::vec3(position.x, -position.y, position.z));
-//}
-//
-//void Camera::setScale(GLfloat scale)
-//{
-//	modelLoc = glm::scale(glm::mat4(1.0f), glm::vec3(scale));
-//}
-//
-//void Camera::setRotation(GLfloat angle)
-//{
-//	modelLoc = glm::rotate(modelLoc, angle, glm::vec3(0.0f, 0.0f, angle));
-//}
-//
-//void Camera::setSize(glm::vec3 s)
-//{
-//	glm::vec3 size = s;
-//	viewLoc = glm::ortho(size.x, size.y, size.z, 0.0f);
-//}
-//
-//void Camera::init()
-//{
-//	//glm::vec3 Xaxis(camX, 0.0, 0.0);
-//	//glm::vec3 Yaxis(0.0, camY, 0.0);
-//	//glm::vec3 Zaxis(0.0, 0.0, camZ);
-//
-//	//position = glm::vec3(0.0f, 0.0f, 0.0f);
-//	//up = yAxis;
-//	//right = xAxis;
-//	//front = -zAxis;
-//
-//	projLoc = lookAt(position, position + front, up);
-//	viewLoc = glm::ortho(0.0f, size.x, size.y, 0.0f);
-//}
-//
-//Camera::Camera(glm::vec2 s)
-//{
-//	x = 1.0f;
-//	y = 1.0f;
-//	z = 1.0f;
-//	size = s;
-//}
+
+
+
+
+
+
+//#include "Camera.h"
+//#include <glm\gtx\transform.hpp>
 //
 //Camera::Camera()
+//	:viewDirection(0.0f, 0.0f, -1.0f), up(0.0f, 1.0f, 0.0f)
 //{
-//	x = 1.0f;
-//	y = 1.0f;
-//	z = 1.0f;
-//	size = glm::vec2(1,1);
-//	position = glm::vec3(0.0f, 0.0f, 3.0f);
-//	targetNeg = glm::vec3(0.0f, 0.0f, 0.0f);
-//	direction = glm::normalize(position - targetNeg);
+//}
+//
+//Camera::~Camera()
+//{
+//
+//}
+//
+//
+//glm::mat4 Camera::getWorldToViewMat() const
+//{
+//	return glm::lookAt(position, position + viewDirection, up);
+//}
+//
+//void Camera::mouseUpdate(const glm::vec2& newMousePosition)
+//{
+//
+//	glm::vec2 mouseDelta = newMousePosition - oldMousePosition;
+//	viewDirection = glm::mat3(glm::rotate(mouseDelta.x, up)) * viewDirection;
+//
+//	//update the old mouse position
+//	oldMousePosition = newMousePosition;
 //}

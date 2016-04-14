@@ -24,6 +24,8 @@
 #include "Object3D.h"
 #include <math.h>
 #include <cstddef>
+
+#include "Input.h"
 //
 
 
@@ -110,6 +112,7 @@ public:
 	ShaderManager *shaderManager;
 
 	//TestBench for the buffer
+	void mouseMoveEvent();
 	void drawTestBuffer(int x);
 	void initTest();
 	void testBox();

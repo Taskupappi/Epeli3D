@@ -71,12 +71,13 @@ void gameLoop()
 		{
 			pressed = true;
 			mouseClickPos = eng->getInput()->getMousePosition();
-			SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
+			//SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
 		}
 		if (eng->getInput()->isMousePressed(core::Mouse::right))
 		{
 			pressed = true;
-			glm::vec2 movement = eng->getInput()->getMouseMovement();
+			glm::vec2 movement = eng->getInput()->getMousePosition();
+			//eng->getInput()->getMouseMovement();
 			SDL_Log("Mouse Moved: %f / %f", movement.x, movement.y);
 
 			//test for camera movement below
@@ -90,7 +91,7 @@ void gameLoop()
 			pressed = false;
 			glm::vec2 relPos = eng->getInput()->getMousePosition();
 			glm::vec2 mouseDragSize = relPos - mouseClickPos;
-			SDL_Log("Mouse Left Released dragged: %f / %f", mouseDragSize.x, mouseDragSize.y);
+			//SDL_Log("Mouse Left Released dragged: %f / %f", mouseDragSize.x, mouseDragSize.y);
 		}
 		if (eng->getInput()->isMousePressed(core::Mouse::right))
 		{
