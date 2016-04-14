@@ -12,7 +12,6 @@
 #include <glm\gtc\type_ptr.hpp>
 
 #include <glm\glm.hpp>
-//#include "ShaderManager.h"
 #include "Vertex.h"
 
 //includes for the testBench
