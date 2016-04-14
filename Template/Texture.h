@@ -3,6 +3,7 @@
 
 #include "Core.h"
 #include <string.h>
+#include "ImageResource.h"
 
 class Texture
 {
@@ -13,8 +14,9 @@ public:
 		
 	}
 	~Texture(){};
+	GLuint bindTexture();
+	void unbindTexture();
 
-	GLuint _texture;
 
 private:
 
@@ -23,6 +25,12 @@ private:
 		if (this == &texture)
 			return *this;
 	}
+
+	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
+	std::unordered_map<std::string, Texture>textureMap;
+	imageData data;
+	GLuint _texture;
+
 };
 
 #endif

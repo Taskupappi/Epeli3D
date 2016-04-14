@@ -35,7 +35,7 @@ public:
 			FileName = resourcefilepath.substr(pos + 1);
 
 		// Init TEXTURE manager and map, load file to map
-		if (typeid(T).hash_code() == typeid(SDL_Surface).hash_code())
+		if (typeid(T).hash_code() == typeid(ImageResource).hash_code())
 		{
 			if (!texturesInit)
 			{
@@ -61,8 +61,8 @@ public:
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				
-				// HAX???
-				return (T*)image;
+				// HAX?
+				//return (T*)image;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)

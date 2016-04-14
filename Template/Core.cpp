@@ -88,7 +88,10 @@ void Engine::Init()
 	
 	// TODO: fix this
 	_txtrMngr->createTexture("../data/Resource/Images/sample.png");
+	Texture *texture = new Texture(0);
 
+	// sisälle filepath??? vai mitähä???
+	texture->bindTexture();
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");

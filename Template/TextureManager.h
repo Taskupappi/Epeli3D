@@ -2,6 +2,7 @@
 #define TEXTUREMANAGER_H
 
 #include "Texture.h"
+#include "ImageResource.h"
 #include "Resources.h"
 #include "ResourceBase.h"
 
@@ -13,24 +14,20 @@ public:
 	TextureManager(Resources *res) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_res = res;
-		texture = 0;
 		width = 0;
 		height = 0;
 	}
 	~TextureManager(){};
 
-	GLuint createTexture(const std::string& resourcefilepath);
-	GLuint bindTexture(SDL_Surface& image);
+	void createTexture(const std::string& resourcefilepath);
+	GLuint bindTexture(ImageResource& image);
 	void unbindTexture();
-	int getWidth();
-	int getHeight();
+	//GLuint getWidth(ImageResource& image);
+	//GLuint getHeight(ImageResource& image);
 
 private:
-	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
-	std::unordered_map<std::string, Texture>textureMap;
 	Resources *_res;
-	GLuint texture;
-	SDL_Surface* image;
+	ImageResource* image;
 	int width;
 	int height;
 };
