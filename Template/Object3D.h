@@ -66,7 +66,7 @@ public:
 	~Object3D()
 	{};
 
-	std::vector<Mesh> getMeshVec()
+	std::vector<Mesh> &getMeshVec()
 	{
 		return model;
 	}

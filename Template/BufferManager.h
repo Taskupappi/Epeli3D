@@ -19,10 +19,11 @@
 #include "ShaderManager.h"
 #include "Camera.h"
 #include "Input.h"
-
+#include <glm/gtx/rotate_vector.hpp>
 ////3d object loading
 #include "Object3D.h"
 #include <math.h>
+#include <cstddef>
 //
 
 
@@ -98,6 +99,10 @@ public:
 	GLuint matrixID;
 	glm::mat4 MVP;
 
+	GLfloat camX = 2;
+	GLfloat camY = 0;
+	GLfloat camZ = 15;
+
 	//lightPos 
 	glm::vec3 lightPos;
 	
@@ -125,7 +130,7 @@ public:
 
 
 	////3DModel loading
-	//Object3D *model3D;
+	Object3D model3D;
 	/////
 
 protected:
