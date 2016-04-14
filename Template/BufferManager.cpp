@@ -8,14 +8,16 @@ BufferManager::BufferManager()
 	//tempShader init	
 
 	shaderManager = new ShaderManager();
+	model3D = Object3D("../data/Resource/Models/Shark.stl");
 	
+
 	shaderManager->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
 	shaderManager->createShader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs", "testShader");
 	
 	shaderManager->setActiveShader("testShader");
 
 	//camera
-	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
+	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -124,7 +126,7 @@ void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLui
 
 	vertexBuffer.insert(vertexBuffer.begin(), vertices.begin(), vertices.end());
 	indicesBuffer.insert(indicesBuffer.begin(), indices.begin(), indices.end());
-	this->textures.insert(this->textures.begin(), textures.begin(), textures.end()); //not needed here
+	//this->textures.insert(this->textures.begin(), textures.begin(), textures.end()); //not needed here
 
 
 	//temporarily fix - TAKE CARE OF THIS PLEASE!s
@@ -296,10 +298,40 @@ void BufferManager::testBox()
 
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
+	
+	std::vector<Mesh>::iterator modelIter;
+	std::vector<Vertex>::iterator vertexIter;
+	std::vector<GLuint>::iterator indicesIter;
+	
+	std::vector<Mesh> mesh;
 
-	//for (auto it : model->getMeshVec().begin)
+	mesh = model3D.getMeshVec();
+
+
+	for (modelIter = model3D.getMeshVec().begin(); modelIter != model3D.getMeshVec().end(); modelIter++)
+		{
+			for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+			{
+				v3D.push_back((*vertexIter));
+			}	
+
+			for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
+			{
+				indices3D.push_back((*indicesIter));
+			}
+		}
+
+	//for (modelIter = model3D.getMeshVec().begin(); modelIter != model3D.getMeshVec().end(); modelIter++)
 	//{
-	//
+	//	//for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+	//	//{
+	//	//	v3D.push_back((*vertexIter));
+	//	//}	
+
+	//	//for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
+	//	//{
+	//	//	indices3D.push_back((*indicesIter));
+	//	//}
 	//}
 
 	int meshCounter = 0;
@@ -524,7 +556,8 @@ void BufferManager::testBox()
 
 	//v.push_back(BV1);
 	
-	setBufferData(v, testIndices, tex1);
+	//setBufferData(v, testIndices, tex1);
+	setBufferData(v3D, indices3D, tex1);
 
 	drawTestBuffer(TEST);
 	/////
@@ -601,9 +634,9 @@ void BufferManager::testBox()
 	
 	//vcopy.push_back(BV1);
 
-	addBufferData(vcopy, testIndicescopy, tex1);
+	//addBufferData(vcopy, testIndicescopy, tex1);
 
-	drawTestBuffer(TEST);
+	//drawTestBuffer(TEST);
 	////
 
 	//lighting
@@ -635,16 +668,13 @@ void BufferManager::testBoxUpdate()
 	//projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 
 	rotation += 0.02;
-	if (rotation > 360)
+	if (rotation > 36000)
 	{
 		rotation = 0;
 	}
 
-	// Camera/View transformation
-	GLfloat radius = 2.0f;
-	GLfloat camX = 2; // sin(rotation / 3) * radius;
-	GLfloat camY = 4; //cos(rotation / 8) * radius;
-	GLfloat camZ =  cos(rotation / 3) * radius;
+	//// Camera/View transformation
+	//glm::vec3 vec = glm::rotate(glm::vec3(0, camY, 0),rotation, glm::vec3(0, 0, camZ));
 
 	cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	/*view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
@@ -689,19 +719,6 @@ void BufferManager::testBoxUpdate()
 	//ShaderManager test;
 	//std::string kisse = "kansio1/kansio2/kansio3/kisse.obj";
 	//test.initShader(kisse);
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
