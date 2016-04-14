@@ -6,7 +6,7 @@
 #include <vector>
 #include "BufferManager.h"
 #include <glm/vec3.hpp>
-#include "TempShader.h"
+#include "Shader.h"
 
 namespace graphics
 {

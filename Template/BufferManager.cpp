@@ -5,10 +5,15 @@ BufferManager::BufferManager()
 	initBuffers();
 
 	////Testbench stuff
-	//tempShader init
+	//tempShader init	
+
+	shaderManager = new ShaderManager();
 	
-	testShader.Init("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs");
-	testLampShader.Init("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs");
+	shaderManager->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
+	shaderManager->createShader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs", "testShader");
+	
+	shaderManager->setActiveShader("testShader");
+
 	//camera
 	glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 15.0f);
 	glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -16,13 +21,12 @@ BufferManager::BufferManager()
 
 	cam = new Camera();
 
-	cam->setShader(&testShader);
+	cam->setShader(shaderManager->getActiveShader());
 	cam->setView(cameraPos, cameraPos + cameraFront, cameraUp);
 
 	angle = 0;
 
 	lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
-
 
 	//model loading
 	//model3D = new Object3D("../data/Resource/Models/nanosuit2.obj");
@@ -206,7 +210,7 @@ void BufferManager::addBuffer()
 
 	//Vertex Color
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(GLvoid*)offsetof(Vertex, Color));
 
 	VertexArrayObjects.push_back(newVAO);
@@ -217,17 +221,17 @@ void BufferManager::addBuffer()
 void BufferManager::drawTestBuffer(int x)
 {
 	//draw what is in the buffer
-
+	
 	if (x == TEST)
-		drawBuffer(testShader);
+		drawBuffer(shaderManager->getActiveShader());
 	else if (x == LAMP)
-		drawBuffer(testLampShader);
+		drawBuffer(shaderManager->getActiveShader());
 	//default case:
 	else
-		drawBuffer(testShader);
+		drawBuffer(shaderManager->getActiveShader());
 }
 
-void BufferManager::drawBuffer(Shader shader)
+void BufferManager::drawBuffer(Shader *shader)
 {
 	//GLuint diffuseNr = 1;
 	//GLuint specularNr = 1;
@@ -609,9 +613,9 @@ void BufferManager::testBox()
 
 void BufferManager::testBoxUpdate()
 {
-	getShader(TEST).Use();
+	shaderManager->useActiveShader();
 
-	GLint lightPosLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "lightPos");
+	GLint lightPosLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "lightPos");
 	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);
 
 	// Create transformations
@@ -651,9 +655,9 @@ void BufferManager::testBoxUpdate()
 
 	// Get uniform locations
 	/*Objects get these from a camera and send them to the shader instead of doing new ones*/
-	GLint boxModelLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "model");
-	GLint boxViewLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "view");
-	GLint boxProjLoc = glGetUniformLocation(getShader(TEST).GetShaderProgram(), "projection");
+	GLint boxModelLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "model");
+	GLint boxViewLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "view");
+	GLint boxProjLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "projection");
 
 	// Pass uniform locations to the shaders
 	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
@@ -679,6 +683,28 @@ void BufferManager::testBoxUpdate()
 	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
 	angle = 0.2f;
+
+
+
+	//ShaderManager test;
+	//std::string kisse = "kansio1/kansio2/kansio3/kisse.obj";
+	//test.initShader(kisse);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	//for (int i = 0; i < 10; i++)
 	//{		
 	//	model = glm::translate(model, cubePositions[i]);
@@ -699,77 +725,3 @@ Camera* BufferManager::getCamera()
 {
 	return cam;
 }
-
-Shader BufferManager::getShader(int x)
-{
-	if (x == TEST)
-		return testShader;
-	else if (x == LAMP)
-		return testLampShader;	
-}
-
-void BufferManager::initShaders()
-{
-
-
-	// Shaders
-	const GLchar* vertexShaderSource = "#version 330 core\n"
-		"layout (location = 0) in vec3 position;\n"
-		"void main()\n"
-		"{\n"
-		"gl_Position = vec4(position.x, position.y, position.z, 1.0);\n"
-		"}\0";
-	const GLchar* fragmentShaderSource = "#version 330 core\n"
-		"in vec3 color; \n"
-		"out vec4 Fcolor;\n"
-		"void main()\n"
-		"{\n"
-		"Fcolor = vec4(color, 1.0f);\n"
-		"}\n\0";
-
-
-	//vertex shader
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-	glCompileShader(vertexShader);
-	GLint success;
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(vertexShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::VERTEX::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	// Fragment shader
-	GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-	glCompileShader(fragmentShader);
-	// Check for compile time errors
-	glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &success);
-	if (!success)
-	{
-		glGetShaderInfoLog(fragmentShader, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n" << infoLog << std::endl;
-	}
-
-	// Link shaders
-	shaderProgram = glCreateProgram();
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragmentShader);
-	glLinkProgram(shaderProgram);
-	// Check for linking errors
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
-	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infoLog);
-		std::cout << "ERROR::SHADER::PROGRAM::LINKING_FAILED\n" << infoLog << std::endl;
-	}
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	//End of Shader init and linking
-}
-
-
-
-
-

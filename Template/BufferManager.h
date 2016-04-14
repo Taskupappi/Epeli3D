@@ -12,18 +12,16 @@
 #include <glm\gtc\type_ptr.hpp>
 
 #include <glm\glm.hpp>
-//#include "ShaderManager.h"
 #include "Vertex.h"
 
 //includes for the testBench
 #include "amp.h"
-#include "TempShader.h"
+#include "ShaderManager.h"
 #include "Camera.h"
 #include "Input.h"
 
 ////3d object loading
 #include "Object3D.h"
-
 #include <math.h>
 //
 
@@ -40,17 +38,24 @@ GLfloats color [r, g, b, a]
 GLfloats texture coords [x, y]
 */
 
+//TESTBENCH STUFF
 struct BufferTexture
 {
 	GLuint id;
 	std::string type;
 };
 
+//TESTBENCH STUFF
 enum SHADERSELECTOR
 {
 	TEST = 1,
 	LAMP = 2
 };
+
+namespace core
+{
+	class Engine;
+}
 
 class BufferManager
 {
@@ -58,10 +63,8 @@ public:
 	BufferManager();
 	~BufferManager();
 
-	//possibly unnecessary files
 	void addVertexData(GLfloat *data, GLsizei size);
 	void addIndexData(GLuint *data, GLuint *size);
-
 
 	void bindBuffer();
 	void unbindBuffer();
@@ -69,8 +72,6 @@ public:
 
 	//called in the constructor
 	void initBuffers();
-	//temporary init for shaders
-	void initShaders();
 
 	//add data to the buffers in following format
 	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
@@ -80,33 +81,38 @@ public:
 	//come here from the "addBufferData"
 	void addBuffer();
 	//RenderBuffers
-	void drawBuffer(Shader shader);
+	void drawBuffer(Shader *shader);
 
 	//binds a new Vertex Array Object for use
 	void newVAO(const GLuint vao);
 
-	//TestBench for the buffer
-	void drawTestBuffer(int x);
-	void initTest();
-	void testBox();
-	void testBoxUpdate();
-	Shader getShader(int x);
-	glm::mat4 model;
-	glm::mat4 view;
-	glm::mat4 projection;
-	float rotation = 0;
-
-	//lightPos
-	glm::vec3 lightPos;
 
 
-	////
+
+
+	//TESTBENCH STUFF
 
 	//Cam
 	Camera* getCamera();
 	Camera *cam;
 	GLuint matrixID;
 	glm::mat4 MVP;
+
+	//lightPos 
+	glm::vec3 lightPos;
+	
+	//Shader manager
+	ShaderManager *shaderManager;
+
+	//TestBench for the buffer
+	void drawTestBuffer(int x);
+	void initTest();
+	void testBox();
+	void testBoxUpdate();
+	glm::mat4 model;
+	glm::mat4 view;
+	glm::mat4 projection;
+	float rotation = 0;
 	////
 
 	//Buffer Data Vectors
@@ -131,23 +137,16 @@ private:
 
 	//Struct 
 	struct Vertex vertex;
+
 	//delete these?
 	GLuint vertexbufId;
 	GLuint indexbufID;
 
 	// temporary shader
-	GLuint vertexShader;
-	GLuint fragmentShader;
-	GLchar infoLog[512];
-	GLuint shaderProgram;
 	float tempColor = 0;
-	Shader testShader;
-	Shader testLampShader;
 	bool rewind;
 	GLfloat angle;
 	//testbench values
 	int pos = 0;
 };
-
-
 #endif

@@ -114,7 +114,7 @@ public:
 		}
 
 		// Init STRING manager and map, load file to map
-		else if (typeid(T).hash_code() == typeid(Text).hash_code())
+		else if (typeid(T).hash_code() == typeid(std::string).hash_code())
 		{
 			if (!txtInit)
 			{

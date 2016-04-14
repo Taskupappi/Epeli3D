@@ -64,9 +64,9 @@ glm::mat4 Camera::getViewMatrix()
 void Camera::update(float deltaTime)
 {
 	// Get uniform locations
-	GLint modelLoc = glGetUniformLocation(shader->GetShaderProgram(), "model");
-	GLint viewLoc = glGetUniformLocation(shader->GetShaderProgram(), "view");
-	GLint projLoc = glGetUniformLocation(shader->GetShaderProgram(), "projection");
+	GLint modelLoc = glGetUniformLocation(shader->getShaderProgram(), "model");
+	GLint viewLoc = glGetUniformLocation(shader->getShaderProgram(), "view");
+	GLint projLoc = glGetUniformLocation(shader->getShaderProgram(), "projection");
 
 	// Pass uniform locations to the shaders
 	glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));

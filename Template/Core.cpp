@@ -10,6 +10,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_input = new Input();
 	_bufMngr = new BufferManager();
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
+	//_shdrMngr = new graphics::ShaderManager();
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	//TO DO:
@@ -56,6 +57,7 @@ Engine::~Engine()
 	delete _bufMngr;
 	delete _input;
 	delete _scnMngr;
+	//delete _shdrMngr;
 }
 
 void Engine::Init()
@@ -100,7 +102,21 @@ void Engine::Init()
 	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	std::cout << "Model loading:" << std::endl;
-	Object3D object("../data/Resource/Models/FinalBaseMesh.obj");
+	Object3D object("../data/Resource/Models/boy.obj");
+	std::cout << ".obj loaded" << std::endl;
+	Object3D object2("../data/Resource/Models/boy.3ds");
+	std::cout << ".3ds loaded" << std::endl;
+	Object3D object3("../data/Resource/Models/boy.lwo");
+	std::cout << ".lwo loaded" << std::endl; 
+	Object3D object4("../data/Resource/Models/Shark.dae");
+	std::cout << ".dae loaded" << std::endl; 
+	Object3D object5("../data/Resource/Models/Shark.stl");
+	std::cout << ".stl loaded" << std::endl; 
+	Object3D object6("../data/Resource/Models/smg_low.x");
+	std::cout << ".x   loaded" << std::endl; 
+	Object3D object7("../data/Resource/Models/smg_low.ply"); //hiukan hidas
+	std::cout << ".ply loaded" << std::endl;
+	std::cout << "Model loading end." << std::endl;
 
 	//Mix_PlayMusic(audio, 1);
 
