@@ -95,23 +95,24 @@ void Engine::Init()
 	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Object3D * model = res->loadFile<Object3D>("../data/Resource/Models/boy.obj");
 
-	std::cout << "Model loading:" << std::endl;
-	Object3D object("../data/Resource/Models/boy.obj");
-	std::cout << ".obj loaded" << std::endl;
-	Object3D object2("../data/Resource/Models/boy.3ds");
-	std::cout << ".3ds loaded" << std::endl;
-	Object3D object3("../data/Resource/Models/boy.lwo");
-	std::cout << ".lwo loaded" << std::endl; 
-	Object3D object4("../data/Resource/Models/Shark.dae");
-	std::cout << ".dae loaded" << std::endl; 
-	Object3D object5("../data/Resource/Models/Shark.stl");
-	std::cout << ".stl loaded" << std::endl; 
-	Object3D object6("../data/Resource/Models/smg_low.x");
-	std::cout << ".x   loaded" << std::endl; 
-	Object3D object7("../data/Resource/Models/smg_low.ply"); //hiukan hidas
-	std::cout << ".ply loaded" << std::endl;
-	std::cout << "Model loading end." << std::endl;
+	//std::cout << "Model loading:" << std::endl;
+	//Object3D object("../data/Resource/Models/boy.obj");
+	//std::cout << ".obj loaded" << std::endl;
+	//Object3D object2("../data/Resource/Models/boy.3ds");
+	//std::cout << ".3ds loaded" << std::endl;
+	//Object3D object3("../data/Resource/Models/boy.lwo");
+	//std::cout << ".lwo loaded" << std::endl; 
+	//Object3D object4("../data/Resource/Models/Shark.dae");
+	//std::cout << ".dae loaded" << std::endl; 
+	//Object3D object5("../data/Resource/Models/Shark.stl");
+	//std::cout << ".stl loaded" << std::endl; 
+	//Object3D object6("../data/Resource/Models/smg_low.x");
+	//std::cout << ".x   loaded" << std::endl; 
+	//Object3D object7("../data/Resource/Models/smg_low.ply"); //hiukan hidas
+	//std::cout << ".ply loaded" << std::endl;
+	//std::cout << "Model loading end." << std::endl;
 
 	//Mix_PlayMusic(audio, 1);
 

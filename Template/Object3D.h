@@ -16,7 +16,10 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "Core.h"
 #include "Vertex.h"
+#include "ResourceBase.h"
+
 
 //struct Vertex
 //{
@@ -31,7 +34,6 @@
 //	std::string type;
 //	aiString path;
 //};
-
 
 
 class Mesh
@@ -52,23 +54,41 @@ public:
 
 
 
-
-
 class Object3D
+	: public ResourceBase
 {
 public:
-	Object3D(GLchar* path)
+	Object3D(std::vector<Mesh> model) : ResourceBase(resourcefilepath, nullptr)
 	{
-		this->loadModel(path);
+		_model = model;
 	}
-	Object3D()
-	{};
 	~Object3D()
 	{};
 
-	std::vector<Mesh> getMeshVec()
+	std::vector<Mesh>& getMeshVec()
 	{
-		return model;
+		return _model;
+	}
+
+	std::vector<Mesh>* loadModel(std::string resourcefilepath)
+	{
+		//Read file via assimp
+		Assimp::Importer importer;
+		aiScene const* scene = importer.ReadFile(resourcefilepath, aiProcess_Triangulate | aiProcess_FlipUVs);
+		//Check for errors
+		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) //if is not zero
+		{
+			std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+			//return;
+		}
+		//retrieve the  directory path of the file path
+		this->directory = resourcefilepath.substr(0, resourcefilepath.find_last_of('/'));
+
+		//process assimp's root node recursively
+		this->processNode(scene->mRootNode, scene);
+
+		std::vector<Mesh>* modelPointer = new std::vector<Mesh>(_model);
+		return modelPointer;
 	}
 
 	//void Draw(Shader shader)
@@ -79,29 +99,13 @@ public:
 	//	}
 	//}
 
+	std::vector<Mesh> _model;
+
 private:
-	std::vector<Mesh> model;
+	
 	std::string directory;
 
-	void loadModel(std::string path)
-	{
-		//Read file via assimp
-		Assimp::Importer importer;
-		aiScene const* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
-		//Check for errors
-		if (!scene || scene->mFlags == AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) //if is not zero
-		{
-			std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
-			return;
-		}
-		//retrieve the  directory path of the file path
-		this->directory = path.substr(0, path.find_last_of('/'));
 
-		//process assimp's root node recursively
-		this->processNode(scene->mRootNode, scene);
-
-		return;
-	}
 
 	void processNode(aiNode* node, const aiScene* scene)
 	{
@@ -111,7 +115,7 @@ private:
 			//The node object only contains indices to index the actual objects in the scene.
 			//The scene contains all the data, node is just to keep stuff organized (like relations between nodes)
 			aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-			this->model.push_back(this->processMesh(mesh, scene));
+			this->_model.push_back(this->processMesh(mesh, scene));
 			//Model* model = (this->processMesh(mesh, scene));
 			//return model;
 		}
@@ -230,8 +234,6 @@ private:
 //	glBindTexture(GL_TEXTURE_2D, textureID);
 //	
 //}
-
-
 
 
 #endif
