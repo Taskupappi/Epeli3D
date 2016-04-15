@@ -15,17 +15,10 @@ public:
 		_width = 0;
 		_height = 0;
 		_pixelData = 0;
-		//setWidth(image->w);
-
-		//setHeight(image->h);
-
-		//setPixelData(image->pixels);
-
-		//filePath = resourcefilepath;
 	}
 	~ImageResource(){};
 
-	// FIX GETTERS
+	// TODO: FIX GETTERS
 	void setWidth(int width){ _width = width; }
 	void setHeight(int height){ _height = height; }
 	void setPixelData(void* data){ _pixelData = data; }
@@ -45,7 +38,6 @@ private:
 	int _width;
 	int _height;
 	void* _pixelData;
-	std::string _filePath;
 };
 
 #endif

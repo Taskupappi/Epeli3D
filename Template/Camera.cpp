@@ -160,7 +160,7 @@ void Camera::mouseUpdate(const glm::vec2& newMousePosition)
 	else
 	{
 		view = glm::rotate(mouseDelta.x * 0.01f, up) * view;
-		view = glm::rotate(mouseDelta.y * 0.01f, glm::cross(up,))
+		//view = glm::rotate(mouseDelta.y * 0.01f, glm::cross(up,))
 		oldMousePosition = newMousePosition;
 		updateCameraVectors();
 	}

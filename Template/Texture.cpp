@@ -1,7 +1,7 @@
 #include "Texture.h"
 
 // Bind texture and insert it to a map
-GLuint Texture::bindTexture()
+GLuint Texture::bindTexture(ImageResource* img)
 {
 	glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);

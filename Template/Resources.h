@@ -3,7 +3,6 @@
 
 #include "ResourceBase.h"
 //#include "Core.h"
-#include "Texture.h"
 #include "ImageResource.h"
 #include "Audio.h"
 #include "Text.h"
@@ -11,6 +10,7 @@
 #include <iostream>
 #include <fstream>
 
+//class ImageResource;
 
 class Resources :
 	public ResourceBase
@@ -26,15 +26,15 @@ public:
 	template <class T>
 	T* loadFile(const std::string &resourcefilepath)
 	{
-		// T * loadedResource = nullptr;
 		ResourceBase * loadedResource = NULL;
 		bool isLoaded = NULL;
 
 		size_t pos = resourcefilepath.find_last_of("/");
 		if (pos != std::string::npos)
 			FileName = resourcefilepath.substr(pos + 1);
-
-		// Init TEXTURE manager and map, load file to map
+		else
+			printf("ULIULUIULI\n");
+		// Init IMAGE manager and map, load file to map
 		if (typeid(T).hash_code() == typeid(ImageResource).hash_code())
 		{
 			if (!texturesInit)
@@ -43,6 +43,7 @@ public:
 				imageMap.initMapper("ImageMap", &imageM, true);
 				texturesInit = true;
 			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
 			printf_s("Checking if file has already been loaded\n");
 			if (imageMap.getElement(FileName))
 				isLoaded = true;
@@ -67,7 +68,7 @@ public:
 				img->setPixelData(image->pixels);
 				
 				// HAX?
-				return (T*)image;
+				//return (T*)image;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -89,6 +90,7 @@ public:
 				audioMap.initMapper("AudioMap", &audioM, true);
 				audioInit = true;
 			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
 			printf_s("Checking if file has already been loaded\n");
 			if (audioMap.getElement(FileName))
 				isLoaded = true;
@@ -127,6 +129,7 @@ public:
 				txtMap.initMapper("TextMap", &txtM, true);
 				txtInit = true;
 			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
 			printf_s("Checking if file has already been loaded\n");
 			if (txtMap.getElement(FileName))
 				isLoaded = true;
@@ -188,7 +191,7 @@ private:
 		return *this;
 	}
 	SDL_Surface *image = NULL;		// for all textures
-	ImageResource *img = NULL;
+	ImageResource *img = new ImageResource(0);
 
 	ResourceManager<ResourceBase>imageM;
 	ResourceMap<ResourceBase>imageMap;

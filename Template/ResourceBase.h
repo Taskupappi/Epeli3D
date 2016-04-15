@@ -14,8 +14,9 @@ public:
 	{
 		// exit with an error if filename is empty
 
-		if (resourcefilepath.empty())
-			printf_s("Error: empty filename\n");
+		/////// NOT NEEDED
+		//if (resourcefilepath.empty())
+		//	printf_s("Error: empty filename\n");
 
 		size_t pos = resourcefilepath.find_last_of("/");
 		if (pos != std::string::npos)

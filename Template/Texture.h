@@ -14,7 +14,7 @@ public:
 		
 	}
 	~Texture(){};
-	GLuint bindTexture();
+	GLuint bindTexture(ImageResource* img);
 	void unbindTexture();
 
 
@@ -29,7 +29,7 @@ private:
 	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
 	std::unordered_map<std::string, Texture>textureMap;
 	GLuint _texture;
-	ImageResource *img;
+	//ImageResource *img;
 
 };
 
