@@ -15,6 +15,13 @@ GraphicContext::GraphicContext()
 	//openGL context
 	glcontext = SDL_GL_CreateContext(window);	
 
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+
+	//multisampling?
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
+	SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+	glEnable(GL_MULTISAMPLE);
+
 	//GlewInit()
 	glewExperimental = GL_TRUE;
 	glewInit();
