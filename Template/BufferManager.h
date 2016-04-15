@@ -88,10 +88,7 @@ public:
 
 	//binds a new Vertex Array Object for use
 	void newVAO(const GLuint vao);
-
-
-
-
+	
 
 	//TESTBENCH STUFF
 
@@ -121,7 +118,13 @@ public:
 	glm::mat4 view;
 	glm::mat4 projection;
 	float rotation = 0;
+
+	//this should be moved to the game object
+	void calculateModelMatrix();
+
 	////
+
+
 
 	//Buffer Data Vectors
 	std::vector<Vertex> vertexBuffer;

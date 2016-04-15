@@ -544,7 +544,7 @@ void BufferManager::testBox()
 	//newVAO(lighting);
 
 
-	cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//cam->setView(glm::vec3(camX, camY, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
 void BufferManager::testBoxUpdate()
@@ -580,12 +580,12 @@ void BufferManager::testBoxUpdate()
 	//glm::vec3 vec = glm::rotate(glm::vec3(0, camY, 0),rotation, glm::vec3(0, 0, camZ));
 
 
-	cam->rotate(rotation, glm::vec3(0.0f, 1.0f, 0.0f));
+	//cam->rotate(rotation, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	/*view = glm::lookAt(glm::vec3(camX, 0, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));*/
 
 	// Projection 
-	cam->setProjection(90.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+	cam->setProjectionMat(90.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
 	/*projection = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);*/
 
 	// Get uniform locations
@@ -593,11 +593,19 @@ void BufferManager::testBoxUpdate()
 	GLint boxModelLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "model");
 	GLint boxViewLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "view");
 	GLint boxProjLoc = glGetUniformLocation(shaderManager->getActiveShader()->getShaderProgram(), "projection");
+	
+	//temp model matrix until game object class is done
+	glm::mat4 model;
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
+	GLfloat angle = 20.0f;
+	model = glm::rotate(model, angle, glm::vec3(1.0f, 0.3f, 0.5f));
+	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
 
 	// Pass uniform locations to the shaders
-	glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModel()));
-	glUniformMatrix4fv(boxViewLoc, 1, GL_FALSE, glm::value_ptr(cam->getView()));
-	glUniformMatrix4fv(boxProjLoc, 1, GL_FALSE, glm::value_ptr(cam->getProjection()));
+	//glUniformMatrix4fv(boxModelLoc, 1, GL_FALSE, glm::value_ptr(cam->getModelMat()));
+	glUniformMatrix4fv(boxViewLoc, 1, GL_FALSE, glm::value_ptr(cam->getViewMat()));
+	glUniformMatrix4fv(boxProjLoc, 1, GL_FALSE, glm::value_ptr(cam->getProjectionMat()));
 
 	////temporary rotation for a demo cube
 	//glPushMatrix();
@@ -646,4 +654,9 @@ void BufferManager::newVAO(const GLuint vao)
 Camera* BufferManager::getCamera()
 {
 	return cam;
+}
+
+void calculateModelMatrix(GLint positions, GLfloat rotationAngle)
+{
+
 }
