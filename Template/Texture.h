@@ -3,8 +3,8 @@
 
 #include "Core.h"
 #include <string.h>
-//#include "ImageResource.h"
-class ImageResource;
+#include "ImageResource.h"
+//class ImageResource;
 
 class Texture
 {

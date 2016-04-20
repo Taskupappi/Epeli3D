@@ -3,14 +3,14 @@
 
 #include "ResourceBase.h"
 //#include "Core.h"
-#include "ImageResource.h"
+//#include "ImageResource.h"
 #include "Audio.h"
 #include "Text.h"
 #include <unordered_map>
 #include <iostream>
 #include <fstream>
 
-//class ImageResource;
+class ImageResource;
 
 class Resources :
 	public ResourceBase
@@ -54,7 +54,8 @@ public:
 			if (!isLoaded)
 			{
 				image = IMG_Load((resourcefilepath).c_str());
-
+				// FIX THIS
+				ImageResource *img = new ImageResource(image);
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
 					
@@ -62,7 +63,7 @@ public:
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				
-				// heittää exceptionia
+				// Set image data
 				img->setWidth(image->w);
 				img->setHeight(image->h);
 				img->setPixelData(image->pixels);
@@ -191,7 +192,6 @@ private:
 		return *this;
 	}
 	SDL_Surface *image = NULL;		// for all textures
-	ImageResource *img = new ImageResource(0);
 
 	ResourceManager<ResourceBase>imageM;
 	ResourceMap<ResourceBase>imageMap;
