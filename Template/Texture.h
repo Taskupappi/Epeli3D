@@ -3,15 +3,15 @@
 
 #include "Core.h"
 #include <string.h>
-#include "ImageResource.h"
+//#include "ImageResource.h"
+class ImageResource;
 
 class Texture
 {
 public:
 	Texture(GLuint _texture)
 	{
-		_texture = NULL;
-		
+		_texture = NULL;	
 	}
 	~Texture(){};
 	GLuint bindTexture(ImageResource* img);
