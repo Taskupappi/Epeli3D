@@ -69,19 +69,19 @@ Camera::Camera(Shader* shader)
 }
 
 Camera::Camera(Shader* shader, glm::vec3 position)
-		:viewDirection(glm::vec3(0.0f, 0.0f, 0.0f)),
-		position(position),
-		up(glm::vec3(0.0f, 1.0f, 0.0f)),
-		nearPlane(0.0f),
-		farPlane(0.0f),
-		fov(95),
-		movementSpeed(MOVEMENT_SPEED),
-		mouseSensitivity(SENSITIVITY),
-		worldUp(up),
-		yaw(YAW),
-		pitch(PITCH),
-		shader(shader)
-{	
+	:viewDirection(glm::vec3(0.0f, 0.0f, 0.0f)),
+	position(position),
+	up(glm::vec3(0.0f, 1.0f, 0.0f)),
+	nearPlane(0.0f),
+	farPlane(0.0f),
+	fov(95),
+	movementSpeed(MOVEMENT_SPEED),
+	mouseSensitivity(SENSITIVITY),
+	worldUp(up),
+	yaw(YAW),
+	pitch(PITCH),
+	shader(shader)
+{
 }
 
 Camera::Camera(Shader* shader, glm::vec3 position, glm::vec3 viewDirection)
@@ -153,7 +153,7 @@ void Camera::mouseUpdate(const glm::vec2& newMousePosition, GLboolean constrainP
 	GLfloat offsetY = newMousePosition.y;
 	offsetX *= this->mouseSensitivity;
 	offsetY *= this->mouseSensitivity;
-	
+
 	this->yaw += offsetX;
 	this->pitch += offsetY;
 
@@ -183,7 +183,7 @@ void Camera::mouseUpdate(const glm::vec2& newMousePosition, GLboolean constrainP
 	//
 
 	//	oldMousePosition = newMousePosition;
-		//updateCameraVectors();
+	//updateCameraVectors();
 	//}
 }
 
@@ -203,7 +203,7 @@ void Camera::updateCameraVectors()
 	//glm::lookAt(this->position, this->position + this->viewDirection, this->up);
 }
 
-void Camera::movementUpdate(const char* input , GLfloat deltaTime)
+void Camera::movementUpdate(const char* input, GLfloat deltaTime)
 {
 	//WASD movement with zoom in and out
 	switch (*input)
@@ -281,24 +281,7 @@ glm::mat4 Camera::getProjectionMat()
 
 glm::vec3& Camera::getPosition()
 {
-<<<<<<< HEAD
-	glm::vec2 mouseDelta = newMousePosition - oldMousePosition;
-	if (glm::length(mouseDelta) > 50.0f)
-	{
-		oldMousePosition = newMousePosition;
-	}
-	else
-	{
-		view = glm::rotate(mouseDelta.x * 0.01f, up) * view;
-		//view = glm::rotate(mouseDelta.y * 0.01f, glm::cross(up,))
-		oldMousePosition = newMousePosition;
-		updateCameraVectors();
-	}
-
-	//std::cout << "mouseUpdate" << std::endl;
-=======
 	return position;
->>>>>>> refs/remotes/origin/master
 }
 
 
