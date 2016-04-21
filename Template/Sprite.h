@@ -7,6 +7,7 @@
 #include "BufferManager.h"
 #include <glm/vec3.hpp>
 #include "Shader.h"
+#include "Color.h"
 
 namespace graphics
 {
@@ -19,8 +20,8 @@ namespace graphics
 	public:
 
 	protected:
-		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
-			Drawable(position,origin), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
+		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin,Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
+			Drawable(position,origin,col), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
 		{};
 
 		Sprite(){};

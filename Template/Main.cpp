@@ -20,7 +20,7 @@ SYSTEMTIME syst;
 long timeNow = SDL_GetTicks();
 long timeLast = 0;
 float deltaTime = 0.0f;
-
+graphics::Sprite * sprt;
 
 
 ////
@@ -46,6 +46,8 @@ void gameInit()
 	buff->initTest();
 	buff->shaderManager->getActiveShader()->use();
 	buff->drawTestBuffer(TEST);
+	eng->getSpriteManager()->setShader(buff->shaderManager->getActiveShader());
+	sprt = eng->createSprite(glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure, nullptr);
 }
 
 //Game mainloop
@@ -104,6 +106,7 @@ void gameLoop()
 		{
 			pressed = true;
 			mouseClickPos = eng->getInput()->getMousePosition();
+			eng->drawSprites();
 			//SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
 		}
 		if (eng->getInput()->isMousePressed(core::Mouse::right))
