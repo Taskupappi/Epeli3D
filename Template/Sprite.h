@@ -19,7 +19,7 @@ namespace graphics
 	public:
 
 	protected:
-		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
+		Sprite(glm::vec3 position, float width, float height, glm::vec3 origin, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
 			Drawable(position,origin), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
 		{};
 
