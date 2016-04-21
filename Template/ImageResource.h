@@ -12,9 +12,13 @@ public:
 	ImageResource(SDL_Surface* image) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_image = image;
-		_width = 0;
-		_height = 0;
-		_pixelData = 0;
+		setWidth(image->w);
+		setHeight(image->h);
+		setPixelData(image->pixels);
+		//_image = image;
+		//_width = 0;
+		//_height = 0;
+		//_pixelData = 0;
 	}
 	~ImageResource(){};
 
@@ -25,7 +29,7 @@ public:
 
 	int getWidth(){	return _width; }
 	int getHeight(){ return _height; }
-	void* getPixelData(){ return _pixelData; }
+	void* getPixelData(){ return &_pixelData; }
 
 private:
 
@@ -35,8 +39,8 @@ private:
 			return *this;
 	}
 	SDL_Surface *_image;
-	int _width;
-	int _height;
+	int _width = 0;
+	int _height = 0;
 	void* _pixelData;
 };
 

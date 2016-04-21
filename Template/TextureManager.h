@@ -16,7 +16,7 @@ public:
 	}
 	~TextureManager(){};
 
-	ImageResource* createTexture(const std::string& resourcefilepath);
+	ImageResource* loadImage(const std::string& resourcefilepath);
 
 private:
 	Resources *_res;

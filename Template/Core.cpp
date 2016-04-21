@@ -12,7 +12,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
 	//_shdrMngr = new graphics::ShaderManager();
 	_resMngr = new Resources("Resource", 0);
-	_txtrMngr = new TextureManager(0);
+	_txtrMngr = new TextureManager(_resMngr);
 	//TO DO:
 	//
 	//shaderManager = nullptr;
@@ -89,12 +89,16 @@ void Engine::Init()
 	}
 	
 	// TODO: fix this
-	ImageResource* imgData;
-	imgData = _txtrMngr->createTexture("../data/Resource/Images/sample.png");
-	Texture *texture = new Texture(0);
-	// sisälle filepath??? vai mitähä???
-	texture->bindTexture(imgData);
+	//ImageResource* imgData;
+	//imgData = _txtrMngr->createTexture("../data/Resource/Images/sample.png");
+	//Texture *texture = new Texture(0);
+	//// sisälle filepath??? vai mitähä???
+	//texture->bindTexture(imgData);
 
+	Texture * texture = new Texture(_txtrMngr);
+	texture->createTexture("../data/Resource/Images/sample.png");
+	Texture * texture2 = new Texture(_txtrMngr);
+	texture2->createTexture("../data/Resource/Images/sample.png");
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");

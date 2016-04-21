@@ -3,14 +3,14 @@
 
 #include "ResourceBase.h"
 //#include "Core.h"
-//#include "ImageResource.h"
+#include "ImageResource.h"
 #include "Audio.h"
 #include "Text.h"
 #include <unordered_map>
 #include <iostream>
 #include <fstream>
 
-class ImageResource;
+//class ImageResource;
 
 class Resources :
 	public ResourceBase
@@ -28,7 +28,7 @@ public:
 	{
 		ResourceBase * loadedResource = NULL;
 		bool isLoaded = NULL;
-
+		std::string FileName;
 		size_t pos = resourcefilepath.find_last_of("/");
 		if (pos != std::string::npos)
 			FileName = resourcefilepath.substr(pos + 1);
@@ -55,7 +55,7 @@ public:
 			{
 				image = IMG_Load((resourcefilepath).c_str());
 				// FIX THIS
-				ImageResource *img = new ImageResource(image);
+				//ImageResource *img = new ImageResource(image);
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
 					
@@ -64,9 +64,9 @@ public:
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				// Set image data
-				img->setWidth(image->w);
-				img->setHeight(image->h);
-				img->setPixelData(image->pixels);
+				//img->setWidth(image->w);
+				//img->setHeight(image->h);
+				//img->setPixelData(image->pixels);
 				
 				// HAX?
 				//return (T*)image;
@@ -209,8 +209,8 @@ private:
 	bool audioInit = false;
 	bool txtInit = false;
 
-	std::string FileName;
 	int fileSize = 0;
+
 };
 
 #endif

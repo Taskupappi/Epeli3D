@@ -27,7 +27,7 @@ public:
 
 	virtual	~ResourceBase(){}
 
-	const std::string &getResourceFileName() const
+	const std::string &getResourceFileName()
 	{
 		//// find "." in string
 		//std::string extension = "";

@@ -3,18 +3,22 @@
 
 #include "Core.h"
 #include <string.h>
-#include "ImageResource.h"
-//class ImageResource;
+#include "TextureManager.h"
+//#include "ImageResource.h"
+class ImageResource;
 
 class Texture
 {
 public:
-	Texture(GLuint _texture)
+	friend class TextureManager;
+	Texture(TextureManager* texM)
 	{
-		_texture = NULL;	
+		_texM = texM;
+		_texture = NULL;
 	}
 	~Texture(){};
-	GLuint bindTexture(ImageResource* img);
+	GLuint createTexture(const std::string& resourcefilepath);
+	//GLuint bindTexture(ImageResource *img);
 	void unbindTexture();
 
 
@@ -27,9 +31,11 @@ private:
 	}
 
 	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
-	std::unordered_map<std::string, Texture>textureMap;
+	std::unordered_map<std::string, GLuint>textureMap;
 	GLuint _texture;
-	//ImageResource *img;
+	ImageResource *_image;
+	Resources *_res;
+	TextureManager* _texM;
 
 };
 
