@@ -31,15 +31,24 @@ void extern userUnInit();
 #include "Input.h"
 #include "Texture.h"
 #include "Audio.h"
-
+#include "ShaderManager.h"
+#include "BufferManager.h"
 #include "Object3D.h"
+#include "TextureManager.h"
+#include "Sprite.h"
 
 //Assimp
 #include <assimp/Importer.hpp>
 class TextureManager;
-
+class BufferManager;
+namespace graphics
+{
+	class Sprite;
+	class SpriteManager;
+}
 namespace core
 {
+
 	//class SpriteManager;
 	class Engine
 	{
@@ -50,7 +59,7 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
-		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager& _txtrMngr);
+		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col);
 		Scene * createScene()
 		{
 			return nullptr;
@@ -60,6 +69,8 @@ namespace core
 		bool useScene(Scene * sc){ return true; }
 		core::Input * getInput(){ return _input; }
 		Resources * getResources(){ return _resMngr; }
+		//graphics::SpriteManager * getSpriteManager(){ return _sprtMngr; }
+		//void drawSprites(){ _sprtMngr->drawSprites(); }
 	protected:
 		virtual ~Engine();
 		Engine();
@@ -72,6 +83,7 @@ namespace core
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
+		//ShaderManager * _shdrMngr
 		Resources * _resMngr;
 	private:
 		core::Input * _input;

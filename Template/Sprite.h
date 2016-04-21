@@ -8,10 +8,11 @@
 #include <glm/vec3.hpp>
 #include "Shader.h"
 #include "Color.h"
-
+#include "Texture.h"
+class Texture;
 namespace graphics
 {
-	class Texture;
+	//class Texture;
 	//class Shader;//TODO: Placeholder
 	class Sprite :
 		public Drawable

@@ -1,7 +1,6 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "Core.h"
 #include <string.h>
 #include "TextureManager.h"
 //#include "ImageResource.h"
@@ -11,6 +10,7 @@ class Texture
 {
 public:
 	friend class TextureManager;
+	Texture(){};
 	Texture(TextureManager* texM)
 	{
 		_texM = texM;

@@ -1,5 +1,4 @@
 #include "Core.h"
-#include "TextureManager.h"
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;
@@ -9,8 +8,8 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_scnMngr = new SceneManager();
 	_input = new Input();
 	_bufMngr = new BufferManager();
-	_sprtMngr = new graphics::SpriteManager(_bufMngr);
 	//_shdrMngr = new graphics::ShaderManager();
+	_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	//TO DO:
@@ -148,7 +147,7 @@ void Engine::Uninit()
 	atexit(SDL_Quit);
 	delete this;
 }
-graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager &_txtmMngr)
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col)
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done

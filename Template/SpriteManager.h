@@ -3,28 +3,32 @@
 
 #include "Sprite.h"
 #include "BufferManager.h"
+#include "Texture.h"
+class Texture;
 namespace core
 {
 	class Engine;
 }
+class BufferManager;
 namespace graphics
 {
+	class Sprite;
 	class SpriteManager
 	{
 		friend class core::Engine;
 	public:
 		///Creates sprites
-		Sprite * createSprite(glm::vec3 pos, glm::vec2 size, glm::vec2 origin, Color col, Texture * texture, GLclampf texWidth, GLclampf texHeight);
+		graphics::Sprite * createSprite(glm::vec3 pos, glm::vec2 size, glm::vec2 origin, Color col, Texture * texture, GLclampf texWidth, GLclampf texHeight);
 		///Draws all created sprites
 		void drawSprites();
 		void setShader(Shader * toSet){ _shdr = toSet; }
 	protected:
 		//Created by engine
 
-		SpriteManager(BufferManager * bfr, ShaderManager * shdr) :_shdrMngr(shdr), _bfr(nullptr)//bfr)
+		SpriteManager(BufferManager * bfr, ShaderManager * shdr) :_shdrMngr(shdr), _bfr(bfr)
 		{
 			//TODO: Need to use main buffer..
-			_bfr = new BufferManager();
+			//_bfr = new BufferManager();
 			//_shdrMngr->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
 			//_shdrMngr->createShader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs", "testShader");
 			//_shdrMngr->setActiveShader("testShader");
