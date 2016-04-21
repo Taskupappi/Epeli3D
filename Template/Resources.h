@@ -11,6 +11,9 @@
 #include <fstream>
 
 //class ImageResource;
+class Object3D;
+class Mesh;
+
 
 class Resources :
 	public ResourceBase
@@ -79,6 +82,42 @@ public:
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				tex->incReferences();
 				return tex;
+			}
+		}
+
+		// Init MODEL manager and map, load file to map
+		else if (typeid(T).hash_code() == typeid(Object3D).hash_code())
+		{
+			if (!modelInit)
+			{
+				modelM.initResourceManager("ModelDataBase");
+				modelMap.initMapper("ModelMap", &modelM, true);
+				modelInit = true;
+			}
+			printf_s("Checking if file has already been loaded\n");
+			if (modelMap.getElement(FileName))
+				isLoaded = true;
+			else
+				isLoaded = false;
+
+			// If file had not been loaded, load it
+			if (!isLoaded)
+			{
+				obj = new Object3D;
+				model = obj->loadModel(resourcefilepath);
+
+				loadedResource = new Object3D(*model);
+
+				modelMap.addElement(FileName, resourcefilepath, loadedResource);
+			}
+			// If file has already been loaded, skip loading
+			else if (isLoaded)
+			{
+				T * model = (T*)modelMap.getElement(FileName);
+				printf_s("File %s already loaded\n", FileName.c_str());
+				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
+				model->incReferences();
+				return model;
 			}
 		}
 
@@ -196,6 +235,11 @@ private:
 	ResourceManager<ResourceBase>imageM;
 	ResourceMap<ResourceBase>imageMap;
 
+	Object3D *obj;
+	std::vector<Mesh> *model;	// for all model files
+	ResourceManager<ResourceBase>modelM;
+	ResourceMap<ResourceBase>modelMap;
+
 	Mix_Music *sound = NULL;		// for all audio files
 	ResourceManager<ResourceBase>audioM;
 	ResourceMap<ResourceBase>audioMap;
@@ -206,6 +250,7 @@ private:
 	ResourceMap<ResourceBase>txtMap;
 
 	bool texturesInit = false;
+	bool modelInit = false;
 	bool audioInit = false;
 	bool txtInit = false;
 

@@ -8,7 +8,7 @@ BufferManager::BufferManager()
 	//tempShader init	
 
 	shaderManager = new ShaderManager();
-	model3D = Object3D("../data/Resource/Models/Shark.stl");
+//	model3D = Object3D("../data/Resource/Models/Shark.stl");
 	
 
 	shaderManager->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
