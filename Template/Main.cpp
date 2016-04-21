@@ -45,7 +45,7 @@ void gameInit()
 	////sc = eng->_scnMngr->getScene(1);
 	buff->initTest();
 	buff->shaderManager->getActiveShader()->use();
-	buff->drawTestBuffer(TEST);
+	buff->drawTestBuffer();
 	//eng->getSpriteManager()->setShader(buff->shaderManager->getActiveShader());
 	//sprt = eng->createSprite(glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure, nullptr);
 }
@@ -61,17 +61,13 @@ void gameLoop()
 	}
 	////delta time calculations
 
-
 	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	buff->testBoxUpdate();
-	buff->drawTestBuffer(TEST);
+	buff->drawTestBuffer();
 	glPopMatrix();
 	gCon->swap();
-	
-
-
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
@@ -97,7 +93,7 @@ void gameLoop()
 
 		//movement with the cam
 		const char* conversion = key.c_str();
-		buff->getCamera()->movementUpdate(key.c_str(), deltaTime);
+		buff->getCamera()->move(key.c_str(), deltaTime);
 	}
 
 	if (!pressed)

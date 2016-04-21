@@ -29,8 +29,7 @@ void SpriteManager::drawSprites()
 	Sprite * sprt;
 
 	std::vector<Vertex> vertices;
-	std::vector<GLuint> indecis;
-	std::vector<BufferTexture> bufTex;
+	std::vector<GLuint> indecis;	
 	std::vector<Sprite*>::iterator sIt;
 	//Gets all sprites with same texture
 	for(it = _sprites.begin(); it != _sprites.end(); it++)
@@ -74,7 +73,7 @@ void SpriteManager::drawSprites()
 			indecis.push_back(2);
 			indecis.push_back(3);
 
-			_bfr->addBufferData(vertices, indecis,bufTex);
+		//	_bfr->addBufferData(vertices, indecis,bufTex);
 		}
 		_bfr->drawBuffer(shdr);
 		//TODO: unbind texture

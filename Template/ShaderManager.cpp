@@ -30,7 +30,8 @@ void ShaderManager::uninitShaders()
 
 void ShaderManager::setActiveShader(std::string shaderName)
 {
-	activeShader = Shaders.find(shaderName)->second;	
+	activeShader = Shaders.find(shaderName)->second;
+	activeShader->use();
 }
 
 void  ShaderManager::useActiveShader()
