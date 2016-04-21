@@ -1,4 +1,5 @@
 #include "Core.h"
+#include "TextureManager.h"
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;
@@ -11,6 +12,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_sprtMngr = new graphics::SpriteManager(_bufMngr);
 	//_shdrMngr = new graphics::ShaderManager();
 	_resMngr = new Resources("Resource", 0);
+	_txtrMngr = new TextureManager(_resMngr);
 	//TO DO:
 	//
 	//shaderManager = nullptr;
@@ -31,7 +33,7 @@ Engine* Engine::UI()
 bool Engine::run()
 {
 	userInit();
-	while(true)
+	while (true)
 	{
 		processInput();
 		gameLoop();
@@ -43,10 +45,10 @@ bool Engine::run()
 	}
 }
 void Engine::userInit()
-{ 
+{
 	if (_mainInit)
-		return; 
-	gameInit(); 
+		return;
+	gameInit();
 };
 Engine::~Engine()
 {
@@ -61,12 +63,12 @@ Engine::~Engine()
 void Engine::Init()
 {
 
-	
+
 	//SDL Init()
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
-		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());		
-	}	
+		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());
+	}
 
 	// SDL audio init
 	int flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG;
@@ -85,16 +87,24 @@ void Engine::Init()
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
-	
-	Resources *res = _resMngr;
-	// TODO: TextureManager
-	Texture * tex = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+
+	// TODO: fix this
+	//ImageResource* imgData;
+	//imgData = _txtrMngr->createTexture("../data/Resource/Images/sample.png");
+	//Texture *texture = new Texture(0);
+	//// sisälle filepath??? vai mitähä???
+	//texture->bindTexture(imgData);
+
+	Texture * texture = new Texture(_txtrMngr);
+	texture->createTexture("../data/Resource/Images/sample.png");
+	Texture * texture2 = new Texture(_txtrMngr);
+	texture2->createTexture("../data/Resource/Images/sample.png");
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	Audio * audio = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Audio * audio2 = res->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Text * txt2 = res->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	std::cout << "Model loading:" << std::endl;
 	Object3D object("../data/Resource/Models/boy.obj");
@@ -102,13 +112,13 @@ void Engine::Init()
 	Object3D object2("../data/Resource/Models/boy.3ds");
 	std::cout << ".3ds loaded" << std::endl;
 	Object3D object3("../data/Resource/Models/boy.lwo");
-	std::cout << ".lwo loaded" << std::endl; 
+	std::cout << ".lwo loaded" << std::endl;
 	Object3D object4("../data/Resource/Models/Shark.dae");
-	std::cout << ".dae loaded" << std::endl; 
+	std::cout << ".dae loaded" << std::endl;
 	Object3D object5("../data/Resource/Models/Shark.stl");
-	std::cout << ".stl loaded" << std::endl; 
+	std::cout << ".stl loaded" << std::endl;
 	Object3D object6("../data/Resource/Models/smg_low.x");
-	std::cout << ".x   loaded" << std::endl; 
+	std::cout << ".x   loaded" << std::endl;
 	Object3D object7("../data/Resource/Models/smg_low.ply"); //hiukan hidas
 	std::cout << ".ply loaded" << std::endl;
 	std::cout << "Model loading end." << std::endl;
@@ -137,7 +147,7 @@ void Engine::Uninit()
 	atexit(SDL_Quit);
 	delete this;
 }
-graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, Texture * tex)
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager &_txtmMngr)
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done
@@ -167,7 +177,7 @@ void Engine::processInput()
 			//if (e.key.keysym.sym == SDLK_ESCAPE)
 			//	_exit = true;
 			//ALT + F4 pressed
-			if((_input->isKeyPressed(SDLK_LALT)) && (e.key.keysym.sym == SDLK_F4))
+			if ((_input->isKeyPressed(SDLK_LALT)) && (e.key.keysym.sym == SDLK_F4))
 				_exit = true;
 
 		}

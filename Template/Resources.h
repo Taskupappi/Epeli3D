@@ -2,14 +2,15 @@
 #define Resources_H
 
 #include "ResourceBase.h"
-#include "Core.h"
-#include "Texture.h"
+//#include "Core.h"
+#include "ImageResource.h"
 #include "Audio.h"
 #include "Text.h"
 #include <unordered_map>
 #include <iostream>
 #include <fstream>
 
+//class ImageResource;
 
 class Resources :
 	public ResourceBase
@@ -25,25 +26,26 @@ public:
 	template <class T>
 	T* loadFile(const std::string &resourcefilepath)
 	{
-		// T * loadedResource = nullptr;
 		ResourceBase * loadedResource = NULL;
 		bool isLoaded = NULL;
-
+		std::string FileName;
 		size_t pos = resourcefilepath.find_last_of("/");
 		if (pos != std::string::npos)
 			FileName = resourcefilepath.substr(pos + 1);
-
-		// Init TEXTURE manager and map, load file to map
-		if (typeid(T).hash_code() == typeid(Texture).hash_code())
+		else
+			printf("ULIULUIULI\n");
+		// Init IMAGE manager and map, load file to map
+		if (typeid(T).hash_code() == typeid(ImageResource).hash_code())
 		{
 			if (!texturesInit)
 			{
-				textureM.initResourceManager("TextureDataBase");
-				textureMap.initMapper("TextureMap", &textureM, true);
+				imageM.initResourceManager("ImageDataBase");
+				imageMap.initMapper("ImageMap", &imageM, true);
 				texturesInit = true;
 			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
 			printf_s("Checking if file has already been loaded\n");
-			if (textureMap.getElement(FileName))
+			if (imageMap.getElement(FileName))
 				isLoaded = true;
 			else
 				isLoaded = false;
@@ -52,28 +54,27 @@ public:
 			if (!isLoaded)
 			{
 				image = IMG_Load((resourcefilepath).c_str());
-
+				// FIX THIS
+				//ImageResource *img = new ImageResource(image);
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
-								
-				glGenTextures(1, &texture);
-				glBindTexture(GL_TEXTURE_2D, texture);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-				glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, 124, 124, 0, GL_RGB, GL_UNSIGNED_BYTE, image->pixels);
-				glBindTexture(GL_TEXTURE_2D, texture);
+				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
+				loadedResource = new ImageResource(image);
+				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 
-				loadedResource = new Texture(texture);
-				
-				textureMap.addElement(FileName, resourcefilepath, loadedResource);
+				// Set image data
+				//img->setWidth(image->w);
+				//img->setHeight(image->h);
+				//img->setPixelData(image->pixels);
+
+				// HAX?
+				//return (T*)image;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
 			{
-				T * tex = (T*)textureMap.getElement(FileName);
+				T * tex = (T*)imageMap.getElement(FileName);
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				tex->incReferences();
@@ -90,6 +91,7 @@ public:
 				audioMap.initMapper("AudioMap", &audioM, true);
 				audioInit = true;
 			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
 			printf_s("Checking if file has already been loaded\n");
 			if (audioMap.getElement(FileName))
 				isLoaded = true;
@@ -104,8 +106,9 @@ public:
 					printf_s("Mix_LoadMus: %s\n", Mix_GetError);
 
 				loadedResource = new Audio(sound);
-				
+
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
+				//return (T*)sound;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -115,7 +118,7 @@ public:
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				audio->incReferences();
 				return audio;
-			}									
+			}
 		}
 
 		// Init STRING manager and map, load file to map
@@ -127,6 +130,7 @@ public:
 				txtMap.initMapper("TextMap", &txtM, true);
 				txtInit = true;
 			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
 			printf_s("Checking if file has already been loaded\n");
 			if (txtMap.getElement(FileName))
 				isLoaded = true;
@@ -147,7 +151,7 @@ public:
 					txt->read(txt, content, fileSize, 1);
 					txt->close(txt);
 
-					txtcontent = content;
+					//txtcontent = content;
 					std::cout << txtcontent << std::endl << std::endl;
 
 					content[1];
@@ -156,8 +160,8 @@ public:
 					fprintf(stderr, "Error: couldn't open %s\n\n", FileName.c_str());
 				}
 
-				loadedResource = new Text(resourcefilepath, txtcontent);
-				
+				loadedResource = new Text(txtcontent);
+
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 
 				//return (T*)txtcontent;
@@ -188,10 +192,9 @@ private:
 		return *this;
 	}
 	SDL_Surface *image = NULL;		// for all textures
-	GLuint texture = NULL;
 
-	ResourceManager<ResourceBase>textureM;
-	ResourceMap<ResourceBase>textureMap;
+	ResourceManager<ResourceBase>imageM;
+	ResourceMap<ResourceBase>imageMap;
 
 	Mix_Music *sound = NULL;		// for all audio files
 	ResourceManager<ResourceBase>audioM;
@@ -206,8 +209,8 @@ private:
 	bool audioInit = false;
 	bool txtInit = false;
 
-	std::string FileName;
 	int fileSize = 0;
+
 };
 
 #endif

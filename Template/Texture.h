@@ -2,18 +2,25 @@
 #define TEXTURE_H
 
 #include "Core.h"
-#include "ResourceBase.h"
 #include <string.h>
+#include "TextureManager.h"
+//#include "ImageResource.h"
+class ImageResource;
 
 class Texture
-	: public ResourceBase
 {
 public:
-	Texture(GLuint image) : ResourceBase(resourcefilepath, nullptr)
+	friend class TextureManager;
+	Texture(TextureManager* texM)
 	{
-		_image = image;
+		_texM = texM;
+		_texture = NULL;
 	}
 	~Texture(){};
+	GLuint createTexture(const std::string& resourcefilepath);
+	//GLuint bindTexture(ImageResource *img);
+	void unbindTexture();
+
 
 private:
 
@@ -23,7 +30,13 @@ private:
 			return *this;
 	}
 
-	GLuint _image;
+	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
+	std::unordered_map<std::string, GLuint>textureMap;
+	GLuint _texture;
+	ImageResource *_image;
+	Resources *_res;
+	TextureManager* _texM;
+
 };
 
 #endif

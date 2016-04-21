@@ -22,43 +22,43 @@ public:
 
 	//-----
 	//Add an asset to the database
-	T* Load(const std::string &filename, void *args)
-	{
-		//check if filename is not empty
-		if (filename.empty())
-		{
-			printf_s("Load error: filename cannot be empty!\n");
-		}
+	//T* Load(const std::string &filename, void *args)
+	//{
+	//	//check if filename is not empty
+	//	if (filename.empty())
+	//	{
+	//		printf_s("Load error: filename cannot be empty!\n");
+	//	}
 
-		//looks in the map to see if the resource is already loaded
-		std::unordered_map<std::string, T*>::iterator it;
-		it = Map.find(filename);
+	//	//looks in the map to see if the resource is already loaded
+	//	std::unordered_map<std::string, T*>::iterator it;
+	//	it = Map.find(filename);
 
-		if (it != Map.end())
-		{
-			printf_s("Increasing reference count for file: %s\n", (*it).second->getResourceFileName().c_str());
-			(*it).second->incReferences();
-			return (*it).second;
-		}
+	//	if (it != Map.end())
+	//	{
+	//		printf_s("Increasing reference count for file: %s\n", (*it).second->getResourceFileName().c_str());
+	//		(*it).second->incReferences();
+	//		return (*it).second;
+	//	}
 
-		//if we get here the resource must be loaded
-		//allocate new resource using the raii paradigm
-		//you must supply the class with a proper constructor
-		//see header for details
+	//	//if we get here the resource must be loaded
+	//	//allocate new resource using the raii paradigm
+	//	//you must supply the class with a proper constructor
+	//	//see header for details
 
-		T* resource = new T(filename, args);
+	//	T* resource = new T(filename, args);
 
-		//increase references, this sets the references count to 1
-		printf_s("First reference of file: %s\n", resource->getResourceFileName().c_str());
-		resource->incReferences();
-		resource->loadFile(resource->getResourceFilepath());
-		//insert into the map
-		Map.insert(std::pair<std::string, T*>(filename, resource));
+	//	//increase references, this sets the references count to 1
+	//	printf_s("First reference of file: %s\n", resource->getResourceFileName().c_str());
+	//	resource->incReferences();
+	//	resource->loadFile(resource->getResourceFilepath());
+	//	//insert into the map
+	//	Map.insert(std::pair<std::string, T*>(filename, resource));
 
-		printf_s("//////////////////////////////////////////////\n\n");
+	//	printf_s("//////////////////////////////////////////////\n\n");
 
-		return resource;
-	}
+	//	return resource;
+	//}
 
 	//-----
 	//deleting an item
@@ -122,6 +122,7 @@ private:
 	ResourceManager &operator = (const ResourceManager&) { return *this; }
 
 	//force removal for each node
+	// MOVE TO RESOURCES
 	void ReleaseAll()
 	{
 		std::unordered_map<std::string, T*>::iterator it = Map.begin();

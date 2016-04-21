@@ -101,6 +101,8 @@
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dObjectManager.h" />
@@ -112,6 +114,7 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="GraphicContext.h" />
+    <ClInclude Include="ImageResource.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
@@ -127,6 +130,7 @@
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
