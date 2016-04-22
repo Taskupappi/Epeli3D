@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include "TextureManager.h"
-//#include "ImageResource.h"
+
 class ImageResource;
 
 class Texture
@@ -17,10 +17,9 @@ public:
 		_texture = NULL;
 	}
 	~Texture(){};
-	GLuint createTexture(const std::string& resourcefilepath);
-	//GLuint bindTexture(ImageResource *img);
-	void unbindTexture();
 
+	GLuint createTexture(const std::string& resourcefilepath);
+	void unbindTexture();
 
 private:
 
@@ -30,13 +29,9 @@ private:
 			return *this;
 	}
 
-	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
-	std::unordered_map<std::string, GLuint>textureMap;
 	GLuint _texture;
 	ImageResource *_image;
-	Resources *_res;
 	TextureManager* _texM;
-
 };
 
 #endif

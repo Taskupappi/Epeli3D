@@ -6,7 +6,7 @@ BufferManager::BufferManager()
 
 	////Testbench stuff
 	//3d model
-	model3D = Object3D("../data/Resource/Models/Shark.stl");	
+	//model3D = Object3D("../data/Resource/Models/Shark.stl");	
 
 	//shader manager
 	shaderManager = new ShaderManager();

@@ -104,7 +104,7 @@ void Engine::Init()
 	Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 	Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.obj");
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.3ds");
 
 	//std::cout << "Model loading:" << std::endl;
 	//Object3D object("../data/Resource/Models/boy.obj");
