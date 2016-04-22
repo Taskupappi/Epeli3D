@@ -11,12 +11,10 @@
 #include <fstream>
 
 //class ImageResource;
-<<<<<<< HEAD
-=======
 class Object3D;
 class Mesh;
 
->>>>>>> refs/remotes/origin/master
+
 
 class Resources :
 	public ResourceBase
@@ -32,11 +30,7 @@ public:
 	template <class T>
 	T* loadFile(const std::string &resourcefilepath)
 	{
-<<<<<<< HEAD
-		ResourceBase * loadedResource = NULL;
-=======
 		ResourceBase * loadedResource = nullptr;
->>>>>>> refs/remotes/origin/master
 		bool isLoaded = NULL;
 		std::string FileName;
 		size_t pos = resourcefilepath.find_last_of("/");
@@ -68,39 +62,24 @@ public:
 				//ImageResource *img = new ImageResource(image);
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
-<<<<<<< HEAD
-					
-				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
-				loadedResource = new ImageResource(image);
-				imageMap.addElement(FileName, resourcefilepath, loadedResource);
-				
-=======
+
 
 				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
 				return (T*)loadedResource;
->>>>>>> refs/remotes/origin/master
 				// Set image data
 				//img->setWidth(image->w);
 				//img->setHeight(image->h);
 				//img->setPixelData(image->pixels);
-<<<<<<< HEAD
-				
-=======
 
->>>>>>> refs/remotes/origin/master
 				// HAX?
 				//return (T*)image;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
 			{
-<<<<<<< HEAD
-				T * tex = (T*)imageMap.getElement(FileName);
-=======
 				T * img = (T*)imageMap.getElement(FileName);
->>>>>>> refs/remotes/origin/master
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				img->incReferences();
@@ -223,11 +202,7 @@ public:
 				}
 
 				loadedResource = new Text(txtcontent);
-<<<<<<< HEAD
-				
-=======
 
->>>>>>> refs/remotes/origin/master
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 
 				//return (T*)txtcontent;
@@ -261,14 +236,11 @@ private:
 
 	ResourceManager<ResourceBase>imageM;
 	ResourceMap<ResourceBase>imageMap;
-<<<<<<< HEAD
-=======
 
 	Object3D *obj;
 	std::vector<Mesh> *model;	// for all model files
 	ResourceManager<ResourceBase>modelM;
 	ResourceMap<ResourceBase>modelMap;
->>>>>>> refs/remotes/origin/master
 
 	Mix_Music *sound = NULL;		// for all audio files
 	ResourceManager<ResourceBase>audioM;

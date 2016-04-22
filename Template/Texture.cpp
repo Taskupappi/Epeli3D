@@ -15,18 +15,13 @@ GLuint Texture::createTexture(const std::string& resourcefilepath)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _image->getWidth(), _image->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, _image->getPixelData());
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-<<<<<<< HEAD
-=======
 	// GETTERIT KUSSEEPI
 
->>>>>>> refs/remotes/origin/master
 	//SDL_FreeSurface(&image);
 	//textureMap.insert(std::pair<std::string, Texture>(_image->getResourceFileName(), _texture));
 	return _texture;
 }
 
-<<<<<<< HEAD
-=======
 // Bind texture and insert it to a map
 //GLuint Texture::bindTexture(ImageResource* img)
 //{
@@ -44,7 +39,6 @@ GLuint Texture::createTexture(const std::string& resourcefilepath)
 //	return _texture;
 //}
 
->>>>>>> refs/remotes/origin/master
 // Unbind texture
 void Texture::unbindTexture()
 {

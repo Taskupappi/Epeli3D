@@ -17,17 +17,12 @@ namespace graphics
 	class Sprite :
 		public Drawable
 	{
-	friend class SpriteManager;
+		friend class SpriteManager;
 	public:
 
 	protected:
-<<<<<<< HEAD
-		Sprite(glm::vec3 position, float width, float height, glm::vec3 origin, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
-			Drawable(position,origin), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
-=======
-		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin,Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
-			Drawable(position,origin,col), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
->>>>>>> refs/remotes/origin/master
+		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin, Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
+			Drawable(position, origin, col), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
 		{};
 
 		Sprite(){};
@@ -69,7 +64,6 @@ namespace graphics
 			"}\n";
 	};
 
-	
+
 }
 #endif
-

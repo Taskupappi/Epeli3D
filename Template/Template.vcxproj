@@ -87,7 +87,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="3dObjectManager.cpp" />
     <ClCompile Include="BufferManager.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
@@ -104,7 +103,6 @@
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3dObjectManager.h" />
     <ClInclude Include="Audio.h" />
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />

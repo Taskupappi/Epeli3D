@@ -40,16 +40,12 @@ void extern userUnInit();
 //Assimp
 #include <assimp/Importer.hpp>
 class TextureManager;
-<<<<<<< HEAD
-
-=======
 class BufferManager;
 namespace graphics
 {
 	class Sprite;
 	class SpriteManager;
 }
->>>>>>> refs/remotes/origin/master
 namespace core
 {
 
@@ -63,11 +59,7 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
-<<<<<<< HEAD
-		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager& _txtrMngr);
-=======
 		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col);
->>>>>>> refs/remotes/origin/master
 		Scene * createScene()
 		{
 			return nullptr;
@@ -91,10 +83,7 @@ namespace core
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
-<<<<<<< HEAD
-=======
 		//ShaderManager * _shdrMngr
->>>>>>> refs/remotes/origin/master
 		Resources * _resMngr;
 	private:
 		core::Input * _input;

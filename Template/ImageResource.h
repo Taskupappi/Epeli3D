@@ -27,11 +27,7 @@ public:
 	void setHeight(int height){ _height = height; }
 	void setPixelData(void* data){ _pixelData = data; }
 
-<<<<<<< HEAD
-	int getWidth(){	return _width; }
-=======
 	int getWidth(){ return _width; }
->>>>>>> refs/remotes/origin/master
 	int getHeight(){ return _height; }
 	void* getPixelData(){ return &_pixelData; }
 
