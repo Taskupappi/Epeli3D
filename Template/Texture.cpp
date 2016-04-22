@@ -15,6 +15,8 @@ GLuint Texture::createTexture(const std::string& resourcefilepath)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, _image->getWidth(), _image->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE, _image->getPixelData());
 	glGenerateMipmap(GL_TEXTURE_2D);
 
+	// GETTERIT KUSSEEPI
+
 	//SDL_FreeSurface(&image);
 	//textureMap.insert(std::pair<std::string, Texture>(_image->getResourceFileName(), _texture));
 	return _texture;

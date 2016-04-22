@@ -29,7 +29,7 @@ public:
 	template <class T>
 	T* loadFile(const std::string &resourcefilepath)
 	{
-		ResourceBase * loadedResource = NULL;
+		ResourceBase * loadedResource = nullptr;
 		bool isLoaded = NULL;
 		std::string FileName;
 		size_t pos = resourcefilepath.find_last_of("/");
@@ -65,7 +65,7 @@ public:
 				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
-
+				return (T*)loadedResource;
 				// Set image data
 				//img->setWidth(image->w);
 				//img->setHeight(image->h);
@@ -77,11 +77,11 @@ public:
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
 			{
-				T * tex = (T*)imageMap.getElement(FileName);
+				T * img = (T*)imageMap.getElement(FileName);
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
-				tex->incReferences();
-				return tex;
+				img->incReferences();
+				return img;
 			}
 		}
 
