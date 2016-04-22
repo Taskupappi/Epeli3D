@@ -98,13 +98,14 @@ void Engine::Init()
 	texture->createTexture("../data/Resource/Images/sample.png");
 	Texture * texture2 = new Texture(_txtrMngr);
 	texture2->createTexture("../data/Resource/Images/sample.png");
+
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 	Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.obj");
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.3ds");
 
 	//std::cout << "Model loading:" << std::endl;
 	//Object3D object("../data/Resource/Models/boy.obj");
