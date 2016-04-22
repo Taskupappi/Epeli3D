@@ -42,7 +42,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)3rdparty/include/;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)3rdparty/include/freetype-2.6.1/include;$(SolutionDir)3rdparty/include/;$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)3rdparty/lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -93,12 +93,15 @@
     <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LightSource.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="SpriteManager.cpp" />
+    <ClCompile Include="Text.cpp" />
+    <ClCompile Include="TextManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
@@ -113,6 +116,7 @@
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="ImageResource.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="LightSource.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -124,6 +128,7 @@
     <ClInclude Include="SpriteManager.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Text.h" />
+    <ClInclude Include="TextManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Vertex.h" />
