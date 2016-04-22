@@ -10,6 +10,7 @@
 #include <GL/glew.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
 //#include <SOIL.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -24,14 +25,6 @@ public:
 	{
 		this->loadModel(path);
 	}
-	
-	//void Draw(Shader shader)
-	//{
-	//	for (GLuint i = 0; i < this->meshes.size(); i++)
-	//	{
-	//		this->meshes[i].Draw(shader);
-	//	}
-	//}
 
 private:
 	std::vector<Mesh> meshes;

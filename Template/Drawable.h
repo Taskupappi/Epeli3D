@@ -15,7 +15,7 @@ namespace graphics
 	{
 	public:
 		//Changes current color
-		void changeColor(Color newColor){ Color = newColor; }
+		void changeColor(Color newColor){ color = newColor; }
 		//Sets position to
 		void moveTo(glm::vec3 to){ _position = to; }
 		//Adds vector "by" to current position
@@ -32,7 +32,7 @@ namespace graphics
 		void scale(float _scaleBy){ _scale = _scaleBy; }
 		//Returns current position
 		glm::vec3 getPosition(){ return _position - _origin; }
-		Color Color;
+		Color color;
 	protected:
 		//Checks if rotation or scaling has changed
 		//Needs to recalculate drawing bounds
@@ -57,8 +57,8 @@ namespace graphics
 		}
 		Drawable(glm::vec3 position) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(0, 0, 0){};
 		Drawable(glm::vec3 position,glm::vec3 origin) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(origin){};
-
 		Drawable() :_position(0, 0, 0), _rotations(0, 0, 0), _scale(1.0),_origin(0, 0, 0){};
+		Drawable(glm::vec3 position, glm::vec3 origin, Color col) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(origin),color(col){};
 		~Drawable(){};
 	private:
 		glm::vec3 _origin;

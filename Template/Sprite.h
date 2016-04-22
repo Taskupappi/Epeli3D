@@ -7,10 +7,12 @@
 #include "BufferManager.h"
 #include <glm/vec3.hpp>
 #include "Shader.h"
-
+#include "Color.h"
+#include "Texture.h"
+class Texture;
 namespace graphics
 {
-	class Texture;
+	//class Texture;
 	//class Shader;//TODO: Placeholder
 	class Sprite :
 		public Drawable
@@ -19,8 +21,13 @@ namespace graphics
 	public:
 
 	protected:
+<<<<<<< HEAD
 		Sprite(glm::vec3 position, float width, float height, glm::vec3 origin, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
 			Drawable(position,origin), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
+=======
+		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin,Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
+			Drawable(position,origin,col), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
+>>>>>>> refs/remotes/origin/master
 		{};
 
 		Sprite(){};

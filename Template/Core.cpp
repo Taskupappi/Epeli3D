@@ -9,8 +9,8 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_scnMngr = new SceneManager();
 	_input = new Input();
 	_bufMngr = new BufferManager();
-	_sprtMngr = new graphics::SpriteManager(_bufMngr);
 	//_shdrMngr = new graphics::ShaderManager();
+	_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	//TO DO:
@@ -33,7 +33,7 @@ Engine* Engine::UI()
 bool Engine::run()
 {
 	userInit();
-	while(true)
+	while (true)
 	{
 		processInput();
 		gameLoop();
@@ -45,10 +45,10 @@ bool Engine::run()
 	}
 }
 void Engine::userInit()
-{ 
+{
 	if (_mainInit)
-		return; 
-	gameInit(); 
+		return;
+	gameInit();
 };
 Engine::~Engine()
 {
@@ -63,12 +63,12 @@ Engine::~Engine()
 void Engine::Init()
 {
 
-	
+
 	//SDL Init()
 	if (SDL_Init(SDL_INIT_EVERYTHING != 0))
 	{
-		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());		
-	}	
+		fprintf_s(stderr, "\nUnable to initialize SDL: %s\n", SDL_GetError());
+	}
 
 	// SDL audio init
 	int flags = MIX_INIT_MP3 | MIX_INIT_FLAC | MIX_INIT_OGG;
@@ -87,7 +87,11 @@ void Engine::Init()
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> refs/remotes/origin/master
 	// TODO: fix this
 	//ImageResource* imgData;
 	//imgData = _txtrMngr->createTexture("../data/Resource/Images/sample.png");
@@ -105,6 +109,7 @@ void Engine::Init()
 	Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 	Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+<<<<<<< HEAD
 
 	std::cout << "Model loading:" << std::endl;
 	Object3D object("../data/Resource/Models/boy.obj");
@@ -122,6 +127,26 @@ void Engine::Init()
 	Object3D object7("../data/Resource/Models/smg_low.ply"); //hiukan hidas
 	std::cout << ".ply loaded" << std::endl;
 	std::cout << "Model loading end." << std::endl;
+=======
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.obj");
+
+	//std::cout << "Model loading:" << std::endl;
+	//Object3D object("../data/Resource/Models/boy.obj");
+	//std::cout << ".obj loaded" << std::endl;
+	//Object3D object2("../data/Resource/Models/boy.3ds");
+	//std::cout << ".3ds loaded" << std::endl;
+	//Object3D object3("../data/Resource/Models/boy.lwo");
+	//std::cout << ".lwo loaded" << std::endl;
+	//Object3D object4("../data/Resource/Models/Shark.dae");
+	//std::cout << ".dae loaded" << std::endl;
+	//Object3D object5("../data/Resource/Models/Shark.stl");
+	//std::cout << ".stl loaded" << std::endl;
+	//Object3D object6("../data/Resource/Models/smg_low.x");
+	//std::cout << ".x   loaded" << std::endl;
+	//Object3D object7("../data/Resource/Models/smg_low.ply"); //hiukan hidas
+	//std::cout << ".ply loaded" << std::endl;
+	//std::cout << "Model loading end." << std::endl;
+>>>>>>> refs/remotes/origin/master
 
 	//Mix_PlayMusic(audio, 1);
 
@@ -147,7 +172,11 @@ void Engine::Uninit()
 	atexit(SDL_Quit);
 	delete this;
 }
+<<<<<<< HEAD
 graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col, TextureManager &_txtmMngr)
+=======
+graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col)
+>>>>>>> refs/remotes/origin/master
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done
@@ -177,7 +206,7 @@ void Engine::processInput()
 			//if (e.key.keysym.sym == SDLK_ESCAPE)
 			//	_exit = true;
 			//ALT + F4 pressed
-			if((_input->isKeyPressed(SDLK_LALT)) && (e.key.keysym.sym == SDLK_F4))
+			if ((_input->isKeyPressed(SDLK_LALT)) && (e.key.keysym.sym == SDLK_F4))
 				_exit = true;
 
 		}

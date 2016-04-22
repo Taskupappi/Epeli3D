@@ -1,20 +1,20 @@
 #include "SpriteManager.h"
 using namespace graphics;
-Sprite * SpriteManager::createSprite(glm::vec3 pos, glm::vec2 size, glm::vec2 origin, Texture * texture, GLclampf TexWidth = 1.0, GLclampf TexHeight = 1.0)
+Sprite * SpriteManager::createSprite(glm::vec3 pos, glm::vec2 size, glm::vec2 origin, Color col, Texture * texture, GLclampf TexWidth = 1.0, GLclampf TexHeight = 1.0)
 {
-	Shader * shdr = nullptr; //TODO: needs to get default shader
+	Shader * shdr = _shdr; //TODO: needs to get default shader
 	Sprite * sprt = nullptr;
 	for(it = _sprites.begin(); it != _sprites.end(); it++)
 	{
 		if(it->first == texture)
 		{
-			sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f), shdr, texture, TexWidth, TexHeight);
+			sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f),col, shdr, texture, TexWidth, TexHeight);
 			it->second.push_back(sprt);
 			return sprt;
 		}
 	}
 	std::vector<Sprite*> sprts;
-	sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f), shdr, texture, TexWidth, TexHeight);
+	sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f),col, shdr, texture, TexWidth, TexHeight);
 	sprts.push_back(sprt);
 	_sprites.insert(std::make_pair(texture, sprts));
 	return sprt;
@@ -24,16 +24,21 @@ Sprite * SpriteManager::createSprite(glm::vec3 pos, glm::vec2 size, glm::vec2 or
 void SpriteManager::drawSprites()
 {
 	Texture * tex = nullptr;
-	Shader * shdr = nullptr;
+	Shader * shdr = _shdr; //Default shader
+	_shdr->use();
 	Sprite * sprt;
 
 	std::vector<Vertex> vertices;
-	std::vector<GLuint> indecis;
-	std::vector<BufferTexture> bufTex;
+	std::vector<GLuint> indecis;	
 	std::vector<Sprite*>::iterator sIt;
 	//Gets all sprites with same texture
 	for(it = _sprites.begin(); it != _sprites.end(); it++)
 	{
+		if(!it->first)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, 0);
+		}
 		// TODO: needs to bind texture here
 		//it->first->bind();
 		//Should check for changes before batching
@@ -41,20 +46,21 @@ void SpriteManager::drawSprites()
 		for(sIt = it->second.begin(); sIt != it->second.end(); sIt++)
 		{
 			sprt = *sIt;
-			if(sprt->_shdr != shdr)
+			if(sprt->_shdr != shdr) //Changes uses different shader if it has changed
 			{
 				shdr = sprt->_shdr;
-				//shdr.use() //TODO: Needs to call shader use once implemented
+				shdr->use(); //TODO: Needs to call shader use once implemented
 			}
+
 			//returns vec3[4]
 			glm::vec3 * points = sprt->getVertices();
 			glm::vec2 texBounds;//TODO: = sprt->getTexBounds();
-			glm::vec4 color = sprt->Color.getAsOGLVec();
+			glm::vec4 color = sprt->color.getAsOGLVec();
 			for(int i = 0; i < 4; i++)
 			{
 				Vertex vertice;
 				vertice.Position = points[i];
-				vertice.Normal = glm::vec3(0, 0, 0);
+				vertice.Normal = glm::vec3(0, 0, 1);
 				vertice.TexCoords = texBounds;
 				vertice.Color = glm::vec3(color.r,color.g,color.b);
 				vertices.push_back(vertice);
@@ -67,7 +73,7 @@ void SpriteManager::drawSprites()
 			indecis.push_back(2);
 			indecis.push_back(3);
 
-			_bfr->addBufferData(vertices, indecis,bufTex);
+		//	_bfr->addBufferData(vertices, indecis,bufTex);
 		}
 		_bfr->drawBuffer(shdr);
 		//TODO: unbind texture
