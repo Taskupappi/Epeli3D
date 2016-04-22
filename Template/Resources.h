@@ -15,6 +15,7 @@ class Object3D;
 class Mesh;
 
 
+
 class Resources :
 	public ResourceBase
 {
@@ -62,17 +63,14 @@ public:
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
 
+
 				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
-				return (T*)loadedResource;
-				// Set image data
-				//img->setWidth(image->w);
-				//img->setHeight(image->h);
-				//img->setPixelData(image->pixels);
 
-				// HAX?
-				//return (T*)image;
+				return (T*)loadedResource;
+				SDL_FreeSurface(image);
+
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -81,6 +79,7 @@ public:
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				img->incReferences();
+				
 				return img;
 			}
 		}
@@ -107,8 +106,9 @@ public:
 				model = obj->loadModel(resourcefilepath);
 
 				loadedResource = new Object3D(*model);
-
 				modelMap.addElement(FileName, resourcefilepath, loadedResource);
+				
+				return (T*)loadedResource;
 			}
 			// If file has already been loaded, skip loading
 			else if (isLoaded)
@@ -117,6 +117,7 @@ public:
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				model->incReferences();
+				
 				return model;
 			}
 		}
@@ -145,9 +146,9 @@ public:
 					printf_s("Mix_LoadMus: %s\n", Mix_GetError);
 
 				loadedResource = new Audio(sound);
-
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
-				//return (T*)sound;
+				
+				return (T*)loadedResource;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -156,6 +157,7 @@ public:
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				audio->incReferences();
+				
 				return audio;
 			}
 		}
@@ -200,10 +202,9 @@ public:
 				}
 
 				loadedResource = new Text(txtcontent);
-
 				txtMap.addElement(FileName, resourcefilepath, loadedResource);
 
-				//return (T*)txtcontent;
+				return (T*)loadedResource;
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -212,6 +213,7 @@ public:
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				text->incReferences();
+
 				return text;
 			}
 		}

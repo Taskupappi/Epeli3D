@@ -10,6 +10,7 @@ class Texture
 {
 public:
 	friend class TextureManager;
+
 	Texture(){};
 	Texture(TextureManager* texM)
 	{
@@ -17,10 +18,9 @@ public:
 		_texture = NULL;
 	}
 	~Texture(){};
-	GLuint createTexture(const std::string& resourcefilepath);
-	//GLuint bindTexture(ImageResource *img);
-	void unbindTexture();
 
+	GLuint createTexture(const std::string& resourcefilepath);
+	void unbindTexture();
 
 private:
 
@@ -34,7 +34,6 @@ private:
 	std::unordered_map<std::string, GLuint>textureMap;
 	GLuint _texture;
 	ImageResource *_image;
-	Resources *_res;
 	TextureManager* _texM;
 
 };

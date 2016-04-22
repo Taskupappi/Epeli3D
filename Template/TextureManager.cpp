@@ -1,7 +1,5 @@
 #include "TextureManager.h"
 
-
-
 // load image file
 ImageResource* TextureManager::loadImage(const std::string &resourcefilepath)
 {

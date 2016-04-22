@@ -1,21 +1,21 @@
 #include "Camera.h"
 
 Camera::Camera()
-{	
+{
 	this->position = glm::vec3(0.0f, 0.0f, -10.0f);
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->worldUp = up;
 	this->yaw = YAW;
 	this->pitch = PITCH;
-	firstClick = true;	
+	firstClick = true;
 	movementSpeed = SPEED;
 	mouseSensitivity = SENSITIVITY;
 	Zoom = ZOOM;
 	updateCameraVectors();
 }
 
-Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch) 
+Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch)
 {
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
 	this->position = position;
@@ -48,9 +48,9 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	std::cout << "new mouse x: " << newMousePosition.x << " new mouse y: " << newMousePosition.y << std::endl;
 	std::cout << "front x: " << front.x << " front y: " << front.y << " front z: " << front.z << std::endl;
 	std::cout << "right x: " << right.x << " right y: " << right.y << " right z: " << right.z << std::endl;
-	std::cout << "up x: "	 << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
+	std::cout << "up x: " << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
 	std::cout << "position x: " << position.x << " position y: " << position.y << " position z: " << position.z << std::endl;
-	
+
 	//calculate offset
 	glm::vec2 offset;
 	offset.x = newMousePosition.x - oldMousePosition.x;
@@ -64,7 +64,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 
 	//set pitch and yaw
 	yaw += offset.x;
-	pitch += offset.y;	
+	pitch += offset.y;
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
@@ -74,7 +74,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	updateCameraVectors();
 }
 
-void Camera::move(const char* input ,const GLfloat deltaTime)
+void Camera::move(const char* input, const GLfloat deltaTime)
 {
 	//WASD movement with zoom in and out
 	switch (*input)
@@ -122,7 +122,7 @@ void Camera::moveBackward(const GLfloat deltaTime)
 
 void Camera::strafeLeft(const GLfloat deltaTime)
 {
-	
+
 	position += this->right * movementSpeed * deltaTime;
 }
 

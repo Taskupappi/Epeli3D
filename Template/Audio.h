@@ -13,8 +13,7 @@ public:
 		_sound = sound;
 	}
 	~Audio(){};
-
-
+	
 private:
 	Audio &operator=(Audio &audio)
 	{

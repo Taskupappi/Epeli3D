@@ -20,7 +20,7 @@ public:
 
 private:
 	Resources *_res;
-	
+	ImageResource* _image;
 };
 
 #endif
