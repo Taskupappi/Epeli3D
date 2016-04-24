@@ -2,31 +2,12 @@
 #define BUFFERMANAGER_H
 
 #include <GL/glew.h>
-#include <ctime>
 #include <vector>
-#include <iostream>
-#include <array>
-#include <sstream>  
-
-#include <ctime>
-#include <glm\gtc\type_ptr.hpp>
+//#include <glm\gtc\type_ptr.hpp>
 
 #include <glm\glm.hpp>
 #include "Vertex.h"
-
-//includes for the testBench
-#include "amp.h"
-#include "ShaderManager.h"
-#include "Camera.h"
-#include "Input.h"
-#include <glm/gtx/rotate_vector.hpp>
-////3d object loading
-#include "Object3D.h"
-#include <math.h>
-#include <cstddef>
-
-#include "Input.h"
-//
+#include "Shader.h"
 
 
 //TO DO:
@@ -76,41 +57,7 @@ public:
 	void drawElement(Shader* shader);
 
 	//binds a new Vertex Array Object for use
-	void newVAO(const GLuint vao);	
-
-	//TESTBENCH STUFF
-	//Cam
-	Camera* getCamera();
-	Camera *cam;
-	GLuint matrixID;
-	glm::mat4 MVP;
-
-	GLfloat camX = 2;
-	GLfloat camY = 0;
-	GLfloat camZ = 15;
-
-	//lightPos 
-	glm::vec3 lightPos;
-	
-	//Shader manager
-	ShaderManager *shaderManager;
-
-	//TestBench for the buffer
-	void drawTestBuffer();
-	void initTest();
-	void testBox();
-	void testBoxUpdate();
-	glm::mat4 model;
-	glm::mat4 view;
-	glm::mat4 projection;
-	float rotation = 0;
-
-	//3DModel loading
-	Object3D model3D;
-	
-	//this should be moved to the game object
-	void calculateModelMatrix();
-	////
+	void newVAO(const GLuint vao);
 
 	//BufferData for multiple objects
 	std::vector<std::vector<Vertex>> vertexes;
@@ -120,9 +67,7 @@ public:
 	//std::vector<Vertex> objVertexes;
 	//std::vector<GLuint> objIndices;
 	std::vector<Vertex>::iterator* objVerIter;
-	std::vector<GLuint>::iterator objIndIter;
-
-	
+	std::vector<GLuint>::iterator objIndIter;	
 	
 	std::vector<GLuint> VertexArrayObjects;
 	std::vector<GLuint>::iterator VAOIter;
@@ -143,12 +88,5 @@ private:
 	//delete these?
 	GLuint vertexbufId;
 	GLuint indexbufID;
-
-	// temporary shader
-	float tempColor = 0;
-	bool rewind;
-	GLfloat angle;
-	//testbench values
-	int pos = 0;
 };
 #endif
