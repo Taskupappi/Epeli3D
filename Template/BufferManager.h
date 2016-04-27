@@ -9,7 +9,6 @@
 #include "Vertex.h"
 #include "Shader.h"
 
-
 //TO DO:
 //Make shaders work properly with the buffer manager
 //Clean up the unnecessary lines of code
@@ -62,13 +61,15 @@ public:
 	//BufferData for multiple objects
 	std::vector<std::vector<Vertex>> vertexes;
 	std::vector<std::vector<GLuint>>indices;
-
+	std::vector<std::vector<GLuint>>::iterator iteIndices;
 	//Buffer Data Vectors for object
 	//std::vector<Vertex> objVertexes;
 	//std::vector<GLuint> objIndices;
 	std::vector<Vertex>::iterator* objVerIter;
-	std::vector<GLuint>::iterator objIndIter;	
+	std::vector<GLuint>::iterator* objIndIter;	
 	
+
+	std::vector<GLuint> ElementBufferObjects;
 	std::vector<GLuint> VertexArrayObjects;
 	std::vector<GLuint>::iterator VAOIter;
 	/////
@@ -77,10 +78,10 @@ protected:
 private:
 
 	GLuint
-		//VertexArrayObject,
-		VertexBufferObject, 
-		ElementBufferObject,
-		NormalBufferObject;
+		VertexArrayObject,
+		VertexBufferObject,
+		ElementBufferObject;
+		//NormalBufferObject;
 
 	//Struct 
 	struct Vertex vertex;

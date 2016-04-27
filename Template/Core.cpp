@@ -224,65 +224,75 @@ void Engine::testInit()
 
 
 	//Model loading
-	//Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.3ds");
-	//	std::vector<Vertex> v3D;
-	//	std::vector<GLuint> indices3D;
-	//	
-	//	std::vector<Mesh>::iterator modelIter;
-	//	std::vector<Vertex>::iterator vertexIter;
-	//	std::vector<GLuint>::iterator indicesIter;
-	//	
-	//	std::vector<Mesh> mesh;
-	//	mesh = model->getMeshVec();
-	//
-	//	for (modelIter = model->getMeshVec().begin(); modelIter != model->getMeshVec().end(); modelIter++)
-	//		{
-	//			for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
-	//			{
-	//				v3D.push_back((*vertexIter));
-	//			}	
-	//
-	//			for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
-	//			{
-	//				indices3D.push_back((*indicesIter));
-	//			}
-	//		}
-	//		
-	//	_bufMngr->addBufferData(v3D, indices3D);
-	//	//setBufferData(vcopy, testIndicescopy);
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.3ds");
+		std::vector<Vertex> v3D;
+		std::vector<GLuint> indices3D;
+		
+		std::vector<Mesh>::iterator modelIter;
+		std::vector<Vertex>::iterator vertexIter;
+		std::vector<GLuint>::iterator indicesIter;
+		
+		std::vector<Mesh> mesh;
+		mesh = model->getMeshVec();
+	
+		for (modelIter = model->getMeshVec().begin(); modelIter != model->getMeshVec().end(); modelIter++)
+			{
+				for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+				{
+					v3D.push_back((*vertexIter));
+				}	
+	
+				for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
+				{
+					indices3D.push_back((*indicesIter));
+				}
+			}
+			
+		_bufMngr->addBufferData(v3D, indices3D);
+		//setBufferData(vcopy, testIndicescopy);
 	//	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
 		//end of 3d model loading//
 	
 		////TEST TRIANGLE FOR DEBUG
 		
-	GLfloat vertices[] = {
-		0.5f, 0.5f, 0.0f,  // Top Right
-		0.5f, -0.5f, 0.0f,  // Bottom Right
-		-0.5f, -0.5f, 0.0f,  // Bottom Left
-		-0.5f, 0.5f, 0.0f   // Top Left 
-	};
-		for (int i = 0; i < 3; i++)
-		{
-			Vertex v;
-			v.Position.x = vertices[i * 3];
-			v.Position.y = vertices[i * 3 + 1];
-			v.Position.z = vertices[i * 3 + 2];
-			v.Normal = glm::vec3(0,0,0);
-			v.TexCoords = glm::vec2(0, 0);
-			v.Color = glm::vec3(122,122,122);
-			ver.push_back(v);
-		}
-	
-	
-		GLuint indices[] = {  // Note that we start from 0!
-			0, 1, 3,  // First Triangle
-			1, 2, 3   // Second Triangle
-		};
-	
-		for (int i = 0; i < 6; i++)
-		{
-			inds.push_back(indices[i]);
-		}
+	//GLfloat vertices[] = {
+	//	0.5f, 0.5f, 0.0f,  // Top Right
+	//	0.5f, -0.5f, 0.0f,  // Bottom Right
+	//	-0.5f, -0.5f, 0.0f,  // Bottom Left
+	//	-0.5f, 0.5f, 0.0f   // Top Left 
+	//};
+	//	for (int i = 0; i < 4; i++)
+	//	{
+	//		Vertex v;
+	//		//if (i == 0)
+	//		//{
+	//			v.Position.x = vertices[i * 3];
+	//			v.Position.y = vertices[i * 3 + 1];
+	//			v.Position.z = vertices[i * 3 + 2];
+	//		//}
+	//		/*else
+	//		{
+	//			v.Position.x = vertices[i * 3 + 1];
+	//			v.Position.y = vertices[i * 3 + 2];
+	//			v.Position.z = vertices[i * 3 + 3];
+	//		}*/
+
+	//		v.Normal = glm::vec3(0,0,0);
+	//		v.TexCoords = glm::vec2(0, 0);
+	//		v.Color = glm::vec3(122,122,122);
+	//		ver.push_back(v);
+	//	}
+	//
+	//
+	//	GLuint indices[] = {  // Note that we start from 0!
+	//		3, 0, 1,  // First Triangle
+	//		1, 2, 3   // Second Triangle
+	//	};
+	//
+	//	for (int i = 0; i < 6; i++)
+	//	{
+	//		inds.push_back(indices[i]);
+	//	}
 	
 
 
@@ -296,49 +306,49 @@ void Engine::testInit()
 		// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
 
 
-		//VAO stuff
-		GLuint VAO;
-		glGenVertexArrays(1, &VAO);
-		glBindVertexArray(VAO);
+		////VAO stuff
+		//GLuint VAO;
+		//glGenVertexArrays(1, &VAO);
+		//glBindVertexArray(VAO);
 
-		//VBO stuff
-		glGenBuffers(1, &VBO);
-		//VBO stuff - elements/ indices
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		//vertex vector size * amount of elements * element type
-		glBufferData(GL_ARRAY_BUFFER, ver.size() *(GLuint)11 * sizeof(GLfloat), &ver[0].Position.x, GL_STATIC_DRAW);
+		////VBO stuff
+		//glGenBuffers(1, &VBO);
+		////VBO stuff - elements/ indices
+		//glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		////vertex vector size * amount of elements * element type
+		//glBufferData(GL_ARRAY_BUFFER, ver.size() *(GLuint)11 * sizeof(GLfloat), &ver[0].Position.x, GL_STATIC_DRAW);
 
-		//Vertex Positions
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(GLvoid*)0);
+		////Vertex Positions
+		//glEnableVertexAttribArray(0);
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		//	(GLvoid*)0);
 
-		//Vertex Normals
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(GLvoid*)offsetof(Vertex, Vertex::Normal));
+		////Vertex Normals
+		//glEnableVertexAttribArray(1);
+		//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		//	(GLvoid*)offsetof(Vertex, Vertex::Normal));
 
-		//Vertex Texture Coords
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(GLvoid*)offsetof(Vertex, Vertex::TexCoords));
+		////Vertex Texture Coords
+		//glEnableVertexAttribArray(2);
+		//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		//	(GLvoid*)offsetof(Vertex, Vertex::TexCoords));
 
-		//Vertex Color
-		glEnableVertexAttribArray(3);
-		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-			(GLvoid*)offsetof(Vertex, Vertex::Color));
-		
-		//EBO stuff
-		glGenBuffers(1, &EBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, inds.size() * sizeof(GLuint), &inds[0], GL_STATIC_DRAW);
+		////Vertex Color
+		//glEnableVertexAttribArray(3);
+		//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		//	(GLvoid*)offsetof(Vertex, Vertex::Color));
+		//
+		////EBO stuff
+		//glGenBuffers(1, &EBO);
+		//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+		//glBufferData(GL_ELEMENT_ARRAY_BUFFER, inds.size() * sizeof(GLuint), &inds[0], GL_STATIC_DRAW);
 
-		VAOs.push_back(VAO);
-		EBOs.push_back(EBO);
+		//VAOs.push_back(VAO);
+		//EBOs.push_back(EBO);
 
-		glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
+		//glBindBuffer(GL_ARRAY_BUFFER, 0); // Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
 
-		glBindVertexArray(0);
+		//glBindVertexArray(0);
 		////
 
 		//_bufMngr->addBufferData(ver, inds);
@@ -536,14 +546,14 @@ void Engine::testInit()
 
 void Engine::testUpdate()
 {
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOs[0]);
-	glBindVertexArray(VAOs[0]);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glDrawElements(GL_TRIANGLES, inds.size(), GL_UNSIGNED_INT, (void*)0);
-	glBindVertexArray(0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOs[0]);
+	//glBindVertexArray(VAOs[0]);
+	//glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glDrawElements(GL_TRIANGLES, inds.size(), GL_UNSIGNED_INT, (void*)0);
+	//glBindVertexArray(0);
 
 
-	//_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
+	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
 	
 	_grapCtx->swap();
 	glPopMatrix();
