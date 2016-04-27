@@ -4,8 +4,8 @@
 
 #include <ctime>
 
-GraphicContext* gCon = new GraphicContext;
-BufferManager* buff = new BufferManager;
+//GraphicContext* gCon = new GraphicContext;
+//BufferManager* buff = new BufferManager;
 
 bool pressed = false;
 glm::vec2 mouseClickPos;
@@ -31,9 +31,17 @@ graphics::Sprite * sprt;
 core::Engine * eng = core::Engine::UI();
 //Called before engine closes
 void userUnInit(){};
+
 //Game initialization code here
 void gameInit()
 {
+	eng->createScreen(800, 600);
+	eng->testInit();
+
+
+	//eng->createScene();
+	
+	
 	//core::Scene * sc= eng->createScene();
 
 	//buff->initBuffers();
@@ -43,9 +51,13 @@ void gameInit()
 	//buff->drawBuffer();
 	//gCon->swap();
 	////sc = eng->_scnMngr->getScene(1);
-	buff->initTest();
-	buff->shaderManager->getActiveShader()->use();
-	buff->drawTestBuffer();
+
+
+	//buff->initTest();
+	//buff->shaderManager->getActiveShader()->use();
+	//buff->drawTestBuffer();
+
+
 	//eng->getSpriteManager()->setShader(buff->shaderManager->getActiveShader());
 	//sprt = eng->createSprite(glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure, nullptr);
 }
@@ -64,10 +76,11 @@ void gameLoop()
 	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	buff->testBoxUpdate();
-	buff->drawTestBuffer();
-	glPopMatrix();
-	gCon->swap();
+	eng->testUpdate();
+	//buff->testBoxUpdate();
+	//buff->drawTestBuffer();
+	//glPopMatrix();
+	//gCon->swap();
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
@@ -93,7 +106,7 @@ void gameLoop()
 
 		//movement with the cam
 		const char* conversion = key.c_str();
-		buff->getCamera()->move(key.c_str(), deltaTime);
+		//buff->getCamera()->move(key.c_str(), deltaTime);
 	}
 
 	if (!pressed)
@@ -114,7 +127,7 @@ void gameLoop()
 
 			
 			//test for camera movement below
-			buff->getCamera()->mouseUpdate(movement);
+			//buff->getCamera()->mouseUpdate(movement);
 		}
 	}
 	else

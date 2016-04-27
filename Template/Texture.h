@@ -3,7 +3,7 @@
 
 #include <string.h>
 #include "TextureManager.h"
-//#include "ImageResource.h"
+
 class ImageResource;
 
 class Texture
@@ -30,12 +30,9 @@ private:
 			return *this;
 	}
 
-	//TODO: oma mappi textuureille, joku systeemi hakemaan handle samaa filua ladattaessa?
-	std::unordered_map<std::string, GLuint>textureMap;
 	GLuint _texture;
 	ImageResource *_image;
 	TextureManager* _texM;
-
 };
 
 #endif

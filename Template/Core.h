@@ -36,6 +36,7 @@ void extern userUnInit();
 #include "Object3D.h"
 #include "TextureManager.h"
 #include "Sprite.h"
+#include "GraphicContext.h"
 
 //Assimp
 #include <assimp/Importer.hpp>
@@ -59,6 +60,7 @@ namespace core
 		bool run();
 		void userInit();
 		void quit(){ _exit = true; }
+		void createScreen(int ResX, int ResY);
 		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col);
 		Scene * createScene()
 		{
@@ -71,6 +73,12 @@ namespace core
 		Resources * getResources(){ return _resMngr; }
 		//graphics::SpriteManager * getSpriteManager(){ return _sprtMngr; }
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
+
+
+		//TestBench to try out modules
+		void testInit();
+		void testUpdate();
+		////
 	protected:
 		virtual ~Engine();
 		Engine();
@@ -83,8 +91,9 @@ namespace core
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
-		//ShaderManager * _shdrMngr
+		ShaderManager* _shdrMngr;
 		Resources * _resMngr;
+		GraphicContext* _grapCtx;
 	private:
 		core::Input * _input;
 		bool _mainInit; //Has main initialization been done
@@ -92,6 +101,14 @@ namespace core
 		static Engine *_instance;
 		//Handles SDL input events
 		void processInput();
+
+		//these will be removed right after I get buffers to work properly
+		GLuint VBO, EBO;
+		std::vector<GLuint> inds;
+		std::vector<Vertex> ver;
+		std::vector<GLuint> VBOs;
+		std::vector<GLuint> EBOs;
+		std::vector<GLuint> VAOs;
 	};
 }
 
