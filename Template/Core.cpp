@@ -265,8 +265,10 @@ void Engine::testInit()
 		{
 			Vertex v;
 			v.Position.x = vertices[i * 3];
-			v.Position.x = vertices[i * 3 + 1];
-			v.Position.x = vertices[i * 3 + 2];
+			v.Position.y = vertices[i * 3 + 1];
+			v.Position.z = vertices[i * 3 + 2];
+			v.Normal = glm::vec3(0,0,0);
+			v.TexCoords = glm::vec2(0, 0);
 			v.Color = glm::vec3(122,122,122);
 			ver.push_back(v);
 		}
@@ -304,7 +306,7 @@ void Engine::testInit()
 		//VBO stuff - elements/ indices
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
 		//vertex vector size * amount of elements * element type
-		glBufferData(GL_ARRAY_BUFFER, ver.size() *(GLuint)11 * sizeof(GLfloat), &ver[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, ver.size() *(GLuint)11 * sizeof(GLfloat), &ver[0].Position.x, GL_STATIC_DRAW);
 
 		//Vertex Positions
 		glEnableVertexAttribArray(0);
@@ -542,6 +544,7 @@ void Engine::testUpdate()
 
 
 	//_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
+	
 	_grapCtx->swap();
 	glPopMatrix();
 }
