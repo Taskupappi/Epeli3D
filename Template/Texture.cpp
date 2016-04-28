@@ -1,10 +1,16 @@
 #include "Texture.h"
 #include "ImageResource.h"
 
-
-GLuint Texture::createTexture(const std::string& resourcefilepath)
+// Unbind texture
+void Texture::unbindTexture()
 {
-	_image = _texM->loadImage(resourcefilepath);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+// Bind texture
+GLuint Texture::bindTexture(ImageResource *image)
+{
+	_image = image;
 
 	glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);
@@ -17,13 +23,19 @@ GLuint Texture::createTexture(const std::string& resourcefilepath)
 		_image->getWidth(),
 		_image->getHeight(), 0, GL_RGB, GL_UNSIGNED_BYTE,
 		_image->getPixelData());
-	//glGenerateMipmap(GL_TEXTURE_2D);
+
+	setTextureSize(_image->getWidth(), _image->getHeight());
 
 	return _texture;
 }
 
-// Unbind texture
-void Texture::unbindTexture()
+void Texture::setTextureSize(int width, int height)
 {
-	glBindTexture(GL_TEXTURE_2D, 0);
+	_texSize.x = width;
+	_texSize.y = height;
+}
+
+glm::vec2 Texture::getTextureSize()
+{
+	return _texSize;
 }

@@ -29,7 +29,6 @@ void extern userUnInit();
 #include "ResourceBase.h"
 #include "Resources.h"
 #include "Input.h"
-#include "Texture.h"
 #include "Audio.h"
 #include "ShaderManager.h"
 #include "BufferManager.h"
@@ -42,6 +41,8 @@ void extern userUnInit();
 #include <assimp/Importer.hpp>
 class TextureManager;
 class BufferManager;
+class Texture;
+
 namespace graphics
 {
 	class Sprite;
@@ -62,6 +63,7 @@ namespace core
 		void quit(){ _exit = true; }
 		void createScreen(int ResX, int ResY);
 		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col);
+		Texture * createTexture(std::string filepath);
 		Scene * createScene()
 		{
 			return nullptr;
@@ -71,6 +73,7 @@ namespace core
 		bool useScene(Scene * sc){ return true; }
 		core::Input * getInput(){ return _input; }
 		Resources * getResources(){ return _resMngr; }
+		TextureManager * getTextureManager(){ return _txtrMngr; }
 		//graphics::SpriteManager * getSpriteManager(){ return _sprtMngr; }
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
 
