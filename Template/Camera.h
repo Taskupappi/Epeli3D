@@ -4,7 +4,9 @@
 #include <GL/glew.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
+#include "Shader.h"
 //debug
 #include <iostream>
 
@@ -26,6 +28,7 @@ class Camera
 {
 public:
 	Camera();
+	Camera(GLfloat ScreenWidth, GLfloat ScreenHeight);
 	Camera(glm::vec3 position);
 	Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch);
 	Camera(GLfloat posX, GLfloat posY, GLfloat posZ,
@@ -36,6 +39,9 @@ public:
 	//movement mouse
 	void mouseUpdate(const glm::vec2 newMousePosition);
 
+	//initialize camera
+	void initDefault(Shader* shader);
+
 	//movement keyboard
 	void move(const char* input, const GLfloat deltaTime);
 	void moveForward(const GLfloat deltaTime);
@@ -45,7 +51,22 @@ public:
 	void moveUp(const GLfloat deltaTime);
 	void moveDown(const GLfloat deltaTime);
 
+	//screen dimensions for projection Matrix
+	void setScreenDimension(GLfloat ScreenWidth, GLfloat ScreenHeight);
+
+	void setViewUniformLocation(Shader *shader);
+	void setProjectionUniformLocation(Shader *shader);
+	void setModelUniformLocation(Shader *shader);
+
+	glm::mat4 getModelMatrix();
 	glm::mat4 getViewMatrix();
+	glm::mat4 getProjectionMatrix();
+	void setDefaultModelMatrix();
+
+
+	glm::mat4 viewMatrix,
+		projectionMatrix,
+		modelMatrix;
 
 private:
 
@@ -67,8 +88,18 @@ private:
 	GLfloat mouseSensitivity;
 	GLfloat Zoom;
 
+	GLfloat fov;
+
+	//Screen Dimensions
+	GLfloat ScreenWidth,
+		ScreenHeight;
+
 	glm::vec2 oldMousePosition;
 	bool firstClick;
+
+	GLint modelLocation,
+		viewLocation,
+		projectionLocation;
 };
 
 

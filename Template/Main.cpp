@@ -4,14 +4,14 @@
 
 #include <ctime>
 
-//GraphicContext* gCon = new GraphicContext;
+//GraphicContext* gCon = new GraphicContext(800, 600);
 //BufferManager* buff = new BufferManager;
 
 bool pressed = false;
 glm::vec2 mouseClickPos;
 std::string nam = "vertexbuffer";
 std::string key;
-
+Camera* cam;
 //Test Stuff
 SYSTEMTIME syst;
 //
@@ -35,8 +35,9 @@ void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
-	eng->createScreen(800, 600);
-	eng->testInit();
+
+	cam = new Camera();
+	eng->testInit(cam, 800, 600);
 
 	Texture * texture = eng->createTexture("../data/Resource/Images/sample.png");
 	Texture * texture2 = eng->createTexture("../data/Resource/Images/sample.png");
@@ -52,24 +53,13 @@ void gameInit()
 	//Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
 	//Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
-	//eng->createScene();
-
+	//eng->createScene();	
+	
+	//eng->createScene();	
 
 	//core::Scene * sc= eng->createScene();
 
-	//buff->initBuffers();
-	//buff->initShaders();	
-
-	//buff->getBuffer("vertexbuffer")
-	//buff->drawBuffer();
-	//gCon->swap();
 	////sc = eng->_scnMngr->getScene(1);
-
-
-	//buff->initTest();
-	//buff->shaderManager->getActiveShader()->use();
-	//buff->drawTestBuffer();
-
 
 	//eng->getSpriteManager()->setShader(buff->shaderManager->getActiveShader());
 	//sprt = eng->createSprite(glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure, nullptr);
@@ -89,11 +79,9 @@ void gameLoop()
 	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	eng->testUpdate();
-	//buff->testBoxUpdate();
-	//buff->drawTestBuffer();
-	//glPopMatrix();
-	//gCon->swap();
+	eng->testUpdate(cam);
+
+
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
@@ -128,6 +116,7 @@ void gameLoop()
 		{
 			pressed = true;
 			mouseClickPos = eng->getInput()->getMousePosition();
+			cam->mouseUpdate(mouseClickPos);
 			//eng->drawSprites();
 			//SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
 		}
