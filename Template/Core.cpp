@@ -12,6 +12,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
+	_sndMngr = new AudioManager(_resMngr);
 	_grapCtx = nullptr;
 	//TO DO:
 	//
@@ -26,6 +27,8 @@ Engine::Engine() :_mainInit(false), _exit(false)
 Engine::~Engine()
 {
 	delete _resMngr;
+	delete _txtrMngr;
+	delete _sndMngr;
 	//delete _sprtMngr;
 	delete _bufMngr;
 	delete _input;
@@ -152,6 +155,13 @@ Texture * Engine::createTexture(std::string filepath)
 	Texture *texture = _txtrMngr->createTexture(filepath);
 
 	return texture;
+}
+
+Audio * Engine::createAudio(std::string filepath)
+{
+	Audio *audio = _sndMngr->createSound(filepath);
+
+	return audio;
 }
 
 void Engine::processInput()

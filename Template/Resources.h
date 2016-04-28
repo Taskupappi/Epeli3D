@@ -10,11 +10,8 @@
 #include <iostream>
 #include <fstream>
 
-//class ImageResource;
 class Object3D;
 class Mesh;
-
-
 
 class Resources :
 	public ResourceBase
@@ -36,8 +33,7 @@ public:
 		size_t pos = resourcefilepath.find_last_of("/");
 		if (pos != std::string::npos)
 			FileName = resourcefilepath.substr(pos + 1);
-		else
-			printf("ULIULUIULI\n");
+
 		// Init IMAGE manager and map, load file to map
 		if (typeid(T).hash_code() == typeid(ImageResource).hash_code())
 		{
@@ -149,6 +145,7 @@ public:
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				return (T*)loadedResource;
+				Mix_FreeMusic(sound);
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
