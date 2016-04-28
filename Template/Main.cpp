@@ -38,6 +38,19 @@ void gameInit()
 	eng->createScreen(800, 600);
 	eng->testInit();
 
+	Texture * texture = eng->createTexture("../data/Resource/Images/sample.png");
+	Texture * texture2 = eng->createTexture("../data/Resource/Images/sample.png");
+	Texture * texture3 = eng->createTexture("../data/Resource/Images/doge.jpeg");
+
+	glm::vec2 size = texture->getTextureSize();
+	size = texture3->getTextureSize();
+
+	// TODO: AudioManager hoitamaan toiston kontrolleja yms
+	//Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	////Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
+	//Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	//Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	//Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 
 	//eng->createScene();
 	

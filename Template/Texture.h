@@ -11,17 +11,11 @@ class Texture
 public:
 	friend class TextureManager;
 
-	Texture(){};
-	Texture(TextureManager* texM)
-	{
-		_texM = texM;
-		_texture = NULL;
-	}
-	~Texture(){};
-
-	GLuint createTexture(const std::string& resourcefilepath);
 	void unbindTexture();
-
+	GLuint bindTexture(ImageResource* image);
+	void setTextureSize(int width, int height);
+	glm::vec2 getTextureSize();
+	// void deleteTexture();
 private:
 
 	Texture &operator=(Texture &texture)
@@ -33,6 +27,17 @@ private:
 	GLuint _texture;
 	ImageResource *_image;
 	TextureManager* _texM;
+	glm::vec2 _texSize;
+
+protected:
+	Texture(GLuint)
+	{
+		_texture = NULL;
+		_texSize.x = 0;
+		_texSize.y = 0;
+	}
+	~Texture(){};
+
 };
 
 #endif

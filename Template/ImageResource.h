@@ -16,16 +16,16 @@ public:
 	~ImageResource(){};
 
 	int getWidth()
-	{ 
-		return _image->w; 
+	{
+		return _image->w;
 	}
 	int getHeight()
-	{ 
-		return _image->h; 
+	{
+		return _image->h;
 	}
 	void* getPixelData()
-	{ 
-		return _image->pixels; 
+	{
+		return _image->pixels;
 	}
 
 private:

@@ -1,9 +1,13 @@
 #include "TextureManager.h"
+#include "Texture.h"
 
-// load image file
-ImageResource* TextureManager::loadImage(const std::string &resourcefilepath)
+// load image file and create texture
+Texture* TextureManager::createTexture(const std::string &resourcefilepath)
 {
 	ImageResource* _image = _res->loadFile<ImageResource>(resourcefilepath);
 
-	return _image;
+	Texture* texture = new Texture(0);
+	texture->bindTexture(_image);
+
+	return texture;
 }

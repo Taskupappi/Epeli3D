@@ -26,7 +26,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 Engine::~Engine()
 {
 	delete _resMngr;
-	delete _sprtMngr;
+	//delete _sprtMngr;
 	delete _bufMngr;
 	delete _input;
 	delete _scnMngr;
@@ -67,30 +67,9 @@ void Engine::Init()
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_image: %s\n", SDL_GetError());
 	}
+	// GLEW init
+	glewInit();
 
-	// TODO: fix this
-	//ImageResource* imgData;
-	//imgData = _txtrMngr->createTexture("../data/Resource/Images/sample.png");
-	//Texture *texture = new Texture(0);
-	//// sisälle filepath??? vai mitähä???
-	//texture->bindTexture(imgData);
-
-	Texture * texture = new Texture(_txtrMngr);
-	texture->createTexture("../data/Resource/Images/sample.png");
-	Texture * texture2 = new Texture(_txtrMngr);
-	texture2->createTexture("../data/Resource/Images/sample.png");
-
-	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	//Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-<<<<<<< HEAD
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.3ds");
-=======
-	
->>>>>>> refs/remotes/origin/master
 
 	//std::cout << "Model loading:" << std::endl;
 	//Object3D object("../data/Resource/Models/boy.obj");
@@ -168,6 +147,13 @@ graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int 
 	return sprt;
 }
 
+Texture * Engine::createTexture(std::string filepath)
+{
+	Texture *texture = _txtrMngr->createTexture(filepath);
+
+	return texture;
+}
+
 void Engine::processInput()
 {
 	//SDL Input handler here
@@ -220,8 +206,6 @@ void Engine::processInput()
 			}
 		}
 	}
-<<<<<<< HEAD
-=======
 }
 
 
@@ -554,5 +538,4 @@ void Engine::testUpdate()
 	
 	_grapCtx->swap();
 	glPopMatrix();
->>>>>>> refs/remotes/origin/master
 }

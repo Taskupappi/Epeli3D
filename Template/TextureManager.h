@@ -5,6 +5,8 @@
 #include "Resources.h"
 #include "ResourceBase.h"
 
+class Texture;
+
 class TextureManager
 	: public ResourceBase
 {
@@ -16,7 +18,7 @@ public:
 	}
 	~TextureManager(){};
 
-	ImageResource* loadImage(const std::string& resourcefilepath);
+	Texture* createTexture(const std::string& resourcefilepath);
 
 private:
 	Resources *_res;
