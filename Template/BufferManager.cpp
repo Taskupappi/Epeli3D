@@ -45,23 +45,23 @@ void BufferManager::bindBuffer()
 
 void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 {
-	GLuint VertexArrayObject;
+	//VAO
+	//GLuint VertexArrayObject;
 	glGenVertexArrays(1, &VertexArrayObject);
+	glBindVertexArray(VertexArrayObject);
+	//VBO
+	//GLuint VertexBufferObject;
 	glGenBuffers(1, &VertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	//
+	//GLuint ElementBufferObject;
 	glGenBuffers(1, &ElementBufferObject);
 	
-	//VAO bind
-	glBindVertexArray(VertexArrayObject);
 
 	//VBO bind & buffer data
-	glBindBuffer(GL_ARRAY_BUFFER, this->VertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size()* sizeof(Vertex),
-		&vertices[0], GL_DYNAMIC_DRAW);
-
-	//EBO bind & buffer data
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->ElementBufferObject);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
-		&indices[0], GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)11 * sizeof(GLfloat),
+		&vertices[0].Position.x, GL_DYNAMIC_DRAW);
 
 	//Vertex Positions
 	glEnableVertexAttribArray(0);
@@ -83,8 +83,16 @@ void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint
 	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(GLvoid*)offsetof(Vertex, Color));
 
-	VertexArrayObjects.push_back(VertexArrayObject);
+	//EBO bind & buffer data
+	glGenBuffers(1, &ElementBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
+		&indices[0], GL_DYNAMIC_DRAW);
 
+	VertexArrayObjects.push_back(VertexArrayObject);
+	ElementBufferObjects.push_back(ElementBufferObject);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
@@ -106,13 +114,15 @@ void BufferManager::drawBuffer(Shader* shader)
 {
 	int elementN = 0;
 	VAOIter = VertexArrayObjects.begin();
-	
+
 	//one loop == one object drawn
 	for (VAOIter; VAOIter != VertexArrayObjects.end(); VAOIter++)
 	{		
 		elementN = std::distance(VertexArrayObjects.begin(), VAOIter);
 		glBindVertexArray((*VAOIter));
-		glDrawElements(GL_TRIANGLES, this->indices[elementN].size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, indices[elementN].size(), GL_UNSIGNED_INT, 0);
+
+		//glDrawElements(GL_TRIANGLES, this->indices[elementN].size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
 }

@@ -2,10 +2,10 @@
 
 
 LightSource::LightSource(std::string type, float intensity, glm::vec3 rgb)
- {
+{
 	_type = type;
 	_intensity = intensity;
-	_rgb.x = rgb.x / 255; // punainen
+	_rgb.x = rgb.x / 255; // punainen, käytä Color.h:ta
 	_rgb.y = rgb.y / 255; // vihreä
 	_rgb.z = rgb.z / 255; // sininen
 	calculate();
