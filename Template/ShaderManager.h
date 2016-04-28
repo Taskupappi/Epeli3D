@@ -13,8 +13,8 @@ namespace core
 	class Engine;
 }
 
-//namespace graphics
-//{
+namespace graphics
+{
 	class ShaderManager
 	{
 		friend class core::Engine;
@@ -22,7 +22,7 @@ namespace core
 	public:
 
 		//creates and initializes a shader
-		void createShader(std::string vertexFilepath, std::string fragmentFilepath, std::string shaderName);
+		Shader *  createShader(std::string vertexFilepath, std::string fragmentFilepath, std::string shaderName);
 		//uninit shaders
 		void uninitShaders(void);
 
@@ -44,5 +44,5 @@ namespace core
 		Shader* activeShader;
 		//Resources *resMngr;
 	};
-//}
+}
 #endif

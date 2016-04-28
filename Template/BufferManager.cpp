@@ -20,6 +20,15 @@ BufferManager::BufferManager()
 	////
 }
 
+void BufferManager::clearBuffers()
+{
+	this->vertexes.clear();
+	this->indices.clear();
+	ElementBufferObjects.clear();
+	VertexArrayObjects.clear();
+
+}
+
 BufferManager::~BufferManager()
 {
 	if (vertexbufId != 0)

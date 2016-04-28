@@ -62,7 +62,9 @@ void gameInit()
 	////sc = eng->_scnMngr->getScene(1);
 
 	//eng->getSpriteManager()->setShader(buff->shaderManager->getActiveShader());
-	//sprt = eng->createSprite(glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure, nullptr);
+	//Texture * tex = nullptr;
+	//Crashes with new textures
+	//sprt = eng->createSprite(tex, glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure);
 }
 
 //Game mainloop
@@ -117,7 +119,7 @@ void gameLoop()
 			pressed = true;
 			mouseClickPos = eng->getInput()->getMousePosition();
 			cam->mouseUpdate(mouseClickPos);
-			//eng->drawSprites();
+			//eng->getSpriteManager()->drawSprites();
 			//SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
 		}
 		if (eng->getInput()->isMousePressed(core::Mouse::right))

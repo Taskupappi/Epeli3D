@@ -8,7 +8,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_scnMngr = new SceneManager();
 	_input = new Input();
 	_bufMngr = new BufferManager();
-	_shdrMngr = new ShaderManager();
+	_shdrMngr = new graphics::ShaderManager();
 	//_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
@@ -142,11 +142,11 @@ void Engine::createScreen(int ResX, int ResY)
 	_grapCtx = new GraphicContext(ResX, ResY);
 }
 
-graphics::Sprite * Engine::createSprite(glm::vec2 position, glm::vec2 size, int z, Color col)
+graphics::Sprite * core::Engine::createSprite(Texture * texture, glm::vec2 position, glm::vec2 size, int z, Color col)
 {
 	graphics::Sprite * sprt = nullptr;
 	//TODO: uncomment once textures are done
-	//sprt = _sprtMngr->createSprite(glm::vec3(position.x, position.y, z), size, glm::vec2(size.x / 2, size.y / 2), tex, 1, 1);
+	sprt = _sprtMngr->createSprite(glm::vec3(position.x, position.y, z), size, glm::vec2(size.x / 2, size.y / 2), col, texture, 1, 1);
 	return sprt;
 }
 

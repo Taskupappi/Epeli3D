@@ -10,7 +10,7 @@ enum class Colors:uint32_t
 	AntiqueWhite = 0xFFFAEBD7,
 	Aqua = 0xFF00FFFF,
 	Aquamarine = 0xFF7FFFD4,
-	Azure = 0xFFF0FFFF,
+	Azure = 0xFF007FFF,
 	Beige = 0xFFF5F5DC,
 	Bisque = 0xFFFFE4C4,
 	Black = 0xFF000000,
