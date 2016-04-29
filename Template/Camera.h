@@ -20,7 +20,7 @@ enum Camera_Movement{
 // Default camera values
 const GLfloat YAW = -90.0f;
 const GLfloat PITCH = 0.0f;
-const GLfloat SPEED = 3.0f;
+const GLfloat SPEED = 1.0f;
 const GLfloat SENSITIVITY = 0.25f;
 const GLfloat ZOOM = 45.0f;
 
@@ -58,10 +58,16 @@ public:
 	void setProjectionUniformLocation(Shader *shader);
 	void setModelUniformLocation(Shader *shader);
 
+	void passMatricesToShader(Shader* shader);
+
 	glm::mat4 getModelMatrix();
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
 	void setDefaultModelMatrix();
+	void printMatrices();
+	void printDetails();
+
+	void setViewMatrix(glm::mat4 const &matrix) { viewMatrix = matrix; };
 
 
 	glm::mat4 viewMatrix,

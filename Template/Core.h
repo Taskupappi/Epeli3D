@@ -81,7 +81,7 @@ namespace core
 
 		//TestBench to try out modules
 		void testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight);
-		void testUpdate(Camera* cam);
+		void testUpdate(Camera* cam, float deltaTime);
 		////
 	protected:
 		virtual ~Engine();

@@ -5,8 +5,8 @@ layout (location = 2) in vec2 TexCoord;
 layout (location = 3) in vec3 Color;
 
 out vec2 texCoord;
-out vec3 Color;
-out vec3 Normal;
+out vec3 color;
+out vec3 normal;
 
 uniform mat4 model;
 uniform mat4 view;
@@ -15,6 +15,7 @@ uniform mat4 projection;
 void main()
 {
     gl_Position = projection * view * model * vec4(Position, 1.0f);
-	normal = mat3(transpose(inverse(model))) * Normal;
-    texCoord = TexCoord;
+	//normal = mat3(transpose(inverse(model)) * Normal);
+    	texCoord = TexCoord;
+	color = Color;
 }

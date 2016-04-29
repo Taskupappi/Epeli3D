@@ -70,7 +70,9 @@ void gameInit()
 //Game mainloop
 void gameLoop()
 {
+
 	//deltaTime calculations
+	timeNow = SDL_GetTicks();
 	if (timeNow > timeLast)
 	{
 		deltaTime = ((float)(timeNow - timeLast)) / 1000;
@@ -81,7 +83,7 @@ void gameLoop()
 	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	eng->testUpdate(cam);
+	eng->testUpdate(cam, deltaTime);
 
 
 
@@ -109,7 +111,7 @@ void gameLoop()
 
 		//movement with the cam
 		const char* conversion = key.c_str();
-		//buff->getCamera()->move(key.c_str(), deltaTime);
+		cam->move(key.c_str(), deltaTime);
 	}
 
 	if (!pressed)

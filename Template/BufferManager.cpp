@@ -62,8 +62,7 @@ void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
 	//
 	//GLuint ElementBufferObject;
-	glGenBuffers(1, &ElementBufferObject);
-	
+	glGenBuffers(1, &ElementBufferObject);	
 
 	//VBO bind & buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
