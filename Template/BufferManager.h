@@ -34,7 +34,7 @@ public:
 
 	//called in the constructor
 	void initBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices);
-
+	void initBuffers();
 	void addVertexData(GLfloat *data, GLsizei size);
 	void addIndexData(GLuint *data, GLuint *size);
 

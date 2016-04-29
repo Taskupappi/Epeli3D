@@ -4,6 +4,7 @@ using namespace core;
 Engine* core::Engine::_instance = nullptr;
 Engine::Engine() :_mainInit(false), _exit(false)
 {
+	createScreen(800.0f, 600.0f);
 	//_resMngr = new ResourceManager();
 	_scnMngr = new SceneManager();
 	_input = new Input();
@@ -12,7 +13,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
-	_grapCtx = nullptr;
+	//_grapCtx = nullptr;
 	//TO DO:
 	//
 	//shaderManager = nullptr;
@@ -215,7 +216,7 @@ void Engine::processInput()
 //TestBench to try out modules
 void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 {
-	createScreen(screenWidth, screenHeight);
+	
 	_shdrMngr->createShader("../data/shaders/vertexKisse.glvs", "../data/shaders/fragmentKisse.glfs", "testShader");
 	_shdrMngr->setActiveShader("testShader");
 
@@ -223,7 +224,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	cam->initDefault(_shdrMngr->getActiveShader());
 
 	//Model loading
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/boy.3ds");
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/shark.dae");
 
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
@@ -253,11 +254,11 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	for (color = v3D.begin(); color != v3D.end(); color++)
 	{
 		glm::rotate((*color).Position, 50.0f, (*color).Normal);
-		//(*color).Position += 0.5f;
+		(*color).Position.z -= 145.5f;
 		//(*color).Color = glm::vec3(0, 125, 26);
 	}
 
-	//_bufMngr->addBufferData(v3D, indices3D);
+	_bufMngr->addBufferData(v3D, indices3D);
 	
 	//end of model loading
 	
@@ -498,7 +499,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 			ver.push_back(v);
 		}
 
-		_bufMngr->addBufferData(ver, inds);
+		//_bufMngr->addBufferData(ver, inds);
 
 		//GLfloat vertices2[] = {
 		//	0.5f, 0.5f, 0.0f,  // Top Right
@@ -648,7 +649,7 @@ void Engine::testUpdate(Camera* cam, float deltaTime)
 	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 	cam->setViewMatrix(view);
 
-	//glRotatef(deltaTime * 15, 1.0f, 1.0f, 0.0f);
+	glRotatef(deltaTime * 15, 1.0f, 1.0f, 0.0f);
 
 	cam->passMatricesToShader(_shdrMngr->getActiveShader());
 	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());

@@ -18,6 +18,7 @@ BufferManager::BufferManager()
 	//camera
 	//cam = new Camera();
 	////
+	initBuffers();
 }
 
 void BufferManager::clearBuffers()
@@ -49,8 +50,7 @@ void BufferManager::bindBuffer()
 
 	}*/
 }
-
-void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices)
+void BufferManager::initBuffers()
 {
 	//VAO
 	//GLuint VertexArrayObject;
@@ -62,35 +62,90 @@ void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
 	//
 	//GLuint ElementBufferObject;
-	glGenBuffers(1, &ElementBufferObject);	
+	glGenBuffers(1, &ElementBufferObject);
+
+	//VBO bind & buffer data
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	//glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)11 * sizeof(GLfloat),
+	//	&vertices[0].Position.x, GL_DYNAMIC_DRAW);
+
+	//Vertex Positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)11 * sizeof(GLfloat),
+		(GLvoid*)0);
+
+	float size = sizeof(Vertex);
+	float size2 = (GLuint)11 * sizeof(GLfloat);
+
+	//Vertex Normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)( 3*sizeof(GLfloat)));
+
+	//Vertex Texture Coords
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)(6 * sizeof(GLfloat)));
+
+	//Vertex Color
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+		(GLvoid*)(8 * sizeof(GLfloat)));
+
+	//EBO bind & buffer data
+	glGenBuffers(1, &ElementBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
+	//	&indices[0], GL_DYNAMIC_DRAW);
+
+	//VertexArrayObjects.push_back(VertexArrayObject);
+	//ElementBufferObjects.push_back(ElementBufferObject);
+
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
+}
+
+void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices)
+{
+	//VAO
+	//GLuint VertexArrayObject;
+	//glGenVertexArrays(1, &VertexArrayObject);
+	glBindVertexArray(VertexArrayObject);
+	//VBO
+	//GLuint VertexBufferObject;
+	//glGenBuffers(1, &VertexBufferObject);
+	//glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	//
+	//GLuint ElementBufferObject;
+	//glGenBuffers(1, &ElementBufferObject);	
 
 	//VBO bind & buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)11 * sizeof(GLfloat),
 		&vertices[0].Position.x, GL_DYNAMIC_DRAW);
 
-	//Vertex Positions
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)0);
+	////Vertex Positions
+	//glEnableVertexAttribArray(0);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+	//	(GLvoid*)0);
 
-	//Vertex Normals
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)offsetof(Vertex, Normal));
+	////Vertex Normals
+	//glEnableVertexAttribArray(1);
+	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+	//	(GLvoid*)offsetof(Vertex, Normal));
 
-	//Vertex Texture Coords
-	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)offsetof(Vertex, TexCoords));
+	////Vertex Texture Coords
+	//glEnableVertexAttribArray(2);
+	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+	//	(GLvoid*)offsetof(Vertex, TexCoords));
 
-	//Vertex Color
-	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)offsetof(Vertex, Color));
+	////Vertex Color
+	//glEnableVertexAttribArray(3);
+	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+	//	(GLvoid*)offsetof(Vertex, Color));
 
 	//EBO bind & buffer data
-	glGenBuffers(1, &ElementBufferObject);
+	//glGenBuffers(1, &ElementBufferObject);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
 		&indices[0], GL_DYNAMIC_DRAW);

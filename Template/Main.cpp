@@ -23,6 +23,11 @@ float deltaTime = 0.0f;
 graphics::Sprite * sprt;
 
 
+//shark model 
+//vertices : 5958
+//faces : 9420
+
+
 ////
 
 //SDL_Window *window = nullptr;
@@ -114,13 +119,15 @@ void gameLoop()
 		cam->move(key.c_str(), deltaTime);
 	}
 
+	//mouseClickPos = eng->getInput()->getMousePosition();
+	//cam->mouseUpdate(mouseClickPos);
+
 	if (!pressed)
 	{
 		if (eng->getInput()->isMousePressed(core::Mouse::left))
 		{
 			pressed = true;
-			mouseClickPos = eng->getInput()->getMousePosition();
-			cam->mouseUpdate(mouseClickPos);
+			
 			//eng->getSpriteManager()->drawSprites();
 			//SDL_Log("Mouse Left Pressed at: %f / %f", mouseClickPos.x, mouseClickPos.y);
 		}
