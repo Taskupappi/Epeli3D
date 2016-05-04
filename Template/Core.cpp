@@ -224,7 +224,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	cam->initDefault(_shdrMngr->getActiveShader());
 
 	//Model loading
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/shark.dae");
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
 
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
@@ -253,8 +253,8 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	std::vector<Vertex>::iterator color;
 	for (color = v3D.begin(); color != v3D.end(); color++)
 	{
-		glm::rotate((*color).Position, 50.0f, (*color).Normal);
-		(*color).Position.z -= 145.5f;
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		//(*color).Position.z -= 145.5f;
 		//(*color).Color = glm::vec3(0, 125, 26);
 	}
 
