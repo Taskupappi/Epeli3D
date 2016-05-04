@@ -52,7 +52,7 @@ void gameInit()
 	size = texture3->getTextureSize();
 
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	//Audio * audio = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
+	Audio * audio = eng->createAudio("../data/Resource/Audio/samppeli.mp3");
 	////Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
 	//Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
 	//Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");

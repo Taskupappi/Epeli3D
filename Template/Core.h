@@ -66,6 +66,7 @@ namespace core
 		void createScreen(int ResX, int ResY);
 		graphics::Sprite * createSprite(Texture * texture, glm::vec2 position, glm::vec2 size, int z, Color col);
 		Texture * createTexture(std::string filepath);
+		Audio * createAudio(std::string filepath);
 		Scene * createScene()
 		{
 			return nullptr;
