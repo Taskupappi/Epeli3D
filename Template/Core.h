@@ -46,6 +46,7 @@ class Texture;
 
 namespace graphics
 {
+	class ShaderManager;
 	class Sprite;
 	class SpriteManager;
 }
@@ -63,9 +64,8 @@ namespace core
 		void userInit();
 		void quit(){ _exit = true; }
 		void createScreen(int ResX, int ResY);
-		graphics::Sprite * createSprite(glm::vec2 position, glm::vec2 size, int z, Color col);
+		graphics::Sprite * createSprite(Texture * texture, glm::vec2 position, glm::vec2 size, int z, Color col);
 		Texture * createTexture(std::string filepath);
-		Audio * createAudio(std::string filepath);
 		Scene * createScene()
 		{
 			return nullptr;
@@ -76,13 +76,13 @@ namespace core
 		core::Input * getInput(){ return _input; }
 		Resources * getResources(){ return _resMngr; }
 		TextureManager * getTextureManager(){ return _txtrMngr; }
-		//graphics::SpriteManager * getSpriteManager(){ return _sprtMngr; }
+		graphics::SpriteManager * getSpriteManager(){ return _sprtMngr; }
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
 
 
 		//TestBench to try out modules
-		void testInit();
-		void testUpdate();
+		void testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight);
+		void testUpdate(Camera* cam, float deltaTime);
 		////
 	protected:
 		virtual ~Engine();
@@ -97,7 +97,7 @@ namespace core
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
-		ShaderManager* _shdrMngr;
+		graphics::ShaderManager* _shdrMngr;
 		Resources * _resMngr;
 		GraphicContext* _grapCtx;
 	private:

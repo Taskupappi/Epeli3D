@@ -1,4 +1,5 @@
 #include "ShaderManager.h"
+using namespace graphics;
 
 ShaderManager::ShaderManager() :activeShader(nullptr)
 {
@@ -10,12 +11,13 @@ ShaderManager::~ShaderManager()
 
 }
 
-void ShaderManager::createShader(std::string vertexFilepath, std::string fragmentFilepath, std::string shaderName)
+Shader * ShaderManager::createShader(std::string vertexFilepath, std::string fragmentFilepath, std::string shaderName)
 {
 	Shader *shader = new Shader(vertexFilepath, fragmentFilepath);
 	shader->init();
 
 	Shaders[shaderName] = shader;
+	return shader;
 }
 
 void ShaderManager::uninitShaders()

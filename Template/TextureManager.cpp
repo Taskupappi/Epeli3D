@@ -9,5 +9,8 @@ Texture* TextureManager::createTexture(const std::string &resourcefilepath)
 	Texture* texture = new Texture(0);
 	texture->bindTexture(_image);
 
+	Texture* texture = new Texture(0);
+	texture->bindTexture(_image);
+
 	return texture;
 }

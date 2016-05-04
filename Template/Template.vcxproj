@@ -92,6 +92,7 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -112,6 +113,7 @@
     <ClInclude Include="Core.h" />
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="ErrorHandler.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="ImageResource.h" />
     <ClInclude Include="Input.h" />
@@ -130,6 +132,8 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Transformer.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\data\shaders\FragmentShaderLightSource.glfs" />

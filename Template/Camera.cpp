@@ -1,8 +1,8 @@
 #include "Camera.h"
 
 Camera::Camera()
-{
-	this->position = glm::vec3(0.0f, 0.0f, -10.0f);
+{	
+	this->position = glm::vec3(0.0f, 0.0f, 10.0f);
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
 	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
 	this->worldUp = up;
@@ -15,7 +15,24 @@ Camera::Camera()
 	updateCameraVectors();
 }
 
-Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch)
+Camera::Camera(GLfloat ScreenWidth, GLfloat ScreenHeight)
+{
+	this->position = glm::vec3(0.0f, 0.0f, 10.0f);
+	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
+	this->up = glm::vec3(0.0f, 1.0f, 0.0f);
+	this->worldUp = up;
+	this->yaw = YAW;
+	this->pitch = PITCH;
+	firstClick = true;
+	movementSpeed = SPEED;
+	mouseSensitivity = SENSITIVITY;
+	Zoom = ZOOM;
+	updateCameraVectors();
+	this->ScreenWidth = ScreenWidth;
+	this->ScreenHeight = ScreenHeight;
+}
+
+Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch) 
 {
 	this->front = glm::vec3(0.0f, 0.0f, -1.0f);
 	this->position = position;
@@ -28,6 +45,7 @@ Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch)
 	mouseSensitivity = SENSITIVITY;
 	Zoom = ZOOM;
 	updateCameraVectors();
+	fov = 45.0f;
 }
 
 Camera::~Camera()
@@ -35,9 +53,84 @@ Camera::~Camera()
 
 }
 
+void Camera::setScreenDimension(GLfloat ScreenWidth, GLfloat ScreenHeight)
+{
+	this->ScreenWidth = ScreenWidth;
+	this->ScreenHeight = ScreenHeight;
+}
+
+void Camera::initDefault(Shader *shader)
+{
+	viewMatrix = getViewMatrix();
+	projectionMatrix = getProjectionMatrix();
+	setDefaultModelMatrix();
+
+	setModelUniformLocation(shader);
+	setViewUniformLocation(shader); 
+	setProjectionUniformLocation(shader);
+
+	glUniformMatrix4fv(projectionLocation, 1, GL_FALSE, glm::value_ptr(projectionMatrix));
+	glUniformMatrix4fv(viewLocation, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+	glUniformMatrix4fv(modelLocation, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+}
+
 glm::mat4 Camera::getViewMatrix()
 {
-	return glm::lookAt(this->position, this->position + this->front, this->up);
+	viewMatrix = glm::lookAt(this->position, this->position + this->front, this->up);
+	return viewMatrix;
+}
+
+glm::mat4 Camera::getProjectionMatrix()
+{
+	projectionMatrix = glm::perspective(fov, (GLfloat)ScreenWidth / (GLfloat)ScreenHeight, 0.1f, 100.0f);
+	return viewMatrix;
+}
+
+void Camera::setDefaultModelMatrix()
+{
+	modelMatrix = glm::translate(modelMatrix, glm::vec3(0, 0, 0));
+	//modelMatrix = glm::rotate(modelMatrix, -55.0f, glm::vec3(1, 0, 0));
+}
+
+void setUniformLocation(GLint &location, Shader *shader, std::string uniformName)
+{
+	const char* conversion = uniformName.c_str();
+	location = glGetUniformLocation(shader->getShaderProgram(), conversion);
+}
+
+void Camera::setViewUniformLocation(Shader *shader)
+{
+	viewLocation = glGetUniformLocation(shader->getShaderProgram(), "view");
+}
+
+void Camera::setProjectionUniformLocation(Shader *shader)
+{
+	projectionLocation = glGetUniformLocation(shader->getShaderProgram(), "projection");
+}
+
+void Camera::setModelUniformLocation(Shader *shader)
+{
+	modelLocation = glGetUniformLocation(shader->getShaderProgram(), "model");
+}
+
+void Camera::passMatricesToShader(Shader* shader)
+{
+	// Camera/View transformation
+	viewMatrix = glm::lookAt(position, position + front, up);
+	// Projection 
+	projectionMatrix = glm::perspective(45.0f, (GLfloat)800 / (GLfloat)600, 0.1f, 100.0f);
+
+	GLint modelLoc = glGetUniformLocation(shader->getShaderProgram(), "model");
+	GLint viewLoc = glGetUniformLocation(shader->getShaderProgram(), "view");
+	GLint projLoc = glGetUniformLocation(shader->getShaderProgram(), "projection");
+	// Pass the matrices to the shader
+	glUniformMatrix4fv(viewLoc, 1, GL_FALSE, glm::value_ptr(viewMatrix));
+	glUniformMatrix4fv(projLoc, 1, GL_FALSE, glm::value_ptr(projectionMatrix));	
+}
+
+glm::mat4 Camera::getModelMatrix()
+{
+	return modelMatrix;
 }
 
 //keyboard and mouse movement
@@ -50,6 +143,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	std::cout << "right x: " << right.x << " right y: " << right.y << " right z: " << right.z << std::endl;
 	std::cout << "up x: " << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
 	std::cout << "position x: " << position.x << " position y: " << position.y << " position z: " << position.z << std::endl;
+	//printMatrices();
 
 	//calculate offset
 	glm::vec2 offset;
@@ -122,13 +216,13 @@ void Camera::moveBackward(const GLfloat deltaTime)
 
 void Camera::strafeLeft(const GLfloat deltaTime)
 {
-
-	position += this->right * movementSpeed * deltaTime;
+	
+	position -= this->right * movementSpeed * deltaTime;
 }
 
 void Camera::strafeRight(const GLfloat deltaTime)
 {
-	position -= this->right * movementSpeed * deltaTime;
+	position += this->right * movementSpeed * deltaTime;
 }
 
 void Camera::moveUp(const GLfloat deltaTime)
@@ -156,24 +250,64 @@ void Camera::updateCameraVectors()
 	// Also re-calculate the Right and Up vector
 	this->right = glm::normalize(glm::cross(this->front, this->worldUp));
 	this->up = glm::normalize(glm::cross(this->right, this->front));
+
+	viewMatrix = getViewMatrix();
+	projectionMatrix = getProjectionMatrix();
 }
 
 
 
+void Camera::printMatrices()
+{
+	double dArray[16] = { 0.0 };
+
+	const float *pSource = (const float*)glm::value_ptr(viewMatrix);
+	for (int i = 0; i < 16; ++i)
+		dArray[i] = pSource[i];
+	std::cout << std::endl;
+	std::cout << "View Matrix: " << std::endl;
+	for (int i = 0; i < 16; ++i)
+	{
+		std::cout << dArray[i] << "   ";
+		if (i == 4 || i == 8 || i == 12)
+			std::cout << std::endl;
+	}
 
 
+	const float *pSource2 = (const float*)glm::value_ptr(projectionMatrix);
+	for (int i = 0; i < 16; ++i)
+		dArray[i] = pSource2[i];
 
+	std::cout << std::endl;
+	std::cout << "projectionMatrix: " << std::endl;
+	for (int i = 0; i < 16; ++i)
+	{
+		std::cout << dArray[i] << "   ";
+		if (i == 4 || i == 8 || i == 12)
+			std::cout << std::endl;
+	}
 
+	std::cout << std::endl;
+	const float *pSource3 = (const float*)glm::value_ptr(modelMatrix);
+	for (int i = 0; i < 16; ++i)
+		dArray[i] = pSource3[i];
+	std::cout << "modelMatrix: " << std::endl;
+	for (int i = 0; i < 16; ++i)
+	{
+		std::cout << dArray[i] << "   ";
+		if (i == 4 || i == 8 || i == 12)
+			std::cout << std::endl;
+	}
+}
 
-
-
-
-
-
-
-
-
-
+void Camera::printDetails()
+{
+	system("cls");
+	std::cout << "front x: " << front.x << " front y: " << front.y << " front z: " << front.z << std::endl;
+	std::cout << "right x: " << right.x << " right y: " << right.y << " right z: " << right.z << std::endl;
+	std::cout << "up x: " << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
+	std::cout << "position x: " << position.x << " position y: " << position.y << " position z: " << position.z << std::endl;
+}
 
 
 
