@@ -1,4 +1,6 @@
 #include "Core.h"
+#include "TextureManager.h"
+#include "AudioManager.h"
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;

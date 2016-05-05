@@ -2,7 +2,6 @@
 #define Resources_H
 
 #include "ResourceBase.h"
-//#include "Core.h"
 #include "ImageResource.h"
 #include "Audio.h"
 #include "Text.h"
@@ -229,8 +228,8 @@ private:
 			return *this;
 		return *this;
 	}
-	SDL_Surface *image = NULL;		// for all textures
 
+	SDL_Surface *image = NULL;		// for all textures
 	ResourceManager<ResourceBase>imageM;
 	ResourceMap<ResourceBase>imageMap;
 
