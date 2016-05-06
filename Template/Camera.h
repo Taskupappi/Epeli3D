@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/transform.hpp>
 
 #include "Shader.h"
 //debug
@@ -20,9 +21,10 @@ enum Camera_Movement{
 // Default camera values
 const GLfloat YAW = -90.0f;
 const GLfloat PITCH = 0.0f;
-const GLfloat SPEED = 1.0f;
-const GLfloat SENSITIVITY = 0.25f;
+const GLfloat SPEED = 5.0f;
+const GLfloat SENSITIVITY = 0.025f;
 const GLfloat ZOOM = 45.0f;
+const float ROTATIONAL_SPEED = 0.5f;
 
 class Camera
 {
@@ -107,7 +109,7 @@ private:
 		viewLocation,
 		projectionLocation;
 };
-
+#endif
 
 
 
@@ -134,7 +136,7 @@ private:
 //private:
 //};
 
-#endif
+
 
 
 

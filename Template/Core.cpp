@@ -215,8 +215,7 @@ void Engine::processInput()
 
 //TestBench to try out modules
 void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
-{
-	
+{	
 	_shdrMngr->createShader("../data/shaders/vertexKisse.glvs", "../data/shaders/fragmentKisse.glfs", "testShader");
 	_shdrMngr->setActiveShader("testShader");
 
@@ -570,7 +569,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 		//	
 		//for (int i = 0; i < 36; i++)
 		//	testIndices.push_back(i);
-	///
+	//
 		////v.push_back(BV1);
 		//
 		////setBufferData(v, testIndices, tex1);
@@ -624,15 +623,13 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 		////addBufferData(vcopy, testIndicescopy);
 		////setBufferData(vcopy, testIndicescopy);
 		////drawTestBuffer();
-	///
+	//
 		////lighting
 		////GLuint lighting;
 		////newVAO(lighting);	
-	
-
 }
 
-void Engine::testUpdate(Camera* cam, float deltaTime)
+void Engine::testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosition, const char* input)
 {
 	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOs[0]);
 	//glBindVertexArray(VAOs[0]);
@@ -647,9 +644,11 @@ void Engine::testUpdate(Camera* cam, float deltaTime)
 
 	glm::mat4 view;
 	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
-	cam->setViewMatrix(view);
+	cam->mouseUpdate(mousePosition);
+	cam->move(input, deltaTime);
+	//cam->setViewMatrix(view);
 
-	glRotatef(deltaTime * 15, 1.0f, 1.0f, 0.0f);
+	//glRotatef(deltaTime * 15, 1.0f, 1.0f, 0.0f);
 
 	cam->passMatricesToShader(_shdrMngr->getActiveShader());
 	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
@@ -657,6 +656,6 @@ void Engine::testUpdate(Camera* cam, float deltaTime)
 	_grapCtx->swap();
 	glPopMatrix();
 
-	cam->printDetails();
-	cam->printMatrices();
+	//cam->printDetails();
+	//cam->printMatrices();
 }
