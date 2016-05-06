@@ -10,10 +10,8 @@
 #include <iostream>
 #include <fstream>
 
-//class ImageResource;
 class Object3D;
 class Mesh;
-
 
 class Resources :
 	public ResourceBase
@@ -56,15 +54,19 @@ public:
 			if (!isLoaded)
 			{
 				image = IMG_Load((resourcefilepath).c_str());
-
+				// FIX THIS
+				//ImageResource *img = new ImageResource(image);
 				if (!image)
 					printf("IMG_Load: %s\n", IMG_GetError());
 
+
+				// TODO: KEKSI MITEN IMAGET MAPPIIN LAITAN
 				loadedResource = new ImageResource(image);
 				imageMap.addElement(FileName, resourcefilepath, loadedResource);
-				
+
 				return (T*)loadedResource;
 				SDL_FreeSurface(image);
+
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -101,7 +103,7 @@ public:
 
 				loadedResource = new Object3D(*model);
 				modelMap.addElement(FileName, resourcefilepath, loadedResource);
-
+				
 				return (T*)loadedResource;
 			}
 			// If file has already been loaded, skip loading
@@ -143,6 +145,7 @@ public:
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				return (T*)loadedResource;
+				Mix_FreeMusic(sound);
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -207,7 +210,7 @@ public:
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
 				text->incReferences();
-				
+
 				return text;
 			}
 		}

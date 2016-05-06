@@ -26,7 +26,7 @@ public:
 	void use();
 	GLuint getShaderProgram();
 	GLint getUniformLocation(std::string uniformLocName);
-	
+
 	//utility stuff -- IS THIS NEEDED?
 	//void SetFloat(const GLchar *name, GLfloat value, GLboolean useShader = false);
 	//void SetInteger(const GLchar *name, GLfloat value, GLboolean usehader = false);

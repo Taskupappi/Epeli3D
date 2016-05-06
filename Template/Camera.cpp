@@ -8,7 +8,7 @@ Camera::Camera()
 	this->worldUp = up;
 	this->yaw = YAW;
 	this->pitch = PITCH;
-	firstClick = true;	
+	firstClick = true;
 	movementSpeed = SPEED;
 	mouseSensitivity = SENSITIVITY;
 	Zoom = ZOOM;
@@ -158,7 +158,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 
 	//set pitch and yaw
 	yaw += offset.x;
-	pitch += offset.y;	
+	pitch += offset.y;
 	if (pitch > 89.0f)
 		pitch = 89.0f;
 	if (pitch < -89.0f)
@@ -168,7 +168,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	updateCameraVectors();
 }
 
-void Camera::move(const char* input ,const GLfloat deltaTime)
+void Camera::move(const char* input, const GLfloat deltaTime)
 {
 	//WASD movement with zoom in and out
 	switch (*input)

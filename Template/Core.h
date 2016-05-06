@@ -34,6 +34,7 @@ void extern userUnInit();
 #include "BufferManager.h"
 #include "Object3D.h"
 #include "TextureManager.h"
+#include "AudioManager.h"
 #include "Sprite.h"
 #include "GraphicContext.h"
 
@@ -65,6 +66,7 @@ namespace core
 		void createScreen(int ResX, int ResY);
 		graphics::Sprite * createSprite(Texture * texture, glm::vec2 position, glm::vec2 size, int z, Color col);
 		Texture * createTexture(std::string filepath);
+		Audio * createAudio(std::string filepath);
 		Scene * createScene()
 		{
 			return nullptr;
@@ -92,6 +94,7 @@ namespace core
 		//audioManager = nullptr;
 		//3DobjectManager = nullptr;
 		TextureManager * _txtrMngr;
+		AudioManager * _sndMngr;
 		BufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;

@@ -1,4 +1,3 @@
-#pragma once
 #ifndef SCMNGR_H
 #define SCMNGR_H
 #include "camera.h"
