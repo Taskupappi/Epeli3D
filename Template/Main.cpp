@@ -21,7 +21,7 @@ long timeNow = SDL_GetTicks();
 long timeLast = 0;
 float deltaTime = 0.0f;
 graphics::Sprite * sprt;
-
+Audio * audio;
 
 //shark model 
 //vertices : 5958
@@ -52,11 +52,7 @@ void gameInit()
 	size = texture3->getTextureSize();
 
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	Audio * audio = eng->createAudio("../data/Resource/Audio/samppeli.mp3");
-	////Texture * tex2 = res->loadFile<Texture>("../data/Resource/Images/sample.png");
-	//Text * txt = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
-	//Audio * audio2 = _resMngr->loadFile<Audio>("../data/Resource/Audio/samppeli.mp3");
-	//Text * txt2 = _resMngr->loadFile<Text>("../data/Shaders/FragmentShaderTest.glfs");
+	audio = eng->createAudio("../data/Resource/Audio/samppeli.mp3");
 
 	//eng->createScene();	
 	
@@ -168,6 +164,13 @@ void gameLoop()
 		{
 			pressed = false;
 		}
+	}
+	if (eng->getInput()->isKeyPressed(SDLK_p))//Play sound
+	{
+		int vol = 10;
+		audio->setVolume(-1, vol);
+		audio->playSound(0);
+		vol += 10;
 	}
 }
 
