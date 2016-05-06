@@ -73,11 +73,11 @@ void BufferManager::initBuffers()
 
 	//Vertex Positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)11 * sizeof(GLfloat),
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)12 * sizeof(GLfloat),
 		(GLvoid*)0);
 
-	float size = sizeof(Vertex);
-	float size2 = (GLuint)11 * sizeof(GLfloat);
+	//float size = sizeof(Vertex);
+	//float size2 = (GLuint)11 * sizeof(GLfloat);
 
 	//Vertex Normals
 	glEnableVertexAttribArray(1);
@@ -91,7 +91,7 @@ void BufferManager::initBuffers()
 
 	//Vertex Color
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
 		(GLvoid*)(8 * sizeof(GLfloat)));
 
 	//EBO bind & buffer data
@@ -123,7 +123,7 @@ void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint
 
 	//VBO bind & buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)11 * sizeof(GLfloat),
+	glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)12 * sizeof(GLfloat),
 		&vertices[0].Position.x, GL_DYNAMIC_DRAW);
 
 	////Vertex Positions

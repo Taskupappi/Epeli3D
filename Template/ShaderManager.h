@@ -3,7 +3,7 @@
 
 #include "Shader.h"
 
-#include <SDL\SDL_assert.h>
+#include <SDL_assert.h>
 #include <map>
 
 //#include "ResourceBase.h"

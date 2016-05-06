@@ -68,7 +68,7 @@ void SpriteManager::drawSprites()
 				vertice.Position = points[i];
 				vertice.Normal = glm::vec3(0, 0, 1);
 				vertice.TexCoords = texBounds;
-				vertice.Color = glm::vec3(color.r,color.g,color.b);
+				vertice.Color = glm::vec4(color.r,color.g,color.b, 1.0f);
 				vertices.push_back(vertice);
 			}
 			indecis.push_back(0);

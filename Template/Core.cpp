@@ -262,64 +262,63 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	{
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		//(*color).Position.z -= 145.5f;
-		//(*color).Color = glm::vec3(0, 125, 26);
+		(*color).Color = glm::vec4(0, 125, 26, 0.1);
 	}
 
 	_bufMngr->addBufferData(v3D, indices3D);
 	
 	//end of model loading
-	
-	
-	
-	
-	
-	
-	
-	
-	//setBufferData(vcopy, testIndicescopy);
-	//	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
-	//end of 3d model loading//
+		
+	//Model loading 2
+	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/Cube.obj");
 
-	////TEST TRIANGLE FOR DEBUG
+	std::vector<Vertex> v3D2;
+	std::vector<GLuint> indices3D2;
 
-	//GLfloat vertices[] = {
-	//	0.5f, 0.5f, 0.0f,  // Top Right
-	//	0.5f, -0.5f, 0.0f,  // Bottom Right
-	//	-0.5f, -0.5f, 0.0f,  // Bottom Left
-	//	-0.5f, 0.5f, 0.0f   // Top Left 
-	//};
-	//	for (int i = 0; i < 4; i++)
-	//	{
-	//		Vertex v;
-	//		//if (i == 0)
-	//		//{
-	//			v.Position.x = vertices[i * 3];
-	//			v.Position.y = vertices[i * 3 + 1];
-	//			v.Position.z = vertices[i * 3 + 2];
-	//		//}
-	//		/*else
-	//		{
-	//			v.Position.x = vertices[i * 3 + 1];
-	//			v.Position.y = vertices[i * 3 + 2];
-	//			v.Position.z = vertices[i * 3 + 3];
-	//		}*/
-	//
-	//		v.Normal = glm::vec3(0,0,0);
-	//		v.TexCoords = glm::vec2(0, 0);
-	//		v.Color = glm::vec3(122,122,122);
-	//		ver.push_back(v);
-	//	}
-	//
-	//
-	//	GLuint indices[] = {  // Note that we start from 0!
-	//		3, 0, 1,  // First Triangle
-	//		1, 2, 3   // Second Triangle
-	//	};
-	//
-	//	for (int i = 0; i < 6; i++)
-	//	{
-	//		inds.push_back(indices[i]);
-	//	}
+	std::vector<Mesh>::iterator modelIter2;
+	std::vector<Vertex>::iterator vertexIter2;
+	std::vector<GLuint>::iterator indicesIter2;
+
+	std::vector<Mesh> mesh2;
+	mesh2 = model2->getMeshVec();
+	
+	for (modelIter2 = model2->getMeshVec().begin(); modelIter2 != model2->getMeshVec().end(); modelIter2++)
+	{
+		for (vertexIter2 = modelIter2->vertices.begin(); vertexIter2 != modelIter2->vertices.end(); vertexIter2++)
+		{
+			v3D2.push_back((*vertexIter2));
+		}
+
+		for (indicesIter2 = modelIter2->indices.begin(); indicesIter2 != modelIter2->indices.end(); indicesIter2++)
+		{
+			indices3D2.push_back((*indicesIter2));
+		}
+	}
+
+
+	//std::vector<Vertex>::iterator color;
+	for (color = v3D2.begin(); color != v3D2.end(); color++)
+	{
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		(*color).Position += glm::vec3(2.5f);
+		(*color).Position.x += 4.5f;
+		(*color).Color = glm::vec4(0, 125, 26, 0.2);
+		//(*color).Color = glm::vec4(0, 125, 26, 1);
+
+	}
+
+	//_bufMngr->addBufferData(v3D2, indices3D2);
+
+
+
+
+
+
+
+
+
+
+
 	//
 	//
 		//
@@ -428,83 +427,64 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 			-0.5f, 0.5f, -0.5f,
 		};*/
 
-		GLfloat vertices[] = {
-			// front
-			-0.5, -0.5, 0.5,
-			0.5, -0.5, 0.5,
-			0.5, 0.5, 0.5,
-			-0.5, 0.5, 0.5,
-			// back
-			-0.5, -0.5, -0.5,
-			0.5, -0.5, -0.5,
-			0.5, 0.5, -0.5,
-			-0.5, 0.5, -0.5,
-		};
+		//GLfloat vertices[] = {
+		//	// front
+		//	-0.5, -0.5, 0.5,
+		//	0.5, -0.5, 0.5,
+		//	0.5, 0.5, 0.5,
+		//	-0.5, 0.5, 0.5,
+		//	// back
+		//	-0.5, -0.5, -0.5,
+		//	0.5, -0.5, -0.5,
+		//	0.5, 0.5, -0.5,
+		//	-0.5, 0.5, -0.5,
+		//};
 
-		glm::vec3 cubePositions[] = {
-			glm::vec3(0.0f, 0.0f, 0.0f),
-			glm::vec3(2.0f, 5.0f, -15.0f),
-			glm::vec3(-1.5f, -2.2f, -2.5f),
-			glm::vec3(-3.8f, -2.0f, -12.3f),
-			glm::vec3(2.4f, -0.4f, -3.5f),
-			glm::vec3(-1.7f, 3.0f, -7.5f),
-			glm::vec3(1.3f, -2.0f, -2.5f),
-			glm::vec3(1.5f, 2.0f, -2.5f),
-			glm::vec3(1.5f, 0.2f, -1.5f),
-			glm::vec3(-1.3f, 1.0f, -1.5f)
-		};
+		//glm::vec3 cubePositions[] = {
+		//	glm::vec3(0.0f, 0.0f, 0.0f),
+		//	glm::vec3(2.0f, 5.0f, -15.0f),
+		//	glm::vec3(-1.5f, -2.2f, -2.5f),
+		//	glm::vec3(-3.8f, -2.0f, -12.3f),
+		//	glm::vec3(2.4f, -0.4f, -3.5f),
+		//	glm::vec3(-1.7f, 3.0f, -7.5f),
+		//	glm::vec3(1.3f, -2.0f, -2.5f),
+		//	glm::vec3(1.5f, 2.0f, -2.5f),
+		//	glm::vec3(1.5f, 0.2f, -1.5f),
+		//	glm::vec3(-1.3f, 1.0f, -1.5f)
+		//};
 
-		GLuint cube_elements[] = {
-			// front
-			0, 1, 2,
-			2, 3, 0,
-			// top
-			1, 5, 6,
-			6, 2, 1,
-			// back
-			7, 6, 5,
-			5, 4, 7,
-			// bottom
-			4, 0, 3,
-			3, 7, 4,
-			// left
-			4, 5, 1,
-			1, 0, 4,
-			// right
-			3, 2, 6,
-			6, 7, 3,
-		};
+		//
 	
-		for (int i = 0; i < 36; i++)
-		{
-			inds.push_back(cube_elements[i]);
-		}
+		//for (int i = 0; i < 36; i++)
+		//{
+		//	inds.push_back(cube_elements[i]);
+		//}
 
-		for (int i = 0; i < 8; i++)
-		{
-			int color = i * 7;
-			if (i > 255)
-				i = 0;
+		//for (int i = 0; i < 8; i++)
+		//{
+		//	int color = i * 7;
+		//	if (i > 255)
+		//		i = 0;
 
-			Vertex v;
-			//if (i == 0)
-			//{
-				v.Position.x = vertices[i * 3];
-				v.Position.y = vertices[i * 3 + 1];
-				v.Position.z = vertices[i * 3 + 2];
-			//}
-			/*else
-			{
-				v.Position.x = vertices[i * 3 + 1];
-				v.Position.y = vertices[i * 3 + 2];
-				v.Position.z = vertices[i * 3 + 3];
-			}*/
-			
-			v.Normal = glm::vec3(0,0,0);
-			v.TexCoords = glm::vec2(0, 0);
-			v.Color = glm::vec3(0, color * 0.1f, color * 0.6f);
-			ver.push_back(v);
-		}
+		//	Vertex v;
+		//	//if (i == 0)
+		//	//{
+		//		v.Position.x = vertices[i * 3];
+		//		v.Position.y = vertices[i * 3 + 1];
+		//		v.Position.z = vertices[i * 3 + 2];
+		//	//}
+		//	/*else
+		//	{
+		//		v.Position.x = vertices[i * 3 + 1];
+		//		v.Position.y = vertices[i * 3 + 2];
+		//		v.Position.z = vertices[i * 3 + 3];
+		//	}*/
+		//	
+		//	v.Normal = glm::vec3(0,0,0);
+		//	v.TexCoords = glm::vec2(0, 0);
+		//	v.Color = glm::vec3(0, color * 0.1f, color * 0.6f);
+		//	ver.push_back(v);
+		//}
 
 		//_bufMngr->addBufferData(ver, inds);
 
