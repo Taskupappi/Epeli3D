@@ -16,7 +16,7 @@ public:
 	{
 		_res = res;
 	}
-	~TextureManager(){}
+	~TextureManager(){};
 
 	Texture* createTexture(const std::string& resourcefilepath);
 

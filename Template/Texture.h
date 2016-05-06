@@ -26,6 +26,7 @@ private:
 
 	GLuint _texture;
 	ImageResource *_image;
+	TextureManager* _texM;
 	glm::vec2 _texSize;
 
 protected:

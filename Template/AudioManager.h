@@ -1,7 +1,7 @@
 #ifndef AUDIOMANAGER_H
 #define AUDIOMANAGER_H
 
-#include "Resources.h"
+#include "Core.h"
 #include "ResourceBase.h"
 
 class Audio;
@@ -16,7 +16,6 @@ public:
 		_res = res;
 	}
 	~AudioManager(){}
-
 	Audio * createSound(const std::string& resourcefilepath);
 
 private:

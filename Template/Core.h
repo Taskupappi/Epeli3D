@@ -29,9 +29,12 @@ void extern userUnInit();
 #include "ResourceBase.h"
 #include "Resources.h"
 #include "Input.h"
+#include "Audio.h"
 #include "ShaderManager.h"
 #include "BufferManager.h"
 #include "Object3D.h"
+#include "TextureManager.h"
+#include "AudioManager.h"
 #include "Sprite.h"
 #include "GraphicContext.h"
 
@@ -39,9 +42,7 @@ void extern userUnInit();
 #include <assimp/Importer.hpp>
 class TextureManager;
 class BufferManager;
-class AudioManager;
 class Texture;
-class Audio;
 
 namespace graphics
 {
