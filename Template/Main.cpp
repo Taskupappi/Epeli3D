@@ -88,10 +88,6 @@ void gameLoop()
 	glClearColor(0.8f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	eng->testUpdate(cam, deltaTime);
-
-
-
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
 		for (auto k : eng->getInput()->_pressedKeys)
@@ -100,6 +96,7 @@ void gameLoop()
 		}
 		eng->getInput()->clearKeys();
 	}
+
 	if (eng->getInput()->isKeyPressed(SDLK_w)
 		|| eng->getInput()->isKeyPressed(SDLK_s)
 		|| eng->getInput()->isKeyPressed(SDLK_a)
@@ -116,8 +113,23 @@ void gameLoop()
 
 		//movement with the cam
 		const char* conversion = key.c_str();
-		cam->move(key.c_str(), deltaTime);
+		//cam->move(key.c_str(), deltaTime);
 	}
+	
+	eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
+
+	if (eng->getInput()->iskeyReleased(SDLK_w)
+		|| eng->getInput()->isKeyPressed(SDLK_s)
+		|| eng->getInput()->isKeyPressed(SDLK_a)
+		|| eng->getInput()->isKeyPressed(SDLK_d)
+		|| eng->getInput()->isKeyPressed(SDLK_q)
+		|| eng->getInput()->isKeyPressed(SDLK_e))
+	{
+		key = ' ';
+		eng->getInput()->clearKeys();
+	}
+
+
 
 	//mouseClickPos = eng->getInput()->getMousePosition();
 	//cam->mouseUpdate(mouseClickPos);

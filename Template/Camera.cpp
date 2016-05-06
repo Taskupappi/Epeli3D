@@ -148,7 +148,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	//calculate offset
 	glm::vec2 offset;
 	offset.x = newMousePosition.x - oldMousePosition.x;
-	offset.x = newMousePosition.y - oldMousePosition.y;
+	offset.y = -(newMousePosition.y - oldMousePosition.y);
 
 	if (firstClick == true)
 	{
@@ -189,14 +189,12 @@ void Camera::move(const char* input, const GLfloat deltaTime)
 	case 'd':
 		strafeRight(deltaTime);
 		break;
-	case 'Q':
-	case'q':
-		//TODO: implementation
+	case 'E':
+	case'e':
 		moveUp(deltaTime);
 		break;
-	case 'E':
-	case 'e':
-		//TODO: implementation
+	case 'Q':
+	case 'q':
 		moveDown(deltaTime);
 		break;
 	default:
@@ -225,17 +223,16 @@ void Camera::strafeRight(const GLfloat deltaTime)
 	position += this->right * movementSpeed * deltaTime;
 }
 
-void Camera::moveUp(const GLfloat deltaTime)
+void Camera::moveUp(GLfloat deltaTime)
 {
-	//calculate offset
-
-	//yaw += this->up * movementSpeed * deltaTime;
+	position += SPEED * up * deltaTime;
 }
 
-void Camera::moveDown(const GLfloat deltaTime)
+void Camera::moveDown(GLfloat deltaTime)
 {
-	//yaw -= this->up * movementSpeed * deltaTime;
+	position += -SPEED * up * deltaTime;
 }
+
 //end of movement//
 
 //private stuff
@@ -254,8 +251,6 @@ void Camera::updateCameraVectors()
 	viewMatrix = getViewMatrix();
 	projectionMatrix = getProjectionMatrix();
 }
-
-
 
 void Camera::printMatrices()
 {

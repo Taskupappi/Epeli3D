@@ -83,7 +83,7 @@ namespace core
 
 		//TestBench to try out modules
 		void testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight);
-		void testUpdate(Camera* cam, float deltaTime);
+		void testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosition, const char* input);
 		////
 	protected:
 		virtual ~Engine();
