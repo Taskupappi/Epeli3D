@@ -1,7 +1,7 @@
 #ifndef BUFFERMANAGER_H
 #define BUFFERMANAGER_H
-
 #include <GL/glew.h>
+//#include <GL/glew.h>
 #include <vector>
 //#include <glm\gtc\type_ptr.hpp>
 
