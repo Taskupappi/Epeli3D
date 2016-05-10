@@ -177,14 +177,23 @@ void BufferManager::drawBuffer(Shader* shader)
 {
 	int elementN = 0;
 	VAOIter = VertexArrayObjects.begin();
-
-	//one loop == one object drawn
+	std::vector<std::vector<GLuint>>::iterator IndexIter = indices.begin();
+	
 	for (VAOIter; VAOIter != VertexArrayObjects.end(); VAOIter++)
 	{		
+		GLsizei IndicesSize = 0;
+		for (IndexIter; IndexIter != indices.end(); IndexIter++)
+		{
+			IndicesSize += (*IndexIter).size();
+		}
+
+		IndexIter = indices.begin();
+
 		elementN = std::distance(VertexArrayObjects.begin(), VAOIter);
 		glBindVertexArray((*VAOIter));
-		glDrawElements(GL_TRIANGLES, indices[elementN].size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, (&IndexIter[0]));
 
+		//glDrawArrays(GL_TRIANGLES, 0, IndicesSize);
 		//glDrawElements(GL_TRIANGLES, this->indices[elementN].size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 	}
