@@ -9,6 +9,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_scnMngr = new SceneManager();
 	_input = new Input();
 	_bufMngr = new BufferManager();
+	//_bufMngr = new TheBufferManager();
 	_shdrMngr = new graphics::ShaderManager();
 	//_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);

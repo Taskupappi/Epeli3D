@@ -32,17 +32,18 @@ void extern userUnInit();
 #include "Input.h"
 #include "Audio.h"
 #include "ShaderManager.h"
-#include "BufferManager.h"
 #include "Object3D.h"
 #include "TextureManager.h"
 #include "AudioManager.h"
 #include "Sprite.h"
 #include "GraphicContext.h"
+//#include "TheBufferManager.h"
+#include "BufferManager.h"
 
 //Assimp
 #include <assimp/Importer.hpp>
 class TextureManager;
-class BufferManager;
+class TheBufferManager;
 class Texture;
 
 namespace graphics
@@ -97,6 +98,10 @@ namespace core
 		TextureManager * _txtrMngr;
 		AudioManager * _sndMngr;
 		BufferManager * _bufMngr;
+		//TheBufferManager * _bufMngr;
+
+		//this one is here for overhaul
+		//TheBufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
 		graphics::ShaderManager* _shdrMngr;

@@ -95,7 +95,7 @@ void BufferManager::initBuffers()
 		(GLvoid*)(8 * sizeof(GLfloat)));
 
 	//EBO bind & buffer data
-	glGenBuffers(1, &ElementBufferObject);
+	//glGenBuffers(1, &ElementBufferObject);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
 	//	&indices[0], GL_DYNAMIC_DRAW);
@@ -107,7 +107,7 @@ void BufferManager::initBuffers()
 	glBindVertexArray(0);
 }
 
-void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices)
+void BufferManager::bindBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 {
 	//VAO
 	//GLuint VertexArrayObject;
@@ -161,7 +161,7 @@ void BufferManager::initBuffers(std::vector<Vertex> vertices, std::vector<GLuint
 
 void BufferManager::addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 {	
-	initBuffers(vertices, indices);
+	bindBuffers(vertices, indices);
 	 
 	std::vector<Vertex> objVertexes;
 	std::vector<GLuint> objIndices;
@@ -177,10 +177,16 @@ void BufferManager::drawBuffer(Shader* shader)
 {
 	int elementN = 0;
 	VAOIter = VertexArrayObjects.begin();
+	EBOIter = ElementBufferObjects.begin();
+
+
 	std::vector<std::vector<GLuint>>::iterator IndexIter = indices.begin();
+
 	
 	for (VAOIter; VAOIter != VertexArrayObjects.end(); VAOIter++)
 	{		
+
+
 		GLsizei IndicesSize = 0;
 		for (IndexIter; IndexIter != indices.end(); IndexIter++)
 		{
@@ -191,18 +197,21 @@ void BufferManager::drawBuffer(Shader* shader)
 
 		elementN = std::distance(VertexArrayObjects.begin(), VAOIter);
 		glBindVertexArray((*VAOIter));
-		glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, (&IndexIter[0]));
+		glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, (&EBOIter[0]));
 
 		//glDrawArrays(GL_TRIANGLES, 0, IndicesSize);
 		//glDrawElements(GL_TRIANGLES, this->indices[elementN].size(), GL_UNSIGNED_INT, 0);
+		
+		EBOIter++;
 		glBindVertexArray(0);
+
 	}
 }
 
 ////NOT FUNCTIONING/////
 void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 {
-	initBuffers(vertices, indices);
+	bindBuffers(vertices, indices);
 
 	std::vector<Vertex> vt{};
 	std::vector<GLuint> it{};
