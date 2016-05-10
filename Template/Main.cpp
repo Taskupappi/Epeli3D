@@ -6,7 +6,7 @@
 
 //GraphicContext* gCon = new GraphicContext(800, 600);
 //BufferManager* buff = new BufferManager;
-
+int vol = 0;
 bool pressed = false;
 glm::vec2 mouseClickPos;
 std::string nam = "vertexbuffer";
@@ -167,10 +167,17 @@ void gameLoop()
 	}
 	if (eng->getInput()->isKeyPressed(SDLK_p))//Play sound
 	{
-		int vol = 10;
-		audio->setVolume(-1, vol);
-		audio->playSound(0);
-		vol += 10;
+		vol = 100;
+		audio->setVolume(vol);
+		audio->playSound(-1, 0);
+		Sleep(2000);
+	}
+	if (eng->getInput()->isKeyPressed(SDLK_l))//Play sound
+	{
+		vol = 50;
+		audio->setVolume(vol);
+		audio->playSound(-1, 0);
+		Sleep(2000);
 	}
 }
 
