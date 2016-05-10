@@ -136,14 +136,14 @@ glm::mat4 Camera::getModelMatrix()
 //keyboard and mouse movement
 void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 {
-	system("cls");
+	/*system("cls");
 	std::cout << "old mouse x: " << oldMousePosition.x << " old mouse y: " << oldMousePosition.y << std::endl;
 	std::cout << "new mouse x: " << newMousePosition.x << " new mouse y: " << newMousePosition.y << std::endl;
 	std::cout << "front x: " << front.x << " front y: " << front.y << " front z: " << front.z << std::endl;
 	std::cout << "right x: " << right.x << " right y: " << right.y << " right z: " << right.z << std::endl;
 	std::cout << "up x: " << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
 	std::cout << "position x: " << position.x << " position y: " << position.y << " position z: " << position.z << std::endl;
-	//printMatrices();
+	*///printMatrices();
 
 	//calculate offset
 	glm::vec2 offset;
@@ -297,7 +297,8 @@ void Camera::printMatrices()
 
 void Camera::printDetails()
 {
-	system("cls");
+	//system("cls");
+	std::cout << " \n ";
 	std::cout << "front x: " << front.x << " front y: " << front.y << " front z: " << front.z << std::endl;
 	std::cout << "right x: " << right.x << " right y: " << right.y << " right z: " << right.z << std::endl;
 	std::cout << "up x: " << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
