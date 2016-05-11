@@ -137,15 +137,15 @@ public:
 			// if file has not been loaded, load it
 			if (!isLoaded)
 			{
-				sound = Mix_LoadMUS((resourcefilepath).c_str());
+				sound = Mix_LoadWAV((resourcefilepath).c_str());
 				if (!sound)
-					printf_s("Mix_LoadMus: %s\n", Mix_GetError);
+					printf_s("Mix_LoadWAV: %s\n", Mix_GetError);
 
 				loadedResource = new Audio(sound);
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				return (T*)loadedResource;
-				Mix_FreeMusic(sound);
+				Mix_FreeChunk(sound);
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
@@ -239,7 +239,7 @@ private:
 	ResourceManager<ResourceBase>modelM;
 	ResourceMap<ResourceBase>modelMap;
 
-	Mix_Music *sound = NULL;		// for all audio files
+	Mix_Chunk *sound = NULL;		// for all audio files
 	ResourceManager<ResourceBase>audioM;
 	ResourceMap<ResourceBase>audioMap;
 

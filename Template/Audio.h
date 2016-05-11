@@ -9,33 +9,36 @@ class Audio
 {
 public:
 	friend class AudioManager;
-	Audio(Mix_Music* sound) : ResourceBase(resourcefilepath, nullptr)
+	Audio(Mix_Chunk* sound) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_sound = sound;
 	}
 	~Audio(){};
-	/*Play sound.
+	/*Play sound effect.
+	Set channel to -1
 	Set loops to -1 for continuous looping,
 	0 plays the sound once.*/
-	void playSound(int loops)
+	void playSound(int channel, int loops)
 	{
-		Mix_PlayMusic(_sound, -1);
+
+		printf("Playing sound!\n\n");
+		Mix_PlayChannel(channel, _sound, loops);
 	}
 	/*Set volume for sound.
-	Set channel to -1 to set volume for all channels.
 	Volume range 0-128.*/
-	void setVolume(int channel, int volume)
+	void setVolume(int volume)
 	{
-		Mix_Volume(channel, volume);
-		printf_s("Volume: %d", Mix_Volume(-1, -1));
+		Mix_VolumeChunk(_sound, volume);
+		printf_s("Volume: %d\n", volume);
 	}
 	/*Set the position of the sound in relation to the listener.
 	Angle is an integer from 0 to 360, where 0 is due north. Rotates cockwise.
 	Distance is an integer from 0 to 255, where 255 is the furthest away from the listener.*/
 	void setSoundDirection(int channel, Sint16 angle, Uint8 distance)
 	{
-		//Mix_SetPosition(channel, angle, distance);
+		Mix_SetPosition(channel, angle, distance);
 	}
+	
 private:
 	Audio &operator=(Audio &audio)
 	{
@@ -43,8 +46,8 @@ private:
 			return *this;
 	}
 
-	Mix_Music* _sound;
-
+	Mix_Chunk* _sound;
+	bool soundIsPlaying = false;
 protected:
 
 };
