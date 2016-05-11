@@ -1,5 +1,5 @@
-#ifndef BUFFERMANAGER_H
-#define BUFFERMANAGER_H
+#ifndef THEBUFFERMANAGER_H
+#define THEBUFFERMANAGER_H
 #include <GL/glew.h>
 //#include <GL/glew.h>
 #include <vector>
@@ -15,22 +15,22 @@
 //Add more commenting
 
 //TESTBENCH STUFF
-enum SHADERSELECTOR
-{
-	TEST = 1,
-	LAMP = 2
-};
+//enum SHADERSELECTOR
+//{
+//	TEST = 1,
+//	LAMP = 2
+//};
 
 namespace core
 {
 	class Engine;
 }
 
-class BufferManager
+class TheBufferManager
 {
 public:
-	BufferManager();
-	~BufferManager();
+	TheBufferManager();
+	~TheBufferManager();
 
 	//called in the constructor
 	void bindBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices);
@@ -40,16 +40,20 @@ public:
 
 	void bindBuffer();
 	void unbindBuffer();
-	std::vector<GLuint> getBuffer(std::string bufferName);	
+	std::vector<GLuint> getBuffer(std::string bufferName);
+
 
 	//add data to the buffers in following format
 	//glm::vec3 Position, glm::vec3 Normal, glm::vec2 TexCoords, glm::vec3 Color
 	void addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	//come here from the "addBufferData"
 	void addVertexArrayObject();
-	
+
 	void setBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices);
 	void clearBuffers();
+
+	//send stored bufferData to OpenGL. Allows using large data chuncks.
+	void sendDataToOpenGL();
 
 	//RenderBuffers
 	void drawBuffer(Shader *shader);
@@ -61,13 +65,19 @@ public:
 	//BufferData for multiple objects
 	std::vector<std::vector<Vertex>> vertexes;
 	std::vector<std::vector<GLuint>>indices;
-	std::vector<std::vector<GLuint>>::iterator iteIndices;
+
+	std::vector<std::vector<GLuint>>::iterator iteVecIndices;
+	std::vector<GLuint> ::iterator iteIndices;
+
+	std::vector<std::vector<Vertex>>::iterator vertexVecIter;
+	std::vector<Vertex>::iterator vertexIter;
+
 	//Buffer Data Vectors for object
 	//std::vector<Vertex> objVertexes;
 	//std::vector<GLuint> objIndices;
 	std::vector<Vertex>::iterator* objVerIter;
-	std::vector<GLuint>::iterator* objIndIter;	
-	
+	std::vector<GLuint>::iterator* objIndIter;
+
 
 	std::vector<GLuint> ElementBufferObjects;
 	std::vector<GLuint> VertexArrayObjects;
@@ -79,16 +89,17 @@ protected:
 private:
 
 	GLuint
-		VertexArrayObject,
-		VertexBufferObject,
-		ElementBufferObject;
-		//NormalBufferObject;
+		bigAssBuffer,
+		vertexArrayObject;
+		//VertexBufferObject,
+		//ElementBufferObject;
+	//NormalBufferObject;
 
 	//Struct 
 	struct Vertex vertex;
 
 	//delete these?
-	GLuint vertexbufId;
+	GLuint vertexbufID;
 	GLuint indexbufID;
 };
 #endif
