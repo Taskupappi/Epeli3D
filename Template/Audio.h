@@ -20,6 +20,7 @@ public:
 	0 plays the sound once.*/
 	void playSound(int channel, int loops)
 	{
+
 		printf("Playing sound!\n\n");
 		Mix_PlayChannel(channel, _sound, loops);
 	}
@@ -35,7 +36,7 @@ public:
 	Distance is an integer from 0 to 255, where 255 is the furthest away from the listener.*/
 	void setSoundDirection(int channel, Sint16 angle, Uint8 distance)
 	{
-		//Mix_SetPosition(channel, angle, distance);
+		Mix_SetPosition(channel, angle, distance);
 	}
 	
 private:

@@ -145,7 +145,7 @@ public:
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				return (T*)loadedResource;
-				//Mix_FreeMusic(sound);
+				Mix_FreeChunk(sound);
 			}
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
