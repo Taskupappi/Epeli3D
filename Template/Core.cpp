@@ -232,7 +232,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	cam->initDefault(_shdrMngr->getActiveShader());
 
 	//Model loading
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
 
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
@@ -271,7 +271,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	//end of model loading
 		
 	//Model loading 2
-	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
 
 	std::vector<Vertex> v3D2;
 	std::vector<GLuint> indices3D2;
@@ -292,7 +292,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 
 		for (indicesIter2 = modelIter2->indices.begin(); indicesIter2 != modelIter2->indices.end(); indicesIter2++)
 		{
-			indices3D2.push_back((*indicesIter2) + 1000);
+			indices3D2.push_back((*indicesIter2));
 		}
 	}
 

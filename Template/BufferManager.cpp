@@ -90,10 +90,13 @@ void BufferManager::updateData()
 	int counter = 0;
 	allVertexes.clear();
 	allIndices.clear();
+	int offset = 0;
 
 	//Gather all vertexData into one vector
 	for (vertexVecIter = vertexes.begin(); vertexVecIter != vertexes.end(); vertexVecIter++)
 	{
+		offsetVertices.push_back((*vertexVecIter).size());
+
 		for (vertexIter = (*vertexVecIter).begin(); vertexIter != (*vertexVecIter).end(); vertexIter++)
 		{
 			allVertexes.push_back((*vertexVecIter)[counter]);
@@ -103,14 +106,13 @@ void BufferManager::updateData()
 	}
 
 	//gather all indices into one vector
-	for (iteVecIndices = indices.begin(); iteVecIndices != indices.end(); iteVecIndices++)
+	for (int i = 0; i < indices.size(); i++)
 	{
-		for (iteIndices = (*iteVecIndices).begin(); iteIndices != (*iteVecIndices).end(); iteIndices++)
-		{
-			allIndices.push_back((*iteVecIndices)[counter]);
-			counter++;
-		}
-		counter = 0;
+		for (int y = 0; y < indices[i].size(); y++)
+		{			
+			allIndices.push_back(indices[i][y] + offset);			
+		}	
+		offset += indices[i].size();
 	}
 }
 
@@ -124,8 +126,8 @@ void BufferManager::bindBuffers()
 
 	//VBO bind & buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, allVertexes.size() * (GLuint)12 * sizeof(GLfloat), &allVertexes[0], GL_DYNAMIC_DRAW);
-
+	glBufferData(GL_ARRAY_BUFFER, allVertexes.size() * (GLuint)12 * sizeof(GLfloat), &allVertexes[0], GL_STATIC_DRAW);
+		
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, allIndices.size() *(GLuint)1 * sizeof(GLuint), &allIndices[0], GL_DYNAMIC_DRAW);
 }
@@ -134,8 +136,8 @@ void BufferManager::drawBuffer(Shader* shader)
 {
 	bindBuffers();
 
-	//glDrawElements(GL_TRIANGLES, allIndices.size(), GL_UNSIGNED_INT, (void*)0 );//(void*)allIndices[0]);
-	glDrawArrays(GL_TRIANGLES, allIndices[0], allIndices.size());
+	glDrawElements(GL_TRIANGLES, allIndices.size(), GL_UNSIGNED_INT, (void*)allIndices[0]);//(void*)allIndices[0]);
+	//glDrawArrays(GL_TRIANGLES, allIndices[0], allIndices.size());
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

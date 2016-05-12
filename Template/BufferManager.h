@@ -66,6 +66,8 @@ public:
 
 	std::vector<Vertex> allVertexes;
 	std::vector<GLuint> allIndices;
+	std::vector<GLuint> offsetVertices;
+	std::vector<GLuint> offsetIndices;
 
 	std::vector<std::vector<GLuint>>::iterator iteVecIndices;
 	std::vector<GLuint>::iterator iteIndices;
@@ -88,6 +90,8 @@ public:
 protected:
 
 private:
+
+
 
 	GLuint
 		VertexArrayObject,
