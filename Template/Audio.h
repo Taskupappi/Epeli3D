@@ -2,7 +2,6 @@
 #define AUDIO_H
 
 #include "ResourceBase.h"
-#include "AudioManager.h"
 
 class Audio
 	: public ResourceBase
@@ -37,6 +36,8 @@ public:
 	void setSoundDirection(int channel, Sint16 angle, Uint8 distance)
 	{
 		Mix_SetPosition(channel, angle, distance);
+		printf_s("Angle: %d\n", angle);
+		printf_s("Distance: %d\n", distance);
 	}
 	
 private:

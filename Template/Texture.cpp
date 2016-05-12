@@ -8,11 +8,8 @@ void Texture::unbindTexture()
 }
 
 // Bind texture
-GLuint Texture::bindTexture(ImageResource *image)
+GLuint Texture::bindTexture()
 {
-	_image = image;
-
-	glGenTextures(1, &_texture);
 	glBindTexture(GL_TEXTURE_2D, _texture);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
