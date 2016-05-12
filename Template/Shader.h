@@ -16,7 +16,7 @@
 class Shader
 {
 public:
-	Shader(const std::string vertexFilepath, const std::string fragmentFilepath);
+	Shader(const std::string vertexFilepath, const std::string fragmentFilepath, const std::string shaderName);
 	~Shader();
 
 	bool init();
@@ -37,6 +37,10 @@ public:
 	//void SetVec4f(const GLchar *name, GLfloat x, GLfloat y, GLfloat z, GLfloat w, GLboolean useShader = false);
 	//void SetVec4f(const GLchar *name, const glm::vec4 &value, GLboolean useShader = false);
 	//void SetMatrix4(const GLchar *name, const glm::mat4 &matrix, GLboolean useShader = false);
+	
+	std::string getShaderName(){ return shaderName; }
+
+	
 
 private:
 	GLuint programID;
@@ -47,6 +51,7 @@ private:
 
 	std::string vertexShaderPath;
 	std::string fragmentShaderPath;
+	std::string shaderName;
 
 
 };

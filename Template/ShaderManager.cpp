@@ -13,7 +13,7 @@ ShaderManager::~ShaderManager()
 
 Shader * ShaderManager::createShader(std::string vertexFilepath, std::string fragmentFilepath, std::string shaderName)
 {
-	Shader *shader = new Shader(vertexFilepath, fragmentFilepath);
+	Shader *shader = new Shader(vertexFilepath, fragmentFilepath, shaderName);
 	shader->init();
 
 	Shaders[shaderName] = shader;

@@ -1,17 +1,17 @@
 #version 330 core
 
-in vec3 normal;
 in vec2 texCoord;
-in vec4 color;
+in vec4 objectColor;
+in vec3 normal;
 
 out vec4 Color;
 
+//Texture Sampler
+uniform Sampler2D _texture;
 
-//uniform sampler2D texture;
-//uniform sampler2D ourTexture2;
 
 void main()
 {
-	Color = vec4(color);
-    //color = mix(texture(ourTexture1, texCoord;texture(ourTexture2, texCoord;0.2);
+   Color = texture(_texture, texCoord);
+   //Color = vec4(objectColor);
 }
