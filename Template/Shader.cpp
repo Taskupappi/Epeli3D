@@ -1,7 +1,7 @@
 #include "Shader.h"
 
-Shader::Shader(const std::string vertexFilepath, const std::string fragmentFilepath)
-	:vertexShaderPath(vertexFilepath), fragmentShaderPath(fragmentFilepath)
+Shader::Shader(const std::string vertexFilepath, const std::string fragmentFilepath, const std::string shaderName)
+	:vertexShaderPath(vertexFilepath), fragmentShaderPath(fragmentFilepath), shaderName(shaderName)
 {
 }
 

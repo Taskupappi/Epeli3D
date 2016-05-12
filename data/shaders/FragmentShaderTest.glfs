@@ -1,11 +1,17 @@
 #version 330 core
 
-in vec3 objectColor;
-in vec2 TexCoord;
+in vec2 texCoord;
+in vec4 objectColor;
+in vec3 normal;
 
-out vec4 color;
+out vec4 Color;
 
 void main()
 {
-    color= vec4(objectColor, 1.0f);
+	//vec3 lightColor = vec3((GLfloat)(1/125), (GLfloat)(1/125), 0);
+	float ambientStrength = 0.1f;
+	//vec3 ambient = ambientStrength * lightColor;
+	vec4 result = vec4(ambientStrength * objectColor.xyz, objectColor.);
+    	//Color = vec4(result, 1.0f)
+	Color = result;
 }

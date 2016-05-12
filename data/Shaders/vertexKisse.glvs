@@ -5,17 +5,20 @@ layout (location = 2) in vec2 TexCoord;
 layout (location = 3) in vec4 Color;
 
 out vec2 texCoord;
-out vec4 color;
+out vec4 objectColor;
 out vec3 normal;
 
+//uniform mat4 transform;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
 
+
+ 
 void main()
 {
-    gl_Position = projection * view * model * vec4(Position, 1.0f);
-	//normal = mat3(transpose(inverse(model)) * Normal);
-    	texCoord = TexCoord;
-	color = Color;
+    
+    gl_Position = projection * view * model *  vec4(Position, 1.0f);
+    texCoord = vec2(TexCoord.x, 1.0 - TexCoord.y);
+    objectColor = Color;
 }
