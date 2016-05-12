@@ -152,19 +152,19 @@ private:
 			vector.z = mesh->mNormals[i].z;
 			vertex.Normal = vector;
 			////Texture Coordinates
-			//if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
-			//{
-			//	glm::vec2 vec;
-			//	//A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
-			//	//use models where a vertex can have multiple texture coordinates so we always take the first set (0).
-			//	vec.x = mesh->mTextureCoords[0][i].x;
-			//	vec.y = mesh->mTextureCoords[0][i].y;
-			//	vertex.TexCoords = vec;
-			//}
-			//else
-			//{
-			//	vertex.TexCoords = glm::vec2(0.0f, 0.0f);
-			//}
+			if (mesh->mTextureCoords[0]) // Does the mesh contain texture coordinates?
+			{
+				glm::vec2 vec;
+				//A vertex can contain up to 8 different texture coordinates. We thus make the assumption that we won't 
+				//use models where a vertex can have multiple texture coordinates so we always take the first set (0).
+				vec.x = mesh->mTextureCoords[0][i].x;
+				vec.y = mesh->mTextureCoords[0][i].y;
+				vertex.TexCoords = vec;
+			}
+			else
+			{
+				vertex.TexCoords = glm::vec2(0.0f, 0.0f);
+			}
 			vertices.push_back(vertex);
 		}
 		//Now walk through each of the mesh's faces (a face is a mesh its triangle) and retrieve the corresponding vertex indices.

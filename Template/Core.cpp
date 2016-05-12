@@ -232,7 +232,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	cam->initDefault(_shdrMngr->getActiveShader());
 
 	//Model loading
-	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
+	Object3D * model = _resMngr->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
@@ -271,7 +271,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	//end of model loading
 		
 	//Model loading 2
-	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
+	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 
 	std::vector<Vertex> v3D2;
 	std::vector<GLuint> indices3D2;
@@ -306,8 +306,45 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 		//(*color).Color = glm::vec4(0, 125, 26, 1);
 	}
 
+	//Model loading 3
+	Object3D * model3 = _resMngr->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+
+	std::vector<Vertex> v3D3;
+	std::vector<GLuint> indices3D3;
+
+	std::vector<Mesh>::iterator modelIter3;
+	std::vector<Vertex>::iterator vertexIter3;
+	std::vector<GLuint>::iterator indicesIter3;
+
+	std::vector<Mesh> mesh3;
+	mesh3 = model3->getMeshVec();
+
+	for (modelIter3 = model3->getMeshVec().begin(); modelIter3 != model3->getMeshVec().end(); modelIter3++)
+	{
+		for (vertexIter3 = modelIter3->vertices.begin(); vertexIter3 != modelIter3->vertices.end(); vertexIter3++)
+		{
+			v3D3.push_back((*vertexIter3));
+		}
+
+		for (indicesIter3 = modelIter3->indices.begin(); indicesIter3 != modelIter3->indices.end(); indicesIter3++)
+		{
+			indices3D3.push_back((*indicesIter3));
+		}
+	}
+
+	//std::vector<Vertex>::iterator color;
+	for (color = v3D3.begin(); color != v3D3.end(); color++)
+	{
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		(*color).Position -= glm::vec3(0.5f);
+		(*color).Position.x -= 4.5f;
+		(*color).Color = glm::vec4(15, 225, 100, 0.9);
+		//(*color).Color = glm::vec4(0, 125, 26, 1);
+	}
+
 	_bufMngr->addBufferData(v3D, indices3D);
 	_bufMngr->addBufferData(v3D2, indices3D2);
+	_bufMngr->addBufferData(v3D3, indices3D3);
 	//_bufMngr->updateData();
 
 	_bufMngr->bindBuffers();
