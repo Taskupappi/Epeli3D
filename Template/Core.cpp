@@ -55,7 +55,7 @@ void Engine::Init()
 
 	// SDL audio init
 	int flags = MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG;
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		printf("Mix_OpenAudio: %s\n", Mix_GetError());
 		//This is so that the engine runs without soundevice
 		//exit(2); 
