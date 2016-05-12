@@ -6,8 +6,7 @@ Texture* TextureManager::createTexture(const std::string &resourcefilepath)
 {
 	_image = _res->loadFile<ImageResource>(resourcefilepath);
 
-	Texture* texture = new Texture(0);
-	texture->bindTexture(_image);
+	Texture* texture = new Texture(0, _image);
 
 	return texture;
 }
