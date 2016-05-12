@@ -1,25 +1,7 @@
 #include "TheBufferManager.h"
 
 TheBufferManager::TheBufferManager()
-{
-	//initBuffers();
-	//
-	////Testbench stuff
-	//3d model
-	//model3D = Object3D("../data/Resource/Models/Shark.stl");	
-
-	//
-
-	//shader manager
-	//shaderManager = new ShaderManager();
-	//
-	//shaderManager->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
-	//shaderManager->createShader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs", "testShader");
-	//shaderManager->setActiveShader("testShader");
-	//
-	//camera
-	//cam = new Camera();
-	////
+{	
 	initBuffers();
 }
 
@@ -34,15 +16,13 @@ void TheBufferManager::clearBuffers()
 
 TheBufferManager::~TheBufferManager()
 {
-	if (vertexbufID != 0)
-	{
-		glDeleteBuffers(1, &vertexbufID);
-	}
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 
-	if (indexbufID != 0)
-	{
-		glDeleteBuffers(1, &indexbufID);
-	}
+	glDeleteBuffers(1, &vertexBufferObject);
+	glDeleteBuffers(1, &elementBufferObject);
+	glDeleteVertexArrays(1, &vertexArrayObject);
 }
 
 void TheBufferManager::bindBuffer()
@@ -52,59 +32,39 @@ void TheBufferManager::bindBuffer()
 
 	}*/
 }
+
 void TheBufferManager::initBuffers()
 {
 	//VAO
-	//GLuint vertexArrayObject;
 	glGenVertexArrays(1, &vertexArrayObject);
 	glBindVertexArray(vertexArrayObject);
-	//VBO
-	//GLuint VertexBufferObject;
-	glGenBuffers(1, &bigAssBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
-	//
-	//GLuint ElementBufferObject;
-	//glGenBuffers(1, &ElementBufferObject);
 
-	//VBO bind & buffer data
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)11 * sizeof(GLfloat),
-	//	&vertices[0].Position.x, GL_DYNAMIC_DRAW);
+	//VBO
+	glGenBuffers(1, &vertexBufferObject);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 
 	//Vertex Positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)12 * sizeof(GLfloat),
-		(GLvoid*)0);
-
-	//float size = sizeof(Vertex);
-	//float size2 = (GLuint)11 * sizeof(GLfloat);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)12 * sizeof(GLfloat), (GLvoid*)0);
 
 	//Vertex Normals
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(3 * sizeof(GLfloat)));
 
 	//Vertex Texture Coords
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)(6 * sizeof(GLfloat)));
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(6 * sizeof(GLfloat)));
 
 	//Vertex Color
 	glEnableVertexAttribArray(3);
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-		(GLvoid*)(8 * sizeof(GLfloat)));
+	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)(8 * sizeof(GLfloat)));
 
 	//EBO bind & buffer data
-	//glGenBuffers(1, &ElementBufferObject);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bigAssBuffer);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
-	//	&indices[0], GL_DYNAMIC_DRAW);
+	glGenBuffers(1, &elementBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
 
-	//VertexArrayObjects.push_back(vertexArrayObject);
-	//ElementBufferObjects.push_back(ElementBufferObject);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	//glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
@@ -112,27 +72,6 @@ void TheBufferManager::bindBuffers(std::vector<Vertex> vertices, std::vector<GLu
 {
 
 	glBindVertexArray(vertexArrayObject);
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
-	//glBufferData(GL_ARRAY_BUFFER, );
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	//calculate the size of all vertexes in vertexVector
 	GLsizei amountOfVertexes = 0;
@@ -143,56 +82,16 @@ void TheBufferManager::bindBuffers(std::vector<Vertex> vertices, std::vector<GLu
 		amountOfVertexes += (*vertexVecIter).size();
 	}
 
-
-	//VAO
-	//GLuint vertexArrayObject;
-	//glGenVertexArrays(1, &vertexArrayObject);
-
-	//VBO
-	//GLuint VertexBufferObject;
-	//glGenBuffers(1, &VertexBufferObject);
-	//glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	//
-	//GLuint ElementBufferObject;
-	//glGenBuffers(1, &ElementBufferObject);	
-
 	//VBO bind & buffer data
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
-	glBufferData(GL_ARRAY_BUFFER, amountOfVertexes* (GLuint)12 * sizeof(GLfloat),
-		&vertexes[0][0].Position.x, GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, amountOfVertexes* (GLuint)12 * sizeof(GLfloat), &vertexes[0][0].Position.x, GL_DYNAMIC_DRAW);
 
 	////Vertex Positions
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)0);
-
-	////Vertex Normals
-	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)offsetof(Vertex, Normal));
-
-	////Vertex Texture Coords
-	//glEnableVertexAttribArray(2);
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)offsetof(Vertex, TexCoords));
-
-	////Vertex Color
-	//glEnableVertexAttribArray(3);
-	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)offsetof(Vertex, Color));
-
 	//EBO bind & buffer data
-	//glGenBuffers(1, &ElementBufferObject);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bigAssBuffer);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
-		&indices[0], GL_DYNAMIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, this->indices.size() * sizeof(GLuint), &this->indices[0], GL_DYNAMIC_DRAW);
 
 	VertexArrayObjects.push_back(vertexArrayObject);
-	//ElementBufferObjects.push_back(bigAssBuffer);
-
-	//why would this be done when the game is on anyway?
-	//glBindBuffer(GL_ARRAY_BUFFER, 0);
-	//glBindVertexArray(0);
 }
 
 void TheBufferManager::addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices)
@@ -219,6 +118,8 @@ void TheBufferManager::drawBuffer(Shader* shader)
 	std::vector<std::vector<GLuint>>::iterator IndexIter = indices.begin();
 
 	glBindVertexArray(vertexArrayObject);
+	shader->use();
+	glDrawElements(GL_TRIANGLES, allIndices.size(), GL_UNSIGNED_INT, (void*)0);
 
 
 
@@ -251,8 +152,6 @@ void TheBufferManager::sendDataToOpenGL()
 {
 
 	//init stuff needed
-	std::vector<Vertex> allVertexes;
-	std::vector<GLuint> allIndices;
 	int counter = 0;
 
 	//Gather all vertexData into one vector
@@ -280,13 +179,42 @@ void TheBufferManager::sendDataToOpenGL()
 
 	//bind the VAO object and create a huge ass buffer
 	glBindVertexArray(vertexArrayObject);
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
 	glBufferData(GL_ARRAY_BUFFER, allVertexes.size() * (GLuint)12 * sizeof(GLfloat) + allIndices.size() * sizeof(GLuint), 0, GL_STATIC_DRAW);
 
 
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bigAssBuffer);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
+	//glBufferData(GL_ARRAY_BUFFER, amountOfVertexes* (GLuint)12 * sizeof(GLfloat), &vertexes[0][0].Position.x, GL_DYNAMIC_DRAW);
+
+	////Vertex Positions
+	//EBO bind & buffer data
+	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bigAssBuffer);
+	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint), &indices[0], GL_DYNAMIC_DRAW);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 	//this is just in case to prevent malfunctioning
@@ -296,42 +224,43 @@ void TheBufferManager::sendDataToOpenGL()
 	//keeps track of the offset for glBufferSubData.
 	GLsizeiptr currentOffset = 0;
 
+	iteVecIndices = indices.begin();
+
 	//We iterate throught Vector of Vector of Vertices and do the same with idndices.
 	//Idea here is to set all SubData for OpenGL in the right places with the right offsets 'n stuff.
 	for (vertexVecIter = vertexes.begin(); vertexVecIter != vertexes.end(); vertexVecIter++)
 	{
 		//keep indices in the same part of  vector, filled with meshes as the vertexes are
-		iteVecIndices = indices.begin();
+		
 
 		//we enter into each element held inside the vertexVecIterator.
 		//vertexVecIterator points to the vectors that hold meshes.
 		//vertexIter points to the actual meshes.
-		for (vertexIter = (*vertexVecIter).begin(); vertexIter != (*vertexVecIter).end(); vertexIter++)
-		{
+		/*for (vertexIter = (*vertexVecIter).begin(); vertexIter != (*vertexVecIter).end(); vertexIter++)
+		{*/
 			//keep indices in the same part of a mesh as the vertexes are
-			iteIndices = (*iteVecIndices).begin();
+			//iteIndices = (*iteVecIndices).begin();
 
 			//add vertex data to the buffer
-			glBufferSubData(GL_ARRAY_BUFFER, currentOffset, (*vertexVecIter).size() * (GLuint)12 * sizeof(GLfloat), (void*)(&vertexVecIter));
+			glBufferSubData(GL_ARRAY_BUFFER, currentOffset, (*vertexVecIter).size() * (GLuint)12 * sizeof(GLfloat), (void*)(&vertexVecIter[0]));
 			currentOffset += (*vertexVecIter).size() * (GLuint)12 * sizeof(GLfloat);
 			
 			//add index data to the buffer
-			glBufferSubData(GL_ARRAY_BUFFER, currentOffset, (*iteVecIndices).size() * sizeof(GLuint), (void*)(&iteVecIndices));
-			currentOffset += (*iteVecIndices).size() * sizeof(GLuint);		
-
+			glBufferSubData(GL_ARRAY_BUFFER, currentOffset, (*iteVecIndices).size() * sizeof(GLuint), (void*)(&iteVecIndices[counter]));
+			currentOffset += (*iteVecIndices).size() * sizeof(GLuint);
 
 			//add counter to keep us in the right element
-			counter++;
+			//counter++;
 
 			//move indices at the same pace as vertexes
-			iteIndices++;
-		}//(vertexIter = (*vertexVecIter).begin(); vertexIter != (*vertexVecIter).end(); vertexIter++)
+			//iteIndices++;
+		//}//(vertexIter = (*vertexVecIter).begin(); vertexIter != (*vertexVecIter).end(); vertexIter++)
 
 		//reset counters
-		counter = 0;
+		//counter++;
 
 		//move indices at the same pace as vertexes
-		iteVecIndices;
+		iteVecIndices++;
 
 	}//(vertexVecIter = vertexes.begin(); vertexVecIter != vertexes.end(); vertexVecIter++)
 
@@ -340,8 +269,9 @@ void TheBufferManager::sendDataToOpenGL()
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
-	glBindBuffer(GL_ARRAY_BUFFER, bigAssBuffer);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bigAssBuffer);
+	glEnableVertexAttribArray(3);
+	glBindBuffer(GL_ARRAY_BUFFER, vertexBufferObject);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, elementBufferObject);
 
 }
 
@@ -400,3 +330,50 @@ void TheBufferManager::addVertexArrayObject()
 	//
 	//glBindVertexArray(0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+GLsizeiptr currentOffset = 0;
+int counter = 0;
+
+for (unsigned i = 0; i < vertexes.size(); i++)
+{
+int indicesCounter = i;
+
+
+//add vertex data to the buffer
+glBufferSubData(GL_ARRAY_BUFFER, currentOffset, vertexes.size() * (GLuint)12 * sizeof(GLfloat), &vertexes[i][y]);
+//offset is the size of a vertex vector
+currentOffset += (GLuint)12 * sizeof(GLfloat);
+
+//add index data to the buffer
+glBufferSubData(GL_ARRAY_BUFFER, currentOffset, (*iteVecIndices).size() * sizeof(GLuint), (void*)(&iteVecIndices[counter]));
+currentOffset += (GLuint)1 * sizeof(GLuint);
+
+
+
+for (unsigned y = 0; y < vertexes[i].size(); y++)
+{
+
+}
+
+
+}
+
+*/

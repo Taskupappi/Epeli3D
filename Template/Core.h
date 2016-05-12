@@ -43,7 +43,7 @@ void extern userUnInit();
 //Assimp
 #include <assimp/Importer.hpp>
 class TextureManager;
-class TheBufferManager;
+class BufferManager;
 class Texture;
 
 namespace graphics
@@ -98,7 +98,6 @@ namespace core
 		TextureManager * _txtrMngr;
 		AudioManager * _sndMngr;
 		BufferManager * _bufMngr;
-		//TheBufferManager * _bufMngr;
 
 		//this one is here for overhaul
 		//TheBufferManager * _bufMngr;
