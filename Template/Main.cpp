@@ -24,6 +24,16 @@ float deltaTime = 0.0f;
 graphics::Sprite * sprt;
 Audio * audio;
 
+Texture * texture  = nullptr;
+Texture * texture2 = nullptr;
+Texture * texture3 = nullptr;
+
+GLuint  textureint,
+		textureint2,
+		textureint3,
+		samplerint;
+
+
 //shark model 
 //vertices : 5958
 //faces : 9420
@@ -41,6 +51,20 @@ void userUnInit(){};
 //Game initialization code here
 void gameInit()
 {
+
+	//Textures
+	glGenTextures(1, &textureint);
+	glBindTexture(GL_TEXTURE_2D, textureint);
+
+	// Set our texture parameters
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// Set texture wrapping to GL_REPEAT
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	// Set texture filtering
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+	
+	////
 
 	cam = new Camera();
 	eng->testInit(cam, 800, 600);
@@ -113,8 +137,34 @@ void gameLoop()
 		//cam->move(key.c_str(), deltaTime);
 	}
 	
-	eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
+	
+	//eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
+	eng->getShaderManager()->useActiveShader();
+	GLfloat radius = 10.0f;
+	GLfloat camX = sin(deltaTime) * radius;
+	GLfloat camZ = cos(deltaTime) * radius;
 
+	glm::mat4 view;
+	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	cam->mouseUpdate(eng->getInput()->getMousePosition());
+	cam->move(key.c_str(), deltaTime);
+	//cam->setViewMatrix(view);
+
+	/*glGenSamplers(1, &samplerint);
+	glBindSampler(0, samplerint);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, textureint);
+	glUniform1i(glGetUniformLocation(eng->getShaderManager()->getActiveShader()->getShaderProgram(), "texture1"), 0);*/
+
+	cam->passMatricesToShader(eng->getShaderManager()->getActiveShader());
+
+	//eng->getBufferManager()->updateData();
+	eng->getBufferManager()->drawBuffer(eng->getShaderManager()->getActiveShader());
+
+	eng->getGraphicContext()->swap();
+	glPopMatrix();
+
+	////eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
 	if (eng->getInput()->iskeyReleased(SDLK_w)
 		|| eng->getInput()->isKeyPressed(SDLK_s)
 		|| eng->getInput()->isKeyPressed(SDLK_a)

@@ -1,11 +1,13 @@
 #version 330 core
+
+in vec3 normal;
 in vec2 texCoord;
 in vec4 color;
-in vec3 normal;
 
 out vec4 Color;
 
-//uniform sampler2D ourTexture1;
+
+//uniform sampler2D texture;
 //uniform sampler2D ourTexture2;
 
 void main()

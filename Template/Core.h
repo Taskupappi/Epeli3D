@@ -80,6 +80,9 @@ namespace core
 		Resources * getResources(){ return _resMngr; }
 		TextureManager * getTextureManager(){ return _txtrMngr; }
 		graphics::SpriteManager * getSpriteManager(){ return _sprtMngr; }
+		GraphicContext* getGraphicContext(){ return _grapCtx; }
+		graphics::ShaderManager* getShaderManager(){ return _shdrMngr; }
+		BufferManager * getBufferManager(){ return _bufMngr; }
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
 
 

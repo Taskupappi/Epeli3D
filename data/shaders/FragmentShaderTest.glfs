@@ -1,11 +1,12 @@
 #version 330 core
 
-in vec3 objectColor;
-in vec2 TexCoord;
+in vec2 texCoord;
+in vec4 objectColor;
+in vec3 normal;
 
-out vec4 color;
+out vec4 Color;
 
 void main()
 {
-    color= vec4(objectColor, 1.0f);
+    Color = vec4(objectColor);
 }

@@ -225,7 +225,7 @@ void Engine::processInput()
 //TestBench to try out modules
 void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 {	
-	_shdrMngr->createShader("../data/shaders/vertexKisse.glvs", "../data/shaders/fragmentKisse.glfs", "testShader");
+	_shdrMngr->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
 	_shdrMngr->setActiveShader("testShader");
 
 	//camera stuff
@@ -257,13 +257,10 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 		}
 	}
 
-
 	std::vector<Vertex>::iterator color;
 	for (color = v3D.begin(); color != v3D.end(); color++)
 	{
-		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
-		//(*color).Position.z -= 145.5f;
-		(*color).Color = glm::vec4(0, 0, 225, 0.5);
+		(*color).Color = glm::vec4((GLfloat)1 / 200, (GLfloat)1 / 3, (GLfloat) 1 / 5, 1.0);
 	}
 
 	//_bufMngr->addBufferData(v3D, indices3D);
@@ -302,7 +299,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		(*color).Position += glm::vec3(0.5f);
 		(*color).Position.x += 4.5f;
-		(*color).Color = glm::vec4(225, 225, 225, 0.1);
+		(*color).Color = glm::vec4((GLfloat)1 / 255, (GLfloat)1 / 225, (GLfloat)1 / 225, 0.1);
 		//(*color).Color = glm::vec4(0, 125, 26, 1);
 	}
 
@@ -336,9 +333,17 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	for (color = v3D3.begin(); color != v3D3.end(); color++)
 	{
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		//(*color).Position.z -= 145.5f;
+		//int r = rand() % 255;
+		//int g = rand() % 255;
+		//int b = rand() % 255;
+		//float alpha = (((rand() % 10) + 1) / 10);
+		//alpha = glm::clamp(alpha, 0.1f, 1.0f);
+
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		(*color).Position -= glm::vec3(0.5f);
 		(*color).Position.x -= 4.5f;
-		(*color).Color = glm::vec4(15, 225, 100, 0.9);
+		(*color).Color = glm::vec4((GLfloat)1 / 15, (GLfloat)1 / 225, (GLfloat)1 / 100, 0.9);
 		//(*color).Color = glm::vec4(0, 125, 26, 1);
 	}
 
@@ -356,12 +361,6 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 
 void Engine::testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosition, const char* input)
 {
-	//glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBOs[0]);
-	//glBindVertexArray(VAOs[0]);
-	//glDrawArrays(GL_TRIANGLES, 0, 6);
-	//glDrawElements(GL_TRIANGLES, inds.size(), GL_UNSIGNED_INT, (void*)0);
-	//glBindVertexArray(0);
-
 	_shdrMngr->useActiveShader();
 	GLfloat radius = 10.0f;
 	GLfloat camX = sin(deltaTime) * radius;
@@ -372,8 +371,6 @@ void Engine::testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosit
 	cam->mouseUpdate(mousePosition);
 	cam->move(input, deltaTime);
 	//cam->setViewMatrix(view);
-
-	//glRotatef(deltaTime * 15, 1.0f, 1.0f, 0.0f);
 
 	cam->passMatricesToShader(_shdrMngr->getActiveShader());
 
