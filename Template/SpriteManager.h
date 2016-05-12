@@ -5,6 +5,7 @@
 #include "BufferManager.h"
 #include "Texture.h"
 #include "ShaderManager.h"
+#include <map>
 
 class Texture;
 namespace core
@@ -44,10 +45,16 @@ namespace graphics
 			_shdrMngr->setActiveShader("spriteShader");
 			_shdr->use();
 		}
+		void setOldShader()
+		{
+			//TODO: Complete this
+			//if(oldShdr)
+			//	_shdrMngr->setActiveShader(oldShdr->getName());
+		}
 		//Sorts sprites by z value		
 		void batchSprites(std::vector<Sprite*> *spritesToBatch);
-		std::unordered_map<Texture *, std::vector<Sprite*>>::iterator it;
-		std::unordered_map<Texture *, std::vector<Sprite*>> _sprites;
+		std::map<Texture *, std::vector<Sprite*>>::iterator it;
+		std::map<Texture *, std::vector<Sprite*>> _sprites;
 		BufferManager * _bfr;
 		ShaderManager* _shdrMngr;
 		Shader * _shdr;

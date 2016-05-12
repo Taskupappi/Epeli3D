@@ -11,7 +11,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//_bufMngr = new BufferManager();
 	_bufMngr = new BufferManager();
 	_shdrMngr = new graphics::ShaderManager();
-	//_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
+	_sprtMngr = new graphics::SpriteManager(_bufMngr, _shdrMngr);//;
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	_sndMngr = new AudioManager(_resMngr);

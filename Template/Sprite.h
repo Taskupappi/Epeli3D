@@ -19,7 +19,6 @@ namespace graphics
 	{
 		friend class SpriteManager;
 	public:
-
 	protected:
 		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin, Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
 			Drawable(position, origin, col), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)

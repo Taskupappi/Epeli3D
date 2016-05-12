@@ -4,20 +4,24 @@ Sprite * SpriteManager::createSprite(glm::vec3 pos, glm::vec2 size, glm::vec2 or
 {
 	Shader * shdr = nullptr; //TODO: needs to get default shader
 	Sprite * sprt = nullptr;
-	
-	for(it = _sprites.begin(); it != _sprites.end(); it++)
+	//it = _sprites.begin();
+	if(_sprites.size() != 0)
 	{
-		if(it->first == texture)
+		for(it = _sprites.begin(); it != _sprites.end(); it++)
 		{
-			sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f),col, shdr, texture, TexWidth, TexHeight);
-			it->second.push_back(sprt);
-			return sprt;
+			if(it->first == texture)
+			{
+				sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f),col, shdr, texture, TexWidth, TexHeight);
+				it->second.push_back(sprt);
+				return sprt;
+			}
 		}
 	}
 	std::vector<Sprite*> sprts;
-	sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f),col, shdr, texture, TexWidth, TexHeight);
+	sprt = new Sprite(pos, size.x, size.y, glm::vec3(origin, 0.0f), col, shdr, texture, TexWidth, TexHeight);
 	sprts.push_back(sprt);
 	_sprites.insert(std::make_pair(texture, sprts));
+	
 	return sprt;
 }
 
@@ -40,8 +44,8 @@ void SpriteManager::drawSprites()
 		if(!it->first)
 		{
 			//it->first->bindTexture();
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, 0);
+			//glActiveTexture(GL_TEXTURE0);
+			//glBindTexture(GL_TEXTURE_2D, 0);
 		}
 		// TODO: needs to bind texture here
 		//it->first->bind();
