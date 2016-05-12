@@ -72,6 +72,9 @@ public:
 	std::vector<std::vector<Vertex>>::iterator vertexVecIter;
 	std::vector<Vertex>::iterator vertexIter;
 
+	std::vector<Vertex> allVertexes;
+	std::vector<GLuint> allIndices;
+
 	//Buffer Data Vectors for object
 	//std::vector<Vertex> objVertexes;
 	//std::vector<GLuint> objIndices;
@@ -89,10 +92,10 @@ protected:
 private:
 
 	GLuint
-		bigAssBuffer,
-		vertexArrayObject;
-		//VertexBufferObject,
-		//ElementBufferObject;
+		//bigAssBuffer,
+		vertexArrayObject,
+		vertexBufferObject,
+		elementBufferObject;
 	//NormalBufferObject;
 
 	//Struct 

@@ -8,8 +8,8 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//_resMngr = new ResourceManager();
 	_scnMngr = new SceneManager();
 	_input = new Input();
+	//_bufMngr = new BufferManager();
 	_bufMngr = new BufferManager();
-	//_bufMngr = new TheBufferManager();
 	_shdrMngr = new graphics::ShaderManager();
 	//_sprtMngr = new graphics::SpriteManager(_bufMngr, nullptr);// _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
@@ -263,7 +263,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	{
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		//(*color).Position.z -= 145.5f;
-		(*color).Color = glm::vec4(125, 125, 125, 1);
+		(*color).Color = glm::vec4(0, 0, 225, 0.5);
 	}
 
 	//_bufMngr->addBufferData(v3D, indices3D);
@@ -271,7 +271,7 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 	//end of model loading
 		
 	//Model loading 2
-	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
+	Object3D * model2 = _resMngr->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 
 	std::vector<Vertex> v3D2;
 	std::vector<GLuint> indices3D2;
@@ -292,10 +292,9 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 
 		for (indicesIter2 = modelIter2->indices.begin(); indicesIter2 != modelIter2->indices.end(); indicesIter2++)
 		{
-			indices3D2.push_back((*indicesIter2));
+			indices3D2.push_back((*indicesIter2) + 1000);
 		}
 	}
-
 
 	//std::vector<Vertex>::iterator color;
 	for (color = v3D2.begin(); color != v3D2.end(); color++)
@@ -303,12 +302,15 @@ void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		(*color).Position += glm::vec3(0.5f);
 		(*color).Position.x += 4.5f;
-		(*color).Color = glm::vec4(0, 125, 26, 0.2);
+		(*color).Color = glm::vec4(225, 225, 225, 0.1);
 		//(*color).Color = glm::vec4(0, 125, 26, 1);
 	}
-	_bufMngr->addBufferData(v3D2, indices3D2);
+
 	_bufMngr->addBufferData(v3D, indices3D);
-	
+	_bufMngr->addBufferData(v3D2, indices3D2);
+	//_bufMngr->updateData();
+
+	_bufMngr->bindBuffers();
 
 		////lighting
 		////GLuint lighting;
@@ -337,6 +339,7 @@ void Engine::testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosit
 	//glRotatef(deltaTime * 15, 1.0f, 1.0f, 0.0f);
 
 	cam->passMatricesToShader(_shdrMngr->getActiveShader());
+
 	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
 
 	_grapCtx->swap();

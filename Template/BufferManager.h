@@ -33,10 +33,12 @@ public:
 	~BufferManager();
 
 	//called in the constructor
-	void bindBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices);
+	void updateData();
+	void bindBuffers();
 	void initBuffers();
 	void addVertexData(GLfloat *data, GLsizei size);
 	void addIndexData(GLuint *data, GLuint *size);
+
 
 	void bindBuffer();
 	void unbindBuffer();
@@ -61,7 +63,16 @@ public:
 	//BufferData for multiple objects
 	std::vector<std::vector<Vertex>> vertexes;
 	std::vector<std::vector<GLuint>>indices;
-	std::vector<std::vector<GLuint>>::iterator iteIndices;
+
+	std::vector<Vertex> allVertexes;
+	std::vector<GLuint> allIndices;
+
+	std::vector<std::vector<GLuint>>::iterator iteVecIndices;
+	std::vector<GLuint>::iterator iteIndices;
+
+	std::vector<std::vector<Vertex>>::iterator vertexVecIter;
+	std::vector<Vertex>::iterator vertexIter;
+
 	//Buffer Data Vectors for object
 	//std::vector<Vertex> objVertexes;
 	//std::vector<GLuint> objIndices;

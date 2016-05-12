@@ -2,24 +2,6 @@
 
 BufferManager::BufferManager()
 {
-	//initBuffers();
-	//
-	////Testbench stuff
-	//3d model
-	//model3D = Object3D("../data/Resource/Models/Shark.stl");	
-
-	//
-
-	//shader manager
-	//shaderManager = new ShaderManager();
-	//
-	//shaderManager->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
-	//shaderManager->createShader("../data/shaders/VertexShaderLightSource.glvs", "../data/shaders/FragmentShaderLightSource.glfs", "testShader");
-	//shaderManager->setActiveShader("testShader");
-	//
-	//camera
-	//cam = new Camera();
-	////
 	initBuffers();
 }
 
@@ -29,7 +11,6 @@ void BufferManager::clearBuffers()
 	this->indices.clear();
 	ElementBufferObjects.clear();
 	VertexArrayObjects.clear();
-
 }
 
 BufferManager::~BufferManager()
@@ -47,37 +28,27 @@ BufferManager::~BufferManager()
 
 void BufferManager::bindBuffer()
 {
-	/*if (vertexBuffer.size() != 0)
-	{
-
-	}*/
 }
+
 void BufferManager::initBuffers()
 {
 	//VAO
-	//GLuint VertexArrayObject;
 	glGenVertexArrays(1, &VertexArrayObject);
 	glBindVertexArray(VertexArrayObject);
+
 	//VBO
-	//GLuint VertexBufferObject;
 	glGenBuffers(1, &VertexBufferObject);
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	//
+
 	//GLuint ElementBufferObject;
 	glGenBuffers(1, &ElementBufferObject);
 
 	//VBO bind & buffer data
 	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	//glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)11 * sizeof(GLfloat),
-	//	&vertices[0].Position.x, GL_DYNAMIC_DRAW);
 
 	//Vertex Positions
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)12 * sizeof(GLfloat),
-		(GLvoid*)0);
-
-	//float size = sizeof(Vertex);
-	//float size2 = (GLuint)11 * sizeof(GLfloat);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, (GLuint)12 * sizeof(GLfloat), (GLvoid*)0);
 
 	//Vertex Normals
 	glEnableVertexAttribArray(1);
@@ -95,74 +66,15 @@ void BufferManager::initBuffers()
 		(GLvoid*)(8 * sizeof(GLfloat)));
 
 	//EBO bind & buffer data
-	//glGenBuffers(1, &ElementBufferObject);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
-	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
-	//	&indices[0], GL_DYNAMIC_DRAW);
 
-	//VertexArrayObjects.push_back(VertexArrayObject);
-	//ElementBufferObjects.push_back(ElementBufferObject);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-}
-
-void BufferManager::bindBuffers(std::vector<Vertex> vertices, std::vector<GLuint> indices)
-{
-	//VAO
-	//GLuint VertexArrayObject;
-	//glGenVertexArrays(1, &VertexArrayObject);
-	glBindVertexArray(VertexArrayObject);
-	//VBO
-	//GLuint VertexBufferObject;
-	//glGenBuffers(1, &VertexBufferObject);
-	//glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	//
-	//GLuint ElementBufferObject;
-	//glGenBuffers(1, &ElementBufferObject);	
-
-	//VBO bind & buffer data
-	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size()* (GLuint)12 * sizeof(GLfloat),
-		&vertices[0].Position.x, GL_DYNAMIC_DRAW);
-
-	////Vertex Positions
-	//glEnableVertexAttribArray(0);
-	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)0);
-
-	////Vertex Normals
-	//glEnableVertexAttribArray(1);
-	//glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)offsetof(Vertex, Normal));
-
-	////Vertex Texture Coords
-	//glEnableVertexAttribArray(2);
-	//glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)offsetof(Vertex, TexCoords));
-
-	////Vertex Color
-	//glEnableVertexAttribArray(3);
-	//glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
-	//	(GLvoid*)offsetof(Vertex, Color));
-
-	//EBO bind & buffer data
-	//glGenBuffers(1, &ElementBufferObject);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(GLuint),
-		&indices[0], GL_DYNAMIC_DRAW);
-
-	VertexArrayObjects.push_back(VertexArrayObject);
-	ElementBufferObjects.push_back(ElementBufferObject);
-
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
 }
 
 void BufferManager::addBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices)
-{	
-	bindBuffers(vertices, indices);
-	 
+{		 
 	std::vector<Vertex> objVertexes;
 	std::vector<GLuint> objIndices;
 
@@ -173,45 +85,67 @@ void BufferManager::addBufferData(std::vector<Vertex> vertices, std::vector<GLui
 	this->indices.push_back(objIndices);
 }
 
+void BufferManager::updateData()
+{
+	int counter = 0;
+	allVertexes.clear();
+	allIndices.clear();
+
+	//Gather all vertexData into one vector
+	for (vertexVecIter = vertexes.begin(); vertexVecIter != vertexes.end(); vertexVecIter++)
+	{
+		for (vertexIter = (*vertexVecIter).begin(); vertexIter != (*vertexVecIter).end(); vertexIter++)
+		{
+			allVertexes.push_back((*vertexVecIter)[counter]);
+			counter++;
+		}
+		counter = 0;
+	}
+
+	//gather all indices into one vector
+	for (iteVecIndices = indices.begin(); iteVecIndices != indices.end(); iteVecIndices++)
+	{
+		for (iteIndices = (*iteVecIndices).begin(); iteIndices != (*iteVecIndices).end(); iteIndices++)
+		{
+			allIndices.push_back((*iteVecIndices)[counter]);
+			counter++;
+		}
+		counter = 0;
+	}
+}
+
+
+void BufferManager::bindBuffers()
+{
+	updateData();
+
+	//VAO
+	glBindVertexArray(VertexArrayObject);
+
+	//VBO bind & buffer data
+	glBindBuffer(GL_ARRAY_BUFFER, VertexBufferObject);
+	glBufferData(GL_ARRAY_BUFFER, allVertexes.size() * (GLuint)12 * sizeof(GLfloat), &allVertexes[0], GL_DYNAMIC_DRAW);
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementBufferObject);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, allIndices.size() *(GLuint)1 * sizeof(GLuint), &allIndices[0], GL_DYNAMIC_DRAW);
+}
+
 void BufferManager::drawBuffer(Shader* shader)
 {
-	int elementN = 0;
-	VAOIter = VertexArrayObjects.begin();
-	EBOIter = ElementBufferObjects.begin();
+	bindBuffers();
 
+	//glDrawElements(GL_TRIANGLES, allIndices.size(), GL_UNSIGNED_INT, (void*)0 );//(void*)allIndices[0]);
+	glDrawArrays(GL_TRIANGLES, allIndices[0], allIndices.size());
 
-	std::vector<std::vector<GLuint>>::iterator IndexIter = indices.begin();
-
-	
-	for (VAOIter; VAOIter != VertexArrayObjects.end(); VAOIter++)
-	{		
-
-
-		GLsizei IndicesSize = 0;
-		for (IndexIter; IndexIter != indices.end(); IndexIter++)
-		{
-			IndicesSize += (*IndexIter).size();
-		}
-
-		IndexIter = indices.begin();
-
-		elementN = std::distance(VertexArrayObjects.begin(), VAOIter);
-		glBindVertexArray((*VAOIter));
-		glDrawElements(GL_TRIANGLES, IndicesSize, GL_UNSIGNED_INT, (&EBOIter[0]));
-
-		//glDrawArrays(GL_TRIANGLES, 0, IndicesSize);
-		//glDrawElements(GL_TRIANGLES, this->indices[elementN].size(), GL_UNSIGNED_INT, 0);
-		
-		EBOIter++;
-		glBindVertexArray(0);
-
-	}
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+	glBindVertexArray(0);
 }
 
 ////NOT FUNCTIONING/////
 void BufferManager::setBufferData(std::vector<Vertex> vertices, std::vector<GLuint> indices)
 {
-	bindBuffers(vertices, indices);
+	bindBuffers();
 
 	std::vector<Vertex> vt{};
 	std::vector<GLuint> it{};

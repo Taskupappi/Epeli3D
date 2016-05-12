@@ -144,6 +144,7 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	std::cout << "up x: " << up.x << " up y: " << up.y << " up z: " << up.z << std::endl;
 	std::cout << "position x: " << position.x << " position y: " << position.y << " position z: " << position.z << std::endl;
 	*///printMatrices();
+	//printDetails();
 
 	//calculate offset
 	glm::vec2 offset;
