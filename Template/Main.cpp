@@ -11,6 +11,7 @@ int vol = 0;
 int vol2 = 128;
 int angle = 0;
 int distance = 0;
+int length = 0;
 bool pressed = false;
 glm::vec2 mouseClickPos;
 std::string nam = "vertexbuffer";
@@ -217,6 +218,7 @@ void gameInit()
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	audio = eng->createAudio("../data/Resource/Audio/samppeli.mp3");
 	audio2 = eng->createAudio("../data/Resource/Audio/hey.wav");
+	length = audio2->getLength();
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -373,7 +375,6 @@ void gameLoop()
 		audio->setVolume(vol);
 		audio->setSoundDirection(1, angle, 1);
 		audio->playSound(-1, 0);
-		Sleep(1000);
 		angle += 90;
 		if (angle == 360)
 			angle = 0;
@@ -382,15 +383,17 @@ void gameLoop()
 	{
 		audio2->setVolume(vol2);
 		audio2->setSoundDirection(1, angle, distance);
-		audio2->playSound(1, 0);
-		Sleep(500);
-		vol2 -= distance / 4;
+		audio2->playSound(-1, 0);
+		vol2 -= (256/128) * 20;
 		distance += 20;
-		//angle += 90;
 		if (angle == 360)
 			angle = 0;
 		if (distance >= 255)
 			vol2 = 128;
+	}
+	if (eng->getInput()->isKeyPressed(SDLK_k))//Play sound
+	{
+		audio->playSound();
 	}
 }
 
