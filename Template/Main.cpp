@@ -1,6 +1,7 @@
 #include "Core.h"
 #include "BufferManager.h"
 #include "GraphicContext.h"
+#include "GameObject.h"
 
 #include <ctime>
 
@@ -37,6 +38,7 @@ GLuint  textureint,
 		samplerint;
 
 
+
 //shark model 
 //vertices : 5958
 //faces : 9420
@@ -70,8 +72,141 @@ void gameInit()
 	////
 
 	cam = new Camera();
-	eng->testInit(cam, 800, 600);
+	
+	//eng->testInit(cam, 800, 600);
+	eng->getShaderManager()->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
+	eng->getShaderManager()->setActiveShader("testShader");
 
+	//camera stuff
+	cam->initDefault(eng->getShaderManager()->getActiveShader());
+
+	//Model loading
+	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+
+	std::vector<Vertex> v3D;
+	std::vector<GLuint> indices3D;
+
+	std::vector<Mesh>::iterator modelIter;
+	std::vector<Vertex>::iterator vertexIter;
+	std::vector<GLuint>::iterator indicesIter;
+
+	std::vector<Mesh> mesh;
+	mesh = model->getMeshVec();
+
+	for (modelIter = model->getMeshVec().begin(); modelIter != model->getMeshVec().end(); modelIter++)
+	{
+		for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+		{
+			v3D.push_back((*vertexIter));
+		}
+
+		for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
+		{
+			indices3D.push_back((*indicesIter));
+		}
+	}
+
+	std::vector<Vertex>::iterator color;
+	for (color = v3D.begin(); color != v3D.end(); color++)
+	{
+		(*color).Color = glm::vec4((GLfloat)1 / 200, (GLfloat)1 / 3, (GLfloat)1 / 5, 1.0);
+	}
+
+	//_bufMngr->addBufferData(v3D, indices3D);
+
+	//end of model loading
+
+	//Model loading 2
+	Object3D * model2 = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+
+	std::vector<Vertex> v3D2;
+	std::vector<GLuint> indices3D2;
+
+	std::vector<Mesh>::iterator modelIter2;
+	std::vector<Vertex>::iterator vertexIter2;
+	std::vector<GLuint>::iterator indicesIter2;
+
+	std::vector<Mesh> mesh2;
+	mesh2 = model2->getMeshVec();
+
+	for (modelIter2 = model2->getMeshVec().begin(); modelIter2 != model2->getMeshVec().end(); modelIter2++)
+	{
+		for (vertexIter2 = modelIter2->vertices.begin(); vertexIter2 != modelIter2->vertices.end(); vertexIter2++)
+		{
+			v3D2.push_back((*vertexIter2));
+		}
+
+		for (indicesIter2 = modelIter2->indices.begin(); indicesIter2 != modelIter2->indices.end(); indicesIter2++)
+		{
+			indices3D2.push_back((*indicesIter2));
+		}
+	}
+
+	//std::vector<Vertex>::iterator color;
+	for (color = v3D2.begin(); color != v3D2.end(); color++)
+	{
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		(*color).Position += glm::vec3(0.5f);
+		(*color).Position.x += 4.5f;
+		(*color).Color = glm::vec4((GLfloat)1 / 255, (GLfloat)1 / 225, (GLfloat)1 / 225, 0.1);
+		//(*color).Color = glm::vec4(0, 125, 26, 1);
+	}
+
+	//Model loading 3
+	Object3D * model3 = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+
+	std::vector<Vertex> v3D3;
+	std::vector<GLuint> indices3D3;
+
+	std::vector<Mesh>::iterator modelIter3;
+	std::vector<Vertex>::iterator vertexIter3;
+	std::vector<GLuint>::iterator indicesIter3;
+
+	std::vector<Mesh> mesh3;
+	mesh3 = model3->getMeshVec();
+
+	for (modelIter3 = model3->getMeshVec().begin(); modelIter3 != model3->getMeshVec().end(); modelIter3++)
+	{
+		for (vertexIter3 = modelIter3->vertices.begin(); vertexIter3 != modelIter3->vertices.end(); vertexIter3++)
+		{
+			v3D3.push_back((*vertexIter3));
+		}
+
+		for (indicesIter3 = modelIter3->indices.begin(); indicesIter3 != modelIter3->indices.end(); indicesIter3++)
+		{
+			indices3D3.push_back((*indicesIter3));
+		}
+	}
+
+	//std::vector<Vertex>::iterator color;
+	for (color  = v3D3.begin(); color != v3D3.end(); color++)
+	{
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		//(*color).Position.z -= 145.5f;
+		//int r = rand() % 255;
+		//int g = rand() % 255;
+		//int b = rand() % 255;
+		//float alpha = (((rand() % 10) + 1) / 10);
+		//alpha = glm::clamp(alpha, 0.1f, 1.0f);
+
+		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
+		(*color).Position -= glm::vec3(0.5f);
+		(*color).Position.x -= 4.5f;
+		(*color).Color = glm::vec4((GLfloat)1 / 15, (GLfloat)1 / 225, (GLfloat)1 / 100, 0.9);
+		//(*color).Color = glm::vec4(0, 125, 26, 1);
+	}
+
+	eng->getBufferManager()->addBufferData(v3D, indices3D);
+	eng->getBufferManager()->addBufferData(v3D2, indices3D2);
+	eng->getBufferManager()->addBufferData(v3D3, indices3D3);
+	//_bufMngr->updateData();
+
+	eng->getBufferManager()->bindBuffers();
+
+	////lighting
+	////GLuint lighting;
+	////newVAO(lighting);	
+	////
 	Texture * texture = eng->createTexture("../data/Resource/Images/sample.png");
 	Texture * texture2 = eng->createTexture("../data/Resource/Images/sample.png");
 	Texture * texture3 = eng->createTexture("../data/Resource/Images/doge.jpeg");
@@ -82,6 +217,15 @@ void gameInit()
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	audio = eng->createAudio("../data/Resource/Audio/samppeli.mp3");
 	audio2 = eng->createAudio("../data/Resource/Audio/hey.wav");
+
+	for (int i = 0; i < 10; i++)
+	{
+		GameObject* go = new GameObject();
+		eng->getGameObjectManager()->addGO(go);
+	}
+	
+
+
 	//eng->createScene();	
 	
 	//eng->createScene();	
@@ -162,7 +306,7 @@ void gameLoop()
 	cam->passMatricesToShader(eng->getShaderManager()->getActiveShader());
 
 	//eng->getBufferManager()->updateData();
-	eng->getBufferManager()->drawBuffer(eng->getShaderManager()->getActiveShader());
+	eng->getBufferManager()->drawBuffer();
 
 	eng->getGraphicContext()->swap();
 	glPopMatrix();

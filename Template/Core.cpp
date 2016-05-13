@@ -15,6 +15,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	_sndMngr = new AudioManager(_resMngr);
+	_goMngr = new GameObjectManager();
 	//_grapCtx = nullptr;
 	//TO DO:
 	//
@@ -374,7 +375,7 @@ void Engine::testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosit
 
 	cam->passMatricesToShader(_shdrMngr->getActiveShader());
 
-	_bufMngr->drawBuffer(_shdrMngr->getActiveShader());
+	_bufMngr->drawBuffer();
 
 	_grapCtx->swap();
 	glPopMatrix();

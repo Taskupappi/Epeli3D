@@ -132,7 +132,7 @@ void BufferManager::bindBuffers()
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, allIndices.size() *(GLuint)1 * sizeof(GLuint), &allIndices[0], GL_DYNAMIC_DRAW);
 }
 
-void BufferManager::drawBuffer(Shader* shader)
+void BufferManager::drawBuffer()
 {
 	bindBuffers();
 

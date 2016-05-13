@@ -85,7 +85,7 @@ void SpriteManager::drawSprites()
 
 			_bfr->addBufferData(vertices, indecis);
 		}
-		_bfr->drawBuffer(shdr);
+		_bfr->drawBuffer();
 		_bfr->clearBuffers();
 		//TODO: unbind texture
 		//it->first->unbind();
