@@ -54,7 +54,7 @@ public:
 	void clearBuffers();
 
 	//RenderBuffers
-	void drawBuffer(Shader *shader);
+	void drawBuffer();
 	void drawElement(Shader* shader);
 
 	//binds a new Vertex Array Object for use

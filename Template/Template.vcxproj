@@ -93,6 +93,7 @@
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="ErrorHandler.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectManager.cpp" />
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -114,6 +115,7 @@
     <ClInclude Include="Drawable.h" />
     <ClInclude Include="ErrorHandler.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="GameObjectManager.h" />
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="ImageResource.h" />
     <ClInclude Include="Input.h" />

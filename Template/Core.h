@@ -37,8 +37,8 @@ void extern userUnInit();
 #include "AudioManager.h"
 #include "Sprite.h"
 #include "GraphicContext.h"
-//#include "TheBufferManager.h"
 #include "BufferManager.h"
+#include "GameObjectManager.h"
 
 //Assimp
 #include <assimp/Importer.hpp>
@@ -83,6 +83,8 @@ namespace core
 		GraphicContext* getGraphicContext(){ return _grapCtx; }
 		graphics::ShaderManager* getShaderManager(){ return _shdrMngr; }
 		BufferManager * getBufferManager(){ return _bufMngr; }
+		GameObjectManager* getGameObjectManager(){ return _goMngr; }
+
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
 
 
@@ -101,14 +103,13 @@ namespace core
 		TextureManager * _txtrMngr;
 		AudioManager * _sndMngr;
 		BufferManager * _bufMngr;
-
-		//this one is here for overhaul
-		//TheBufferManager * _bufMngr;
 		core::SceneManager *_scnMngr;
 		graphics::SpriteManager * _sprtMngr;
 		graphics::ShaderManager* _shdrMngr;
 		Resources * _resMngr;
 		GraphicContext* _grapCtx;
+		GameObjectManager* _goMngr;
+			
 	private:
 		core::Input * _input;
 		bool _mainInit; //Has main initialization been done
