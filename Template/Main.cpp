@@ -26,8 +26,8 @@ long timeNow = SDL_GetTicks();
 long timeLast = 0;
 float deltaTime = 0.0f;
 graphics::Sprite * sprt;
-Audio * audio;
-Audio * audio2;
+SoundFX * FX;
+SoundFX * FX2;
 
 Texture * texture  = nullptr;
 Texture * texture2 = nullptr;
@@ -216,9 +216,9 @@ void gameInit()
 	size = texture3->getTextureSize();
 
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
-	audio = eng->createAudio("../data/Resource/Audio/samppeli.mp3");
-	audio2 = eng->createAudio("../data/Resource/Audio/hey.wav");
-	length = audio2->getLength();
+	FX = eng->createSoundEffect("../data/Resource/Audio/samppeli.mp3");
+	FX2 = eng->createSoundEffect("../data/Resource/Audio/hey.wav");
+	length = FX2->getLength();
 
 	for (int i = 0; i < 10; i++)
 	{
@@ -372,18 +372,18 @@ void gameLoop()
 	if (eng->getInput()->isKeyPressed(SDLK_p))//Play sound
 	{
 		vol = 128;
-		audio->setVolume(vol);
-		audio->setSoundDirection(1, angle, 1);
-		audio->playSound(-1, 0);
+		FX->setVolume(vol);
+		FX->setSoundDirection(1, angle, 1);
+		FX->playSound(-1, 0);
 		angle += 90;
 		if (angle == 360)
 			angle = 0;
 	}
 	if (eng->getInput()->isKeyPressed(SDLK_l))//Play sound
 	{
-		audio2->setVolume(vol2);
-		audio2->setSoundDirection(1, angle, distance);
-		audio2->playSound(-1, 0);
+		FX2->setVolume(vol2);
+		FX2->setSoundDirection(1, angle, distance);
+		FX2->playSound(-1, 0);
 		vol2 -= (256/128) * 20;
 		distance += 20;
 		if (angle == 360)
@@ -393,7 +393,7 @@ void gameLoop()
 	}
 	if (eng->getInput()->isKeyPressed(SDLK_k))//Play sound
 	{
-		audio->playSound();
+		FX->playSound();
 	}
 }
 

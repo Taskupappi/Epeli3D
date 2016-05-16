@@ -55,13 +55,13 @@ void Engine::Init()
 	}
 
 	// SDL audio init
-	int flags = MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG;
+	int flags = MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG | MIX_INIT_FLAC;
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
 		printf("Mix_OpenAudio: %s\n", Mix_GetError());
 		//This is so that the engine runs without soundevice
 		//exit(2); 
 	}
-	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG) != flags)
+	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG | MIX_INIT_FLAC) != flags)
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_audio: %s\n", SDL_GetError());
 	}
@@ -161,11 +161,11 @@ Texture * Engine::createTexture(std::string filepath)
 	return texture;
 }
 
-Audio * Engine::createAudio(std::string filepath)
+SoundFX * Engine::createSoundEffect(std::string filepath)
 {
-	Audio *audio = _sndMngr->createSound(filepath);
+	SoundFX *sound = _sndMngr->createSoundEffect(filepath);
 
-	return audio;
+	return sound;
 }
 
 void Engine::processInput()

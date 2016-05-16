@@ -4,7 +4,8 @@
 #include "Core.h"
 #include "ResourceBase.h"
 
-class Audio;
+class SoundFX;
+class Music;
 
 class AudioManager :
 	public ResourceBase
@@ -16,11 +17,12 @@ public:
 		_res = res;
 	}
 	~AudioManager(){}
-	Audio * createSound(const std::string& resourcefilepath);
+	SoundFX * createSoundEffect(const std::string& resourcefilepath);
 
 private:
 	Resources* _res;
-	Audio* _audio;
+	SoundFX* _sound;
+	Music* _music;
 };
 
 #endif
