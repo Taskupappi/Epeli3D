@@ -4,7 +4,8 @@
 #include "ResourceBase.h"
 //#include "Core.h"
 #include "ImageResource.h"
-#include "Audio.h"
+#include "SoundFX.h"
+#include "Music.h"
 #include "Text.h"
 #include <unordered_map>
 #include <iostream>
@@ -119,7 +120,7 @@ public:
 		}
 
 		// Init AUDIO manager and map, load file to map
-		else if (typeid(T).hash_code() == typeid(Audio).hash_code())
+		else if (typeid(T).hash_code() == typeid(SoundFX).hash_code())
 		{
 			if (!audioInit)
 			{
@@ -141,7 +142,7 @@ public:
 				if (!sound)
 					printf_s("Mix_LoadWAV: %s\n", Mix_GetError);
 
-				loadedResource = new Audio(sound);
+				loadedResource = new SoundFX(sound);
 				audioMap.addElement(FileName, resourcefilepath, loadedResource);
 				
 				return (T*)loadedResource;
@@ -150,12 +151,53 @@ public:
 			// if file has already been loaded, skip loading
 			else if (isLoaded)
 			{
-				T * audio = (T*)audioMap.getElement(FileName);
+				T * sound = (T*)audioMap.getElement(FileName);
 				printf_s("File %s already loaded\n", FileName.c_str());
 				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
-				audio->incReferences();
+				sound->incReferences();
 				
-				return audio;
+				return sound;
+			}
+		}
+
+		else if (typeid(T).hash_code() == typeid(Music).hash_code())
+		{
+			if (!audioInit)
+			{
+				audioM.initResourceManager("AudioDataBase");
+				audioMap.initMapper("AudioMap", &audioM, true);
+				audioInit = true;
+			}
+			std::cout << "Filepath is: " << resourcefilepath << std::endl;
+			printf_s("Checking if file has already been loaded\n");
+			if (audioMap.getElement(FileName))
+				isLoaded = true;
+			else
+				isLoaded = false;
+
+			// if file has not been loaded, load it
+			if (!isLoaded)
+			{
+				music = Mix_LoadMUS((resourcefilepath).c_str());
+				if (!music)
+					printf_s("Mix_LoadMUS: %s\n", Mix_GetError);
+
+				loadedResource = new Music(music);
+				audioMap.addElement(FileName, resourcefilepath, loadedResource);
+
+				return (T*)loadedResource;
+
+				Mix_FreeMusic(music);
+			}
+			// if file has already been loaded, skip loading
+			else if (isLoaded)
+			{
+				T * sound = (T*)audioMap.getElement(FileName);
+				printf_s("File %s already loaded\n", FileName.c_str());
+				printf_s("Increasing reference count for file: %s\n\n", FileName.c_str());
+				sound->incReferences();
+
+				return sound;
 			}
 		}
 
@@ -239,7 +281,8 @@ private:
 	ResourceManager<ResourceBase>modelM;
 	ResourceMap<ResourceBase>modelMap;
 
-	Mix_Chunk *sound = NULL;		// for all audio files
+	Mix_Chunk *sound = NULL;		// for all sound effects
+	Mix_Music *music = NULL;		// for music
 	ResourceManager<ResourceBase>audioM;
 	ResourceMap<ResourceBase>audioMap;
 

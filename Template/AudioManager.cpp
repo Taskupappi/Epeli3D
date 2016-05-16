@@ -1,9 +1,9 @@
 #include "AudioManager.h"
 
 
-Audio * AudioManager::createSound(const std::string &resourcefilepath)
+SoundFX * AudioManager::createSoundEffect(const std::string &resourcefilepath)
 {
-	_audio = _res->loadFile<Audio>(resourcefilepath);
+	_sound = _res->loadFile<SoundFX>(resourcefilepath);
 	
-	return _audio;
+	return _sound;
 }

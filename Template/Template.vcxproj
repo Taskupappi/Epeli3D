@@ -106,7 +106,7 @@
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Audio.h" />
+    <ClInclude Include="SoundFX.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BufferManager.h" />
     <ClInclude Include="Camera.h" />
@@ -121,6 +121,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Music.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ResourceBase.h" />
     <ClInclude Include="ResourceManager.h" />
