@@ -74,6 +74,10 @@ namespace core
 			return nullptr;
 			//return _scnMngr->createScene(); 
 		}
+		GameObject* createGameObject();
+
+
+
 		//TODO: Needs to read managers from scene and set them as current
 		bool useScene(Scene * sc){ return true; }
 		core::Input * getInput(){ return _input; }

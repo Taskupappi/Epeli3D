@@ -1,4 +1,6 @@
 #include "GameObject.h"
+#include "ModelComponent.h"
+
 
 GameObject::GameObject()
 	:position(glm::vec3(0.0f, 0.0f, 0.0f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)), origin(position), destroyed(false)
@@ -13,7 +15,7 @@ GameObject::GameObject()
 //}
 
 //GameObject::GameObject(std::string modelPath)
-//{
+//{ 
 //
 //}
 //
@@ -35,4 +37,17 @@ void GameObject::update(float deltaTime)
 void GameObject::destroy()
 {
 	this->destroyed = true;
+}
+
+void GameObject::addComponent(unsigned componentID)
+{
+	switch (componentID)
+	{
+	case COMPONENTID::MODEL:
+		components.push_back(new ModelComponent());
+		break;
+	default:
+		std::cout << "no components added to the gameobject!" << std::endl;
+		break;
+	}
 }

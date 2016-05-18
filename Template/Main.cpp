@@ -81,6 +81,14 @@ void gameInit()
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
 
+
+
+	eng->createGameObject();
+
+	eng->getGameObjectManager()->createGameObject();
+	eng->getGameObjectManager()->getGameComponents().back()->addComponent(COMPONENTID::MODEL);
+	eng->getGameObjectManager()->getGameComponents().back()->getComponent(COMPONENTID::MODEL)->
+
 	//Model loading
 	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 
@@ -110,7 +118,7 @@ void gameInit()
 	std::vector<Vertex>::iterator color;
 	for (color = v3D.begin(); color != v3D.end(); color++)
 	{
-		(*color).Color = glm::vec4((GLfloat)1 / 200, (GLfloat)1 / 3, (GLfloat)1 / 5, 1.0);
+		(*color).Color = glm::vec4((GLfloat)255 / 255, (GLfloat)0 / 255, (GLfloat)0 / 255, 1.0);
 	}
 
 	//_bufMngr->addBufferData(v3D, indices3D);
@@ -149,7 +157,7 @@ void gameInit()
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		(*color).Position += glm::vec3(0.5f);
 		(*color).Position.x += 4.5f;
-		(*color).Color = glm::vec4((GLfloat)1 / 255, (GLfloat)1 / 225, (GLfloat)1 / 225, 0.1);
+		(*color).Color = glm::vec4((GLfloat)0 / 255, (GLfloat)255 / 255, (GLfloat)0 / 255, 0.1);
 		//(*color).Color = glm::vec4(0, 125, 26, 1);
 	}
 
@@ -193,7 +201,7 @@ void gameInit()
 		//glm::rotate((*color).Position, 50.0f, (*color).Normal);
 		(*color).Position -= glm::vec3(0.5f);
 		(*color).Position.x -= 4.5f;
-		(*color).Color = glm::vec4((GLfloat)1 / 15, (GLfloat)1 / 225, (GLfloat)1 / 100, 0.9);
+		(*color).Color = glm::vec4((GLfloat)0 / 225, (GLfloat)0 / 225, (GLfloat)255 / 225, 0.9);
 		//(*color).Color = glm::vec4(0, 125, 26, 1);
 	}
 
@@ -255,7 +263,7 @@ void gameLoop()
 	}
 	////delta time calculations
 
-	glClearColor(0.6f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
