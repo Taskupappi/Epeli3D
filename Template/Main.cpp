@@ -28,6 +28,7 @@ float deltaTime = 0.0f;
 graphics::Sprite * sprt;
 SoundFX * FX;
 SoundFX * FX2;
+Music * music;
 
 Texture * texture  = nullptr;
 Texture * texture2 = nullptr;
@@ -228,7 +229,7 @@ void gameInit()
 	FX2 = eng->createSoundEffect("../data/Resource/Audio/hey.wav");
 	length = FX2->getLength();
 
-
+	music = eng->createMusic("../data/Resource/Audio/hungerland.wav");
 	//eng->createScene();	
 	
 	//eng->createScene();	
@@ -246,7 +247,6 @@ void gameInit()
 //Game mainloop
 void gameLoop()
 {
-
 	//deltaTime calculations
 	timeNow = SDL_GetTicks();
 	if (timeNow > timeLast)
@@ -396,6 +396,12 @@ void gameLoop()
 	{
 		FX->playSound();
 	}
+
+	if (eng->getInput()->isKeyPressed(SDLK_m))
+		music->fadeOutMusic(3000);
+
+	if (eng->getInput()->isKeyPressed(SDLK_n))
+		music->fadeInMusic(3000, -1);
 }
 
 int main(int argc, char** argv)
