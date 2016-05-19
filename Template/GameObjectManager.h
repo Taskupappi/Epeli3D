@@ -13,12 +13,13 @@ public:
 	 void draw(Shader* shader);
 
 	//add gameobject to the manager
-	 GameObject* addGO(GameObject* gameObject);
-
+	 GameObject* createGameObject();
+	 
+	 std::vector<GameObject*> getGameComponents();
 	//create game object
 	//void createGO();
 
-private:
+protected:
 	std::vector<GameObject*> gameObjects;
 	//std::vector<GameObject*> destroyedGameObjects;
 };

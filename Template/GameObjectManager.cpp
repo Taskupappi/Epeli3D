@@ -2,12 +2,15 @@
 
 GameObjectManager::GameObjectManager()
 {
-
 }
 
 GameObjectManager::~GameObjectManager()
 {
-
+	for (std::vector<GameObject*>::iterator gameobject = gameObjects.begin(); gameobject != gameObjects.end(); gameobject++)
+	{
+		delete *gameobject;
+		gameobject = gameObjects.erase(gameobject);
+	}
 }
 
 void GameObjectManager::update(float deltaTime)
@@ -32,8 +35,6 @@ void GameObjectManager::update(float deltaTime)
 	{
 		(*gameobject)->update(deltaTime);
 	}
-
-
 }
 
 void GameObjectManager::draw(Shader* shader)
@@ -44,13 +45,14 @@ void GameObjectManager::draw(Shader* shader)
 	}
 }
 
-GameObject* GameObjectManager::addGO(GameObject* gameObject)
+GameObject* GameObjectManager::createGameObject()
 {
-	gameObjects.push_back(gameObject);
-	return gameObject;
+	GameObject* obj = new GameObject();
+	gameObjects.push_back(obj);
+	return obj;
 }
 
-//void GameObjectManager::createGameObject()
-//{
-//
-//}
+std::vector<GameObject*> GameObjectManager::getGameComponents()
+{
+	return gameObjects;
+}

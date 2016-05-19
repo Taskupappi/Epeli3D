@@ -15,7 +15,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	_sndMngr = new AudioManager(_resMngr);
-	_goMngr = new GameObjectManager();
+	//_goMngr = new GameObjectManager();
 	//_grapCtx = nullptr;
 	//TO DO:
 	//
@@ -29,6 +29,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 
 Engine::~Engine()
 {
+	//delete _goMngr;
 	delete _resMngr;
 	//delete _sprtMngr;
 	delete _bufMngr;
@@ -73,9 +74,7 @@ void Engine::Init()
 	}
 	// GLEW init
 	glewInit();
-
-
-
+	
 	//createScreen(800, 600);
 	//_shdrMngr->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
 	//std::cout << "Model loading:" << std::endl;
@@ -96,11 +95,8 @@ void Engine::Init()
 	//std::cout << "Model loading end." << std::endl;
 
 	//Mix_PlayMusic(audio, 1);
-
 	//mymap1.getElement("JPEG_Image");
-
 	//mymap1.removeElement("JPEG_Image");
-
 	//mymap1.dump();
 
 	//freetype init()
@@ -168,6 +164,11 @@ SoundFX * Engine::createSoundEffect(std::string filepath)
 	return sound;
 }
 
+//GameObject* Engine::createGameObject()
+//{
+//	return _goMngr->createGameObject();
+//}
+
 void Engine::processInput()
 {
 	//SDL Input handler here
@@ -221,7 +222,6 @@ void Engine::processInput()
 		}
 	}
 }
-
 
 //TestBench to try out modules
 void Engine::testInit(Camera* cam, GLfloat screenWidth, GLfloat screenHeight)
