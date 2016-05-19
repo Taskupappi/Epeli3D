@@ -150,6 +150,8 @@ void Camera::mouseUpdate(const glm::vec2 newMousePosition)
 	glm::vec2 offset;
 	offset.x = newMousePosition.x - oldMousePosition.x;
 	offset.y = -(newMousePosition.y - oldMousePosition.y);
+	offset *= SENSITIVITY;
+
 
 	if (firstClick == true)
 	{

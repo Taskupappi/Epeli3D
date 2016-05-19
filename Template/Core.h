@@ -39,13 +39,15 @@ void extern userUnInit();
 #include "Sprite.h"
 #include "GraphicContext.h"
 #include "BufferManager.h"
-//#include "GameObjectManager.h"
+#include "GameObjectManager.h"
 
 //Assimp
 #include <assimp/Importer.hpp>
 class TextureManager;
 class BufferManager;
 class Texture;
+class GameObject;
+class GameObjectManager;
 
 namespace graphics
 {
@@ -76,7 +78,8 @@ namespace core
 			return nullptr;
 			//return _scnMngr->createScene(); 
 		}
-		//GameObject* createGameObject();
+		GameObject* createGameObject();
+
 		//TODO: Needs to read managers from scene and set them as current
 		bool useScene(Scene * sc){ return true; }
 		core::Input * getInput(){ return _input; }
@@ -86,7 +89,7 @@ namespace core
 		GraphicContext* getGraphicContext(){ return _grapCtx; }
 		graphics::ShaderManager* getShaderManager(){ return _shdrMngr; }
 		BufferManager * getBufferManager(){ return _bufMngr; }
-		//GameObjectManager* getGameObjectManager(){ return _goMngr; }
+		GameObjectManager* getGameObjectManager(){ return _goMngr; }
 
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
 
@@ -111,7 +114,7 @@ namespace core
 		graphics::ShaderManager* _shdrMngr;
 		Resources * _resMngr;
 		GraphicContext* _grapCtx;
-		//GameObjectManager* _goMngr;
+		GameObjectManager* _goMngr;
 			
 	private:
 		core::Input * _input;
@@ -120,14 +123,6 @@ namespace core
 		static Engine *_instance;
 		//Handles SDL input events
 		void processInput();
-
-		//these will be removed right after I get buffers to work properly
-		GLuint VBO, EBO;
-		std::vector<GLuint> inds;
-		std::vector<Vertex> ver;
-		std::vector<GLuint> VBOs;
-		std::vector<GLuint> EBOs;
-		std::vector<GLuint> VAOs;
 	};
 }
 

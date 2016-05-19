@@ -69,8 +69,6 @@ void gameInit()
 	// Set texture filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	
 	////
 
 	cam = new Camera();
@@ -82,18 +80,23 @@ void gameInit()
 
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
+	//ModelComponent* m = new ModelComponent();
+	GameObject* kisse = eng->createGameObject();	
+	kisse->addComponent(new ModelComponent());
+	kisse->loadModel("../data/Resource/Models/cube.obj");
+	//eng->getGameObjectManager()->sendDataToBuffer();
 
-
-
-	//eng->createGameObject();
+	//m->loadModel("../data/Resource/Models/cube.obj");
+	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+	//eng->getGameObjectManager()->getGameObjects().back()->loadModel();	
+	//eng->getGameObjectManager()->sendDataToOpenGL();
 
 	//eng->getGameObjectManager()->createGameObject();
 	//eng->getGameObjectManager()->getGameComponents().back()->addComponent(COMPONENTID::MODEL);
 	//eng->getGameObjectManager()->getGameComponents().back()->getComponent(COMPONENTID::MODEL);
 
-	//Model loading
-	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 
+	//Model loading
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
 
@@ -257,7 +260,7 @@ void gameLoop()
 	}
 	////delta time calculations
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
@@ -319,6 +322,7 @@ void gameLoop()
 	cam->passMatricesToShader(eng->getShaderManager()->getActiveShader());
 
 	//eng->getBufferManager()->updateData();
+	//eng->getGameObjectManager()->draw();
 	eng->getBufferManager()->drawBuffer();
 
 	eng->getGraphicContext()->swap();

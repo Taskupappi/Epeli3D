@@ -8,14 +8,13 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	//_resMngr = new ResourceManager();
 	_scnMngr = new SceneManager();
 	_input = new Input();
-	//_bufMngr = new BufferManager();
 	_bufMngr = new BufferManager();
 	_shdrMngr = new graphics::ShaderManager();
-	_sprtMngr = new graphics::SpriteManager(_bufMngr, _shdrMngr);//;
+	_sprtMngr = new graphics::SpriteManager(_bufMngr, _shdrMngr);
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	_sndMngr = new AudioManager(_resMngr);
-	//_goMngr = new GameObjectManager();
+	_goMngr = new GameObjectManager(_bufMngr);
 	//_grapCtx = nullptr;
 	//TO DO:
 	//
@@ -29,7 +28,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 
 Engine::~Engine()
 {
-	//delete _goMngr;
+	delete _goMngr;
 	delete _resMngr;
 	//delete _sprtMngr;
 	delete _bufMngr;

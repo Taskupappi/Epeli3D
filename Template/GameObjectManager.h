@@ -2,24 +2,27 @@
 #define GAMEOBJECTMANAGER_H
 
 #include "GameObject.h"
+class BufferManager;
+class GameObject;
 
 class GameObjectManager
 {
 public:
-	GameObjectManager();
+	GameObjectManager(BufferManager *buff);
 	~GameObjectManager();
 
 	 void update(float deltaTime);
-	 void draw(Shader* shader);
 
+	 Object3D* getModelData();
+	 void sendDataToBuffer();
 	//add gameobject to the manager
 	 GameObject* createGameObject();
-	 
-	 std::vector<GameObject*> getGameComponents();
+	 //GameObject* getGameObject();
+	 std::vector<GameObject*> getGameObjects();
 	//create game object
 	//void createGO();
-
 protected:
+	BufferManager* buffMngr;
 	std::vector<GameObject*> gameObjects;
 	//std::vector<GameObject*> destroyedGameObjects;
 };

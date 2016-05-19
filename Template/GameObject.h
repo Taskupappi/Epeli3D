@@ -9,8 +9,14 @@
 #include <vector>
 #include<iostream>
 
-//#include "ModelComponent.h"
+//
 #include "Component.h"
+#include "ModelComponent.h"
+#include "TranslateComponent.h"
+
+//class Shader;
+//class ModelComponent;
+//class TranslateComponent;
 
 class GameObject
 {
@@ -25,15 +31,42 @@ public:
 	void setModel(std::string filepath);
 
 	void update(float deltaTime);
-	void destroy();
+	void destroy();	
 	bool isDestroyed() { return this->destroyed; }
 
+	//std::vector<Mesh>* getModelData();
+	//Object3D* getModelData();
 	//gameobject
 	void loadModel(std::string filepath);
 	
 	void setPosition(glm::vec3 newPosition){ position = newPosition; }
-	Component* getComponent(const unsigned id );
-	void addComponent(unsigned componentID);
+
+	void addComponent(Component* component);
+	
+	//Component* getComponent(Component a);
+
+	template<typename T>
+	T* getComponent()
+	{
+		mapIter = components.find(&typeid(T));
+		if (mapIter != components.end())
+		{
+			return dynamic_cast<T*>(mapIter->second);
+		}
+		return nullptr;
+	}
+
+	template<typename T>
+	T* removeComponent()
+	{
+		mapIter = components.find(&typeid(T));
+		if (mapIter != compoents.end())
+		{
+			delete mapIter->second;
+			components.erase(mapIter);
+		}
+	}
+
 	//void setRotation(float angle);
 	// move the entity relatively to its current position
 	//void Move(glm::vec3 Movement){/*TODO: IMPLEMENT*/ }
@@ -47,10 +80,9 @@ private:
 	float rotation;
 	glm::mat4 modelMatrix;
 	bool destroyed;
-	std::vector<Component*> components;
-	//ModelComponent model;
-//protected:
-//	virtual void onUpdate();
-//	virtual void onDraw() = 0;
+	std::map<const std::type_info*, Component*> components;
+	std::map < const std::type_info*, Component* >::const_iterator mapIter;;
+	//ModelComponent* model;
+	//TranslateComponent* translate;
 };
 #endif
