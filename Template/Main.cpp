@@ -29,6 +29,7 @@ graphics::Sprite * sprt;
 SoundFX * FX;
 SoundFX * FX2;
 Music * music;
+Music * music2;
 
 Texture * texture  = nullptr;
 Texture * texture2 = nullptr;
@@ -230,6 +231,7 @@ void gameInit()
 	//length = FX2->getLength();
 
 	music = eng->createMusic("../data/Resource/Audio/hungerland.wav");
+	music2 = eng->createMusic("../data/Resource/Audio/moap.flac");
 	//eng->createScene();	
 	
 	//eng->createScene();	

@@ -69,7 +69,9 @@ namespace core
 		void createScreen(int ResX, int ResY);
 		graphics::Sprite * createSprite(Texture * texture, glm::vec2 position, glm::vec2 size, int z, Color col);
 		Texture * createTexture(std::string filepath);
+		// Create a sound effect object from a WAV, MP3, OGG or MOD file
 		SoundFX * createSoundEffect(std::string filepath);
+		// Create a music object from a WAV, MP3, OGG, FLAC or MOD file
 		Music * createMusic(std::string filepath);
 		Scene * createScene()
 		{
