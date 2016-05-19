@@ -171,7 +171,7 @@ public:
 	Color():_color(0, 0, 0, 255){};
 	~Color(){};
 	//Gets color values as 0 - 1.0
-	glm::vec4 getAsOGLVec(){ return glm::vec4(_color.r / 255, _color.g / 255, _color.b / 255, _color.a / 255); }
+	glm::vec4 getAsOGLVec(){ return glm::vec4(_color.r / 255.0, _color.g / 255.0, _color.b / 255.0, _color.a / 255.0); }
 	glm::vec4 getColor(){ return _color; }
 	Color& operator-=(const Color& rhs)
 	{

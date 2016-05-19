@@ -29,6 +29,7 @@ namespace graphics
 		//Created by engine
 		SpriteManager(BufferManager * bfr, ShaderManager * shdr) :_shdrMngr(shdr), _bfr(bfr), _shdr(nullptr)
 		{
+			glGenSamplers(1, &_spriteSampler);
 			//TODO: Need to use main buffer..
 			_bfr = new BufferManager();
 			//_shdrMngr->createShader("../data/shaders/VertexShaderLamp.glvs", "../data/shaders/FragmentShaderLamp.glfs", "testLampShader");
@@ -48,8 +49,8 @@ namespace graphics
 		void setOldShader()
 		{
 			//TODO: Complete this
-			//if(oldShdr)
-			//	_shdrMngr->setActiveShader(oldShdr->getName());
+			if(oldShdr)
+				_shdrMngr->setActiveShader(oldShdr->getShaderName());
 		}
 		//Sorts sprites by z value		
 		void batchSprites(std::vector<Sprite*> *spritesToBatch);
@@ -59,6 +60,7 @@ namespace graphics
 		ShaderManager* _shdrMngr;
 		Shader * _shdr;
 		Shader * oldShdr;
+		GLuint _spriteSampler;
 	};
 	
 }
