@@ -116,6 +116,7 @@ namespace core
 	private:
 		core::Input * _input;
 		bool _mainInit; //Has main initialization been done
+		bool _audioInit; // Has audio initialization been done
 		bool _exit; //Has exit been called
 		static Engine *_instance;
 		//Handles SDL input events

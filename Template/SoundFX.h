@@ -15,39 +15,42 @@ public:
 	SoundFX(Mix_Chunk* sound) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_sound = sound;
-
+		_soundIsPlaying = false;
+		_isDisabled = false;
 		/* Chunks are converted to SoundFX device format... */
-		if (!Mix_QuerySpec(&freq, &fmt, &channels))
-			printf("SoundFX error: Mix_OpenSoundFX never called!\n"); 
-		/* never called Mix_OpenSoundFX()?
-		no SoundFX device active?*/
-
 		/* bytes / samplesize == sample points */
-		points = (_sound->alen / ((fmt & 0xFF) / 8));
+		//points = (_sound->alen / ((fmt & 0xFF) / 8));
 
-		/* sample points / channels == sample frames */
-		frames = (points / channels);
+		///* sample points / channels == sample frames */
+		//frames = (points / channels);
 	}
-	~SoundFX(){};
+	~SoundFX(){ Mix_FreeChunk(_sound); };
 	/*Play sound effect.
 	Set channel to -1
 	Set loops to -1 for continuous looping,
 	0 plays the sound once.*/
 	void playSound(int channel, int loops)
 	{
-		int isPlaying = Mix_Playing(channel);
-		if (isPlaying == 1)
-			printf("Sound is already playing! \n\n");
-
-		else if (isPlaying == 0)
+		if (_isDisabled)
 		{
-			soundIsPlaying = false;
+			printf("SoundFX error: audio is disabled!\n");
+		}
+		else
+		{
+			int isPlaying = Mix_Playing(channel);
+			if (isPlaying == 1)
+				printf("Sound is already playing! \n\n");
 
-			printf("Playing sound!\n\n");
-			Mix_PlayChannel(channel, _sound, loops);
-			soundIsPlaying = true;
-			if (Mix_GetError())
-				printf("SoundFX error: %s\n", Mix_GetError());
+			else if (isPlaying == 0)
+			{
+				_soundIsPlaying = false;
+
+				printf("Playing sound!\n\n");
+				Mix_PlayChannel(channel, _sound, loops);
+				_soundIsPlaying = true;
+				if (Mix_GetError())
+					printf("SoundFX error: %s\n", Mix_GetError());
+			}
 		}
 	}
 	/*Play sound effect.
@@ -55,20 +58,27 @@ public:
 	does not loop.*/
 	void playSound()
 	{
-		int isPlaying = Mix_Playing(-1);
-
-		if (isPlaying != 0)
-			printf("Sound is already playing! \n\n");
-
-		else if (isPlaying == 0)
+		if (_isDisabled)
 		{
-			soundIsPlaying = false;
+			printf("SoundFX error: audio is disabled!\n");
+		}
+		else
+		{
+			int isPlaying = Mix_Playing(-1);
 
-			printf("Playing sound!\n\n");
-			Mix_PlayChannel(-1, _sound, 0);
-			soundIsPlaying = true;
-			if (Mix_GetError())
-				printf("SoundFX error: %s\n", Mix_GetError());
+			if (isPlaying != 0)
+				printf("Sound is already playing! \n\n");
+
+			else if (isPlaying == 0)
+			{
+				_soundIsPlaying = false;
+
+				printf("Playing sound!\n\n");
+				Mix_PlayChannel(-1, _sound, 0);
+				_soundIsPlaying = true;
+				if (Mix_GetError())
+					printf("SoundFX error: %s\n", Mix_GetError());
+			}
 		}
 	}
 	/*Set volume for sound.
@@ -82,7 +92,8 @@ public:
 	}
 	/*Set the position of the sound effect in relation to the listener.
 	Angle is an integer from 0 to 360, where 0 is due north. Rotates cockwise.
-	Distance is an integer from 0 to 255, where 255 is the furthest away from the listener.*/
+	Distance is an integer from 0 to 255, where 255 is the furthest away from the listener.
+	Note that maximum distance doesn't mean silence.*/
 	void setSoundDirection(int channel, Sint16 angle, Uint8 distance)
 	{
 		Mix_SetPosition(channel, angle, distance);
@@ -93,22 +104,23 @@ public:
 			printf("SoundFX error: %s\n",Mix_GetError());
 	}
 	// Returns time length of sound effect in milliseconds
-	Uint32 getLength()
-	{
-		/* (sample frames * 1000) / frequency == play length in ms */
-		return ((frames * 1000) / freq);
-	}
+	//Uint32 getLength()
+	//{
+	//	/* (sample frames * 1000) / frequency == play length in ms */
+	//	return ((frames * 1000) / freq);
+	//}
 	// Tells you if sound is playing or not
-	bool isPlaying(){ return soundIsPlaying; }
+	bool isPlaying(){ return _soundIsPlaying; }
+	void setIsDisabled(){ _isDisabled = true; }
 private:
 	SoundFX &operator=(SoundFX &SoundFX)
 	{
 		if (this == &SoundFX)
 			return *this;
 	}
-
+	bool _isDisabled=false;
 	Mix_Chunk* _sound;
-	bool soundIsPlaying = false;
+	bool _soundIsPlaying;
 	Uint32 points = 0;
 	Uint32 frames = 0;
 	int freq = 0;

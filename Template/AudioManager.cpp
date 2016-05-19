@@ -14,3 +14,16 @@ Music * AudioManager::createMusic(const std::string &resourcefilepath)
 
 	return _music;
 }
+
+void AudioManager::setIsInitialised(bool state)
+{
+	_isInitialised = state;
+}
+
+bool AudioManager::getIsInitialised()
+{
+	if (!_isInitialised)
+		return true;
+	else
+		return false;
+}

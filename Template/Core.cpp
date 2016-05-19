@@ -2,7 +2,7 @@
 
 using namespace core;
 Engine* core::Engine::_instance = nullptr;
-Engine::Engine() :_mainInit(false), _exit(false)
+Engine::Engine() :_mainInit(false), _audioInit(false), _exit(false)
 {
 	createScreen(800.0f, 600.0f);
 	//_resMngr = new ResourceManager();
@@ -57,10 +57,18 @@ void Engine::Init()
 
 	// SDL audio init
 	int flags = MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG | MIX_INIT_FLAC;
-	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1) {
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
+	{
+		// No audio device detected, disable audio
 		printf("Mix_OpenAudio: %s\n", Mix_GetError());
-		//This is so that the engine runs without soundevice
-		//exit(2); 
+		printf("Disabling audio.\n\n");
+		_audioInit = false;
+		_sndMngr->setIsInitialised(_audioInit);
+	}
+	else
+	{
+		_audioInit = true;
+		_sndMngr->setIsInitialised(_audioInit);
 	}
 	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG | MIX_INIT_FLAC) != flags)
 	{
@@ -159,16 +167,43 @@ Texture * Engine::createTexture(std::string filepath)
 
 SoundFX * Engine::createSoundEffect(std::string filepath)
 {
-	SoundFX *sound = _sndMngr->createSoundEffect(filepath);
+	SoundFX *sound;
 
-	return sound;
+	if (_audioInit)
+	{
+		sound = _sndMngr->createSoundEffect(filepath);
+
+		return sound;
+	}
+	else
+	{
+		//TODO fix hax
+		sound = nullptr;
+		sound->setIsDisabled();
+		printf("SoundFX error: audio is disabled\n\n");
+
+		return sound;
+	}
 }
 
 Music * Engine::createMusic(std::string filepath)
 {
-	Music *music = _sndMngr->createMusic(filepath);
+	Music *music;
 
-	return music;
+	if (_audioInit)
+	{
+		music = _sndMngr->createMusic(filepath);
+
+		return music;
+	}
+	else
+	{
+		music = nullptr;
+		music->setIsDisabled(true);
+		printf("Music error: audio is disabled\n\n");
+
+		return music;
+	}
 }
 
 //GameObject* Engine::createGameObject()
