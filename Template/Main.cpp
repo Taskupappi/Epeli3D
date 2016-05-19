@@ -40,7 +40,7 @@ GLuint  textureint,
 		textureint3,
 		samplerint;
 
-
+glm::vec3 lightPos(0.5f, 1.0f, 1.0f);
 
 //shark model 
 //vertices : 5958
@@ -70,30 +70,34 @@ void gameInit()
 	// Set texture filtering
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	
 	////
 
 	cam = new Camera();
 	
 	//eng->testInit(cam, 800, 600);
-	eng->getShaderManager()->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
+	//eng->getShaderManager()->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
+	eng->getShaderManager()->createShader("../data/shaders/BasicLightingJ.glvs", "../data/shaders/BasicLightingJ.glfs", "testShader");
 	eng->getShaderManager()->setActiveShader("testShader");
 
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
+	//ModelComponent* m = new ModelComponent();
+	GameObject* kisse = eng->createGameObject();	
+	kisse->addComponent(new ModelComponent());
+	kisse->loadModel("../data/Resource/Models/cube.obj");
+	//eng->getGameObjectManager()->sendDataToBuffer();
 
-
-
-	//eng->createGameObject();
+	//m->loadModel("../data/Resource/Models/cube.obj");
+	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+	//eng->getGameObjectManager()->getGameObjects().back()->loadModel();	
+	//eng->getGameObjectManager()->sendDataToOpenGL();
 
 	//eng->getGameObjectManager()->createGameObject();
 	//eng->getGameObjectManager()->getGameComponents().back()->addComponent(COMPONENTID::MODEL);
 	//eng->getGameObjectManager()->getGameComponents().back()->getComponent(COMPONENTID::MODEL);
 
-	//Model loading
-	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 
+	//Model loading
 	std::vector<Vertex> v3D;
 	std::vector<GLuint> indices3D;
 
@@ -258,7 +262,7 @@ void gameLoop()
 	}
 	////delta time calculations
 
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
@@ -292,12 +296,21 @@ void gameLoop()
 	
 	//eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
 	eng->getShaderManager()->useActiveShader();
+	GLint objectColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("objectColor");
+	GLint lightColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightColor");
+	GLint lightPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightPos");
+	GLint viewPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("viewPos");
+	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
+	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
+	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);	
+	glUniform3f(viewPosLoc, cam->getPosX(), cam->getPosY(), cam->getPosZ());
+
 	GLfloat radius = 10.0f;
 	GLfloat camX = sin(deltaTime) * radius;
 	GLfloat camZ = cos(deltaTime) * radius;
 
-	glm::mat4 view;
-	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	//glm::mat4 view;
+	//view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 	cam->mouseUpdate(eng->getInput()->getMousePosition());
 	cam->move(key.c_str(), deltaTime);
 	//cam->setViewMatrix(view);
@@ -311,6 +324,7 @@ void gameLoop()
 	cam->passMatricesToShader(eng->getShaderManager()->getActiveShader());
 
 	//eng->getBufferManager()->updateData();
+	//eng->getGameObjectManager()->draw();
 	eng->getBufferManager()->drawBuffer();
 
 	eng->getGraphicContext()->swap();

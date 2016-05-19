@@ -11,11 +11,10 @@ enum COMPONENTID
 class Component
 {
 public:
-	Component(unsigned id){ this->id = id; };
+	Component(){};
 	~Component(){};
 	virtual void update(float deltaTime) = 0;
 
 private:
-	unsigned id;
 };
 #endif

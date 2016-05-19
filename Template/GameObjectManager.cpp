@@ -1,15 +1,18 @@
 #include "GameObjectManager.h"
+#include "ModelComponent.h"
 
-GameObjectManager::GameObjectManager()
+GameObjectManager::GameObjectManager(BufferManager *buff)
 {
+	buffMngr = buff;
 }
 
 GameObjectManager::~GameObjectManager()
 {
 	for (std::vector<GameObject*>::iterator gameobject = gameObjects.begin(); gameobject != gameObjects.end(); gameobject++)
 	{
-		delete *gameobject;
-		gameobject = gameObjects.erase(gameobject);
+		//delete *gameobject;
+		//gameobject = gameObjects.erase(gameobject);
+		delete (*gameobject);
 	}
 }
 
@@ -37,12 +40,42 @@ void GameObjectManager::update(float deltaTime)
 	}
 }
 
-void GameObjectManager::draw(Shader* shader)
+void GameObjectManager::sendDataToBuffer()
 {
-	for (auto gameobject = gameObjects.begin(); gameobject != gameObjects.end();)
+	for (auto gameobject = gameObjects.begin(); gameobject != gameObjects.end(); gameobject++)
 	{
-		//(*gameobject)->draw(shader);
-	}
+		if ((*gameobject)->getComponent<ModelComponent>())
+		{
+			std::vector<Mesh>* data = new std::vector<Mesh>();
+			//data = (*gameobject)->getModelData();
+
+			std::vector<Mesh>::iterator modelIter;
+			std::vector<Vertex>::iterator vertexIter;
+			std::vector<GLuint>::iterator indicesIter;
+
+			std::vector<Vertex> vertexData;
+			std::vector<GLuint> indicesData;
+			
+			for (modelIter = data->begin(); modelIter != data->end(); modelIter++)
+			{
+				for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+				{
+					vertexData.push_back((*vertexIter));
+				}
+
+				for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
+				{
+					indicesData.push_back((*indicesIter));
+				}
+			}
+
+			buffMngr->addBufferData(vertexData, indicesData);
+			delete data;
+		} //((*gameobject)->getComponent<ModelComponent>())
+
+		
+	}//(auto gameobject = gameObjects.begin(); gameobject != gameObjects.end();)
+	
 }
 
 GameObject* GameObjectManager::createGameObject()
@@ -52,7 +85,12 @@ GameObject* GameObjectManager::createGameObject()
 	return obj;
 }
 
-std::vector<GameObject*> GameObjectManager::getGameComponents()
+//GameObject* GameObjectManager::getGameObject();
+//{
+//
+//}
+
+std::vector<GameObject*> GameObjectManager::getGameObjects()
 {
 	return gameObjects;
 }

@@ -22,7 +22,7 @@ enum Camera_Movement{
 const GLfloat YAW = -90.0f;
 const GLfloat PITCH = 0.0f;
 const GLfloat SPEED = 5.0f;
-const GLfloat SENSITIVITY = 0.025f;
+const GLfloat SENSITIVITY = 0.05f;
 const GLfloat ZOOM = 45.0f;
 const float ROTATIONAL_SPEED = 0.5f;
 
@@ -71,6 +71,9 @@ public:
 
 	void setViewMatrix(glm::mat4 const &matrix) { viewMatrix = matrix; };
 
+	float getPosX();
+	float getPosY();
+	float getPosZ();
 
 	glm::mat4 viewMatrix,
 		projectionMatrix,

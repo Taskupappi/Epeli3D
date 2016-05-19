@@ -1,7 +1,8 @@
 #include "ModelComponent.h"
+#include "Object3D.h"
+//class engine;
 
 ModelComponent::ModelComponent()
-	:Component(COMPONENTID::MODEL)
 {
 	model = nullptr;
 }
@@ -11,12 +12,18 @@ ModelComponent::~ModelComponent()
 	delete model;
 }
 
-void ModelComponent::loadModel(const std::string filepath)
+std::vector<Mesh>* ModelComponent::loadModel(std::string filepath)
 {
-	model->loadModel(filepath);
+	model = new Object3D();
+	return model->loadModel(filepath);
 }
 
 void ModelComponent::update(float deltaTime)
 {
 
 }
+
+//Object3D* ModelComponent::getModelData()
+//{
+//	return model;
+//}

@@ -82,7 +82,7 @@ public:
 			std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 			//return;
 		}
-		//retrieve the  directory path of the file path
+		//retrieve the  directory path of the file path		
 		this->directory = resourcefilepath.substr(0, resourcefilepath.find_last_of('/'));
 
 		//process assimp's root node recursively
