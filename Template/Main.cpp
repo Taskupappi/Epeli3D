@@ -39,7 +39,7 @@ GLuint  textureint,
 		textureint3,
 		samplerint;
 
-
+glm::vec3 lightPos(0.5f, 1.0f, 1.0f);
 
 //shark model 
 //vertices : 5958
@@ -76,7 +76,8 @@ void gameInit()
 	cam = new Camera();
 	
 	//eng->testInit(cam, 800, 600);
-	eng->getShaderManager()->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
+	//eng->getShaderManager()->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
+	eng->getShaderManager()->createShader("../data/shaders/BasicLightingJ.glvs", "../data/shaders/BasicLightingJ.glfs", "testShader");
 	eng->getShaderManager()->setActiveShader("testShader");
 
 	//camera stuff
@@ -290,12 +291,21 @@ void gameLoop()
 	
 	//eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
 	eng->getShaderManager()->useActiveShader();
+	GLint objectColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("objectColor");
+	GLint lightColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightColor");
+	GLint lightPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightPos");
+	GLint viewPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("viewPos");
+	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
+	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
+	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);	
+	glUniform3f(viewPosLoc, cam->getPosX(), cam->getPosY(), cam->getPosZ());
+
 	GLfloat radius = 10.0f;
 	GLfloat camX = sin(deltaTime) * radius;
 	GLfloat camZ = cos(deltaTime) * radius;
 
-	glm::mat4 view;
-	view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
+	//glm::mat4 view;
+	//view = glm::lookAt(glm::vec3(camX, 0.0, camZ), glm::vec3(0.0, 0.0, 0.0), glm::vec3(0.0, 1.0, 0.0));
 	cam->mouseUpdate(eng->getInput()->getMousePosition());
 	cam->move(key.c_str(), deltaTime);
 	//cam->setViewMatrix(view);

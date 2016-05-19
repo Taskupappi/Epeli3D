@@ -306,7 +306,28 @@ void Camera::printDetails()
 	std::cout << "position x: " << position.x << " position y: " << position.y << " position z: " << position.z << std::endl;
 }
 
+float Camera::getPosX()
+{
+	float x = this->position.x;
+	//float y = this->position.y;
+	//float z = this->position.z;
+	return x;
+}
 
+float Camera::getPosY()
+{
+	//float x = this->position.x;
+	float y = this->position.y;
+	//float z = this->position.z;
+	return y;
+}
+float Camera::getPosZ()
+{
+	//float x = this->position.x;
+	//float y = this->position.y;
+	float z = this->position.z;
+	return z;
+}
 
 
 

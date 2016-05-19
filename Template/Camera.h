@@ -71,6 +71,9 @@ public:
 
 	void setViewMatrix(glm::mat4 const &matrix) { viewMatrix = matrix; };
 
+	float getPosX();
+	float getPosY();
+	float getPosZ();
 
 	glm::mat4 viewMatrix,
 		projectionMatrix,
