@@ -164,6 +164,13 @@ SoundFX * Engine::createSoundEffect(std::string filepath)
 	return sound;
 }
 
+Music * Engine::createMusic(std::string filepath)
+{
+	Music *music = _sndMngr->createMusic(filepath);
+
+	return music;
+}
+
 //GameObject* Engine::createGameObject()
 //{
 //	return _goMngr->createGameObject();

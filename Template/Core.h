@@ -31,6 +31,7 @@ void extern userUnInit();
 #include "Resources.h"
 #include "Input.h"
 #include "SoundFX.h"
+#include "Music.h"
 #include "ShaderManager.h"
 #include "Object3D.h"
 #include "TextureManager.h"
@@ -69,6 +70,7 @@ namespace core
 		graphics::Sprite * createSprite(Texture * texture, glm::vec2 position, glm::vec2 size, int z, Color col);
 		Texture * createTexture(std::string filepath);
 		SoundFX * createSoundEffect(std::string filepath);
+		Music * createMusic(std::string filepath);
 		Scene * createScene()
 		{
 			return nullptr;

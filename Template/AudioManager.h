@@ -18,6 +18,7 @@ public:
 	}
 	~AudioManager(){}
 	SoundFX * createSoundEffect(const std::string& resourcefilepath);
+	Music * createMusic(const std::string& resourcefilepath);
 
 private:
 	Resources* _res;
