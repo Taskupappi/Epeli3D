@@ -2,7 +2,6 @@
 
 GameObjectManager::GameObjectManager()
 {
-
 }
 
 GameObjectManager::~GameObjectManager()
@@ -57,8 +56,3 @@ std::vector<GameObject*> GameObjectManager::getGameComponents()
 {
 	return gameObjects;
 }
-
-//void GameObjectManager::createGameObject()
-//{
-//
-//}

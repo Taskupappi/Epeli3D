@@ -83,11 +83,11 @@ void gameInit()
 
 
 
-	eng->createGameObject();
+	//eng->createGameObject();
 
-	eng->getGameObjectManager()->createGameObject();
-	eng->getGameObjectManager()->getGameComponents().back()->addComponent(COMPONENTID::MODEL);
-	eng->getGameObjectManager()->getGameComponents().back()->getComponent(COMPONENTID::MODEL)->
+	//eng->getGameObjectManager()->createGameObject();
+	//eng->getGameObjectManager()->getGameComponents().back()->addComponent(COMPONENTID::MODEL);
+	//eng->getGameObjectManager()->getGameComponents().back()->getComponent(COMPONENTID::MODEL);
 
 	//Model loading
 	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
@@ -227,13 +227,6 @@ void gameInit()
 	FX = eng->createSoundEffect("../data/Resource/Audio/samppeli.mp3");
 	FX2 = eng->createSoundEffect("../data/Resource/Audio/hey.wav");
 	length = FX2->getLength();
-
-	for (int i = 0; i < 10; i++)
-	{
-		GameObject* go = new GameObject();
-		eng->getGameObjectManager()->addGO(go);
-	}
-	
 
 
 	//eng->createScene();	

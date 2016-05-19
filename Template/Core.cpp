@@ -15,7 +15,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 	_resMngr = new Resources("Resource", 0);
 	_txtrMngr = new TextureManager(_resMngr);
 	_sndMngr = new AudioManager(_resMngr);
-	_goMngr = new GameObjectManager();
+	//_goMngr = new GameObjectManager();
 	//_grapCtx = nullptr;
 	//TO DO:
 	//
@@ -29,7 +29,7 @@ Engine::Engine() :_mainInit(false), _exit(false)
 
 Engine::~Engine()
 {
-	delete _goMngr;
+	//delete _goMngr;
 	delete _resMngr;
 	//delete _sprtMngr;
 	delete _bufMngr;
@@ -164,10 +164,10 @@ SoundFX * Engine::createSoundEffect(std::string filepath)
 	return sound;
 }
 
-GameObject* Engine::createGameObject()
-{
-	_goMngr->createGameObject();
-}
+//GameObject* Engine::createGameObject()
+//{
+//	return _goMngr->createGameObject();
+//}
 
 void Engine::processInput()
 {

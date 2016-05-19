@@ -97,6 +97,7 @@
     <ClCompile Include="GraphicContext.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="ModelComponent.cpp" />
     <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
@@ -106,6 +107,8 @@
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ModelComponent.h" />
     <ClInclude Include="SoundFX.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BufferManager.h" />
