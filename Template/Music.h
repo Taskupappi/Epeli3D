@@ -15,34 +15,37 @@ public:
 	Music(Mix_Music* music) : ResourceBase(resourcefilepath, nullptr)
 	{
 		_music = music;
-
-		/* Chunks are converted to Music device format... */
-		if (!Mix_QuerySpec(&freq, &fmt, &channels))
-			printf("Music error: Mix_OpenAudio never called!\n");
-		/* never called Mix_OpenMusic()?
-		no Music device active?*/
-
+		_musicIsPlaying = false;
+		_paused = false;
+		_isDisabled = false;
 	}
-	~Music(){};
+	~Music(){ Mix_FreeMusic(_music); };
 	/*Play music.
 	Give number of loops or -1 for continuous looping.
 	To play only once leave parameter list empty.
 	.*/
 	void playMusic(int loops)
 	{
-		int isPlaying = Mix_PlayingMusic();
-		if (isPlaying == 1)
-			printf("Music is already playing!\n\n");
-
-		else if (isPlaying == 0)
+		if (_isDisabled)
 		{
-			musicIsPlaying = false;
+			printf("SoundFX error: audio is disabled!\n");
+		}
+		else
+		{
+			int isPlaying = Mix_PlayingMusic();
+			if (isPlaying == 1)
+				printf("Music is already playing!\n\n");
 
-			printf("Playing music!\n\n");
-			Mix_PlayMusic(_music, loops);
-			musicIsPlaying = true;
-			if (Mix_GetError())
-				printf("Music error: %s\n", Mix_GetError());
+			else if (isPlaying == 0)
+			{
+				_musicIsPlaying = false;
+
+				printf("Playing music!\n\n");
+				Mix_PlayMusic(_music, loops);
+				_musicIsPlaying = true;
+				if (Mix_GetError())
+					printf("Music error: %s\n", Mix_GetError());
+			}
 		}
 	}
 	/*Play music once.
@@ -50,19 +53,26 @@ public:
 	or -1 for continuous looping*/
 	void playMusic()
 	{
-		int isPlaying = Mix_PlayingMusic();
-		if (isPlaying == 1)
-			printf("Music is already playing!\n\n");
-
-		else if (isPlaying == 0)
+		if (_isDisabled)
 		{
-			musicIsPlaying = false;
+			printf("SoundFX error: audio is disabled!\n");
+		}
+		else
+		{
+			int isPlaying = Mix_PlayingMusic();
+			if (isPlaying == 1)
+				printf("Music is already playing!\n\n");
 
-			printf("Playing sound!\n\n");
-			Mix_PlayMusic(_music, 0);
-			musicIsPlaying = true;
-			if (Mix_GetError())
-				printf("Music error: %s\n", Mix_GetError());
+			else if (isPlaying == 0)
+			{
+				_musicIsPlaying = false;
+
+				printf("Playing sound!\n\n");
+				Mix_PlayMusic(_music, 0);
+				_musicIsPlaying = true;
+				if (Mix_GetError())
+					printf("Music error: %s\n", Mix_GetError());
+			}
 		}
 	}
 	/*Set volume for sound.
@@ -82,12 +92,12 @@ public:
 		// Pause
 		if (input == 1)
 		{
-			if (musicIsPlaying && paused == false)
+			if (_musicIsPlaying && _paused == false)
 			{
 				Mix_PauseMusic();
-				musicIsPlaying = false;
+				_musicIsPlaying = false;
 				printf("Music paused!\n\n");
-				paused = true;
+				_paused = true;
 			}
 			else
 				printf("No music playing!\n\n");
@@ -95,16 +105,16 @@ public:
 		// Resume
 		else if (input == 0)
 		{
-			if (!musicIsPlaying && paused == true)
+			if (!_musicIsPlaying && _paused == true)
 			{
-				paused = false;
+				_paused = false;
 				Mix_ResumeMusic();
-				musicIsPlaying = true;
+				_musicIsPlaying = true;
 				printf("Music resumed!\n\n");
 			}
-			else if (musicIsPlaying)
+			else if (_musicIsPlaying)
 				printf("Music is already playing!\n\n");
-			else if (!paused)
+			else if (!_paused)
 				printf("Music is not paused!\n\n");
 		}
 		else
@@ -120,7 +130,7 @@ public:
 			// Wait for fades to complete
 			SDL_Delay(100);
 		}
-		musicIsPlaying = false;
+		_musicIsPlaying = false;
 	}
 	/*Fade in and play music given number of times
 	Fade in time is in milliseconds
@@ -128,22 +138,29 @@ public:
 	*/
 	void fadeInMusic(int fadeInTime, int loops)
 	{
-		if (!musicIsPlaying)
+		if (_isDisabled)
 		{
-			if (Mix_FadeInMusic(_music, loops, fadeInTime) == -1)
-			{
-				printf("Mix_FadeInMusic: %s\n", Mix_GetError());
-			}
-			else
-				musicIsPlaying = true;
+			printf("Music error: audio is disabled!\n");
 		}
 		else
-			printf("Music is already playing!\n\n");
+		{
+			if (!_musicIsPlaying)
+			{
+				if (Mix_FadeInMusic(_music, loops, fadeInTime) == -1)
+				{
+					printf("Mix_FadeInMusic: %s\n", Mix_GetError());
+				}
+				else
+					_musicIsPlaying = true;
+			}
+			else
+				printf("Music is already playing!\n\n");
+		}
 	}
 
-
 	// Tells you if sound is playing or not
-	bool isPlaying(){ return musicIsPlaying; }
+	bool isPlaying(){ return _musicIsPlaying; }
+	void setIsDisabled(bool state){ _isDisabled = state; }
 
 private:
 	Music &operator=(Music &Music)
@@ -151,10 +168,10 @@ private:
 		if (this == &Music)
 			return *this;
 	}
-
 	Mix_Music* _music;
-	bool musicIsPlaying = false;
-	bool paused = false;
+	bool _musicIsPlaying;
+	bool _paused;
+	bool _isDisabled;
 	Uint32 points = 0;
 	Uint32 frames = 0;
 	int freq = 0;

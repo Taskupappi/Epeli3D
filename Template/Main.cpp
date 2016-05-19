@@ -29,6 +29,7 @@ graphics::Sprite * sprt;
 SoundFX * FX;
 SoundFX * FX2;
 Music * music;
+Music * music2;
 
 Texture * texture  = nullptr;
 Texture * texture2 = nullptr;
@@ -231,9 +232,10 @@ void gameInit()
 	// TODO: AudioManager hoitamaan toiston kontrolleja yms
 	FX = eng->createSoundEffect("../data/Resource/Audio/samppeli.mp3");
 	FX2 = eng->createSoundEffect("../data/Resource/Audio/hey.wav");
-	length = FX2->getLength();
+	//length = FX2->getLength();
 
 	music = eng->createMusic("../data/Resource/Audio/hungerland.wav");
+	music2 = eng->createMusic("../data/Resource/Audio/moap.flac");
 	//eng->createScene();	
 	
 	//eng->createScene();	
@@ -411,10 +413,10 @@ void gameLoop()
 		FX->playSound();
 	}
 
-	if (eng->getInput()->isKeyPressed(SDLK_m))
+	if (eng->getInput()->isKeyPressed(SDLK_n))
 		music->fadeOutMusic(3000);
 
-	if (eng->getInput()->isKeyPressed(SDLK_n))
+	if (eng->getInput()->isKeyPressed(SDLK_m))
 		music->fadeInMusic(3000, -1);
 }
 
