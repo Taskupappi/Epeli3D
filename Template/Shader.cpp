@@ -61,6 +61,7 @@ bool Shader::init()
 	if (fragmentShaderID == NULL)
 	{
 		std::cout << "error while loading FragmentShader" << fragmentShaderID << "\n on line " << __LINE__ << "\n in a file:" << __FILE__ << std::endl;
+		
 		glDeleteShader(fragmentShaderID);
 		glDeleteShader(vertexShaderID);
 		glDeleteProgram(programID);
@@ -127,7 +128,10 @@ GLuint Shader::loadShaderFromFile(const std::string filepath, GLenum ShaderType)
 
 	if (ShaderCompiled != GL_TRUE)
 	{
-		std::cout << "Unable to compile shader \n" << ShaderID << "\n Source: \n" << ShaderSource << std::endl;
+		GLsizei size = 0;
+		GLchar log[256];
+		glGetShaderInfoLog(ShaderID, 256, &size, log);
+		std::cout << "Unable to compile shader \n" << ShaderID << "\n Source: \n" << ShaderSource << "\nLog: " << log << std::endl;
 		glDeleteShader(ShaderID);
 		ShaderID = NULL;
 	}

@@ -120,7 +120,8 @@ void BufferManager::updateData()
 void BufferManager::bindBuffers()
 {
 	updateData();
-
+	if((allVertexes.size() == 0) ||( allIndices.size() == 0))
+		return;
 	//VAO
 	glBindVertexArray(VertexArrayObject);
 
@@ -134,8 +135,10 @@ void BufferManager::bindBuffers()
 
 void BufferManager::drawBuffer()
 {
-	bindBuffers();
 
+	bindBuffers();
+	if(allIndices.size() == 0)
+		return;
 	glDrawElements(GL_TRIANGLES, allIndices.size(), GL_UNSIGNED_INT, (void*)allIndices[0]);//(void*)allIndices[0]);
 	//glDrawArrays(GL_TRIANGLES, allIndices[0], allIndices.size());
 

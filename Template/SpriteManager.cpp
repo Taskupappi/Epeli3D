@@ -38,13 +38,18 @@ void SpriteManager::drawSprites()
 	std::vector<GLuint> indecis;	
 	std::vector<Sprite*>::iterator sIt;
 	//Gets all sprites with same texture
-
+	GLenum err = glGetError();
 	for(it = _sprites.begin(); it != _sprites.end(); it++)
 	{
-		if(!it->first)
+		if(it == _sprites.begin())
 		{
-			//it->first->bindTexture();
-			//glActiveTexture(GL_TEXTURE0);
+			err = glGetError();
+			GLint sampler = _shdr->getUniformLocation("sampler");
+			glUniform1i(sampler, 0);
+			glActiveTexture(GL_TEXTURE0);
+			it->first->bindTexture();
+			glBindSampler(0, _spriteSampler);
+			err = glGetError();
 			//glBindTexture(GL_TEXTURE_2D, 0);
 		}
 		// TODO: needs to bind texture here
@@ -64,14 +69,15 @@ void SpriteManager::drawSprites()
 
 			//returns vec3[4]
 			glm::vec3 * points = sprt->getVertices();
-			glm::vec2 texBounds;//TODO: = sprt->getTexBounds();
+			glm::vec2 texBounds[4] = {glm::vec2(0,0),glm::vec2(0,1),glm::vec2(1,1),glm::vec2(1,0)};//TODO: = sprt->getTexBounds();
 			glm::vec4 color = sprt->color.getAsOGLVec();
+			//glm::vec4 col = sprt->color.getColor();
 			for(int i = 0; i < 4; i++)
 			{
 				Vertex vertice;
 				vertice.Position = points[i];
 				vertice.Normal = glm::vec3(0, 0, 1);
-				vertice.TexCoords = texBounds;
+				vertice.TexCoords = texBounds[i];
 				vertice.Color = glm::vec4(color.r,color.g,color.b, 1.0f);
 				vertices.push_back(vertice);
 			}
@@ -87,6 +93,7 @@ void SpriteManager::drawSprites()
 		}
 		_bfr->drawBuffer();
 		_bfr->clearBuffers();
+		setOldShader();
 		//TODO: unbind texture
 		//it->first->unbind();
 	}
