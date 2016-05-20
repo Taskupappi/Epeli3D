@@ -55,21 +55,21 @@ void Engine::Init()
 	}
 
 	// SDL audio init
-	int flags = MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG | MIX_INIT_FLAC;
+	int flags = MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLAC;
 	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024) == -1)
 	{
 		// No audio device detected, disable audio
 		printf("Mix_OpenAudio: %s\n", Mix_GetError());
 		printf("Disabling audio.\n\n");
 		_audioInit = false;
-		_sndMngr->setIsInitialised(_audioInit);
+		//_sndMngr->setIsInitialised(_audioInit);
 	}
 	else
 	{
 		_audioInit = true;
-		_sndMngr->setIsInitialised(_audioInit);
+		Mix_AllocateChannels(16);
 	}
-	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_MOD | MIX_INIT_OGG | MIX_INIT_FLAC) != flags)
+	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLAC) != flags)
 	{
 		fprintf_s(stderr, "\nUnable to initialize SDL_audio: %s\n", SDL_GetError());
 	}
@@ -175,14 +175,7 @@ SoundFX * Engine::createSoundEffect(std::string filepath)
 		return sound;
 	}
 	else
-	{
-		//TODO fix hax
-		sound = nullptr;
-		sound->setIsDisabled();
 		printf("SoundFX error: audio is disabled\n\n");
-
-		return sound;
-	}
 }
 
 Music * Engine::createMusic(std::string filepath)
@@ -196,13 +189,7 @@ Music * Engine::createMusic(std::string filepath)
 		return music;
 	}
 	else
-	{
-		music = nullptr;
-		music->setIsDisabled(true);
 		printf("Music error: audio is disabled\n\n");
-
-		return music;
-	}
 }
 
 GameObject* Engine::createGameObject()
