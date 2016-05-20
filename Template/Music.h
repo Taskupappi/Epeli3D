@@ -28,7 +28,7 @@ public:
 	{
 		if (_isDisabled)
 		{
-			printf("SoundFX error: audio is disabled!\n");
+			printf("Music error: audio is disabled!\n");
 		}
 		else
 		{
@@ -46,7 +46,7 @@ public:
 				if (Mix_GetError())
 					printf("Music error: %s\n", Mix_GetError());
 			}
-		}
+		}	
 	}
 	/*Play music once.
 	Give number of loops to play music a number of times
@@ -55,7 +55,7 @@ public:
 	{
 		if (_isDisabled)
 		{
-			printf("SoundFX error: audio is disabled!\n");
+			printf("Music error: audio is disabled!\n");
 		}
 		else
 		{
@@ -67,13 +67,21 @@ public:
 			{
 				_musicIsPlaying = false;
 
-				printf("Playing sound!\n\n");
+				printf("Playing music!\n\n");
 				Mix_PlayMusic(_music, 0);
 				_musicIsPlaying = true;
 				if (Mix_GetError())
 					printf("Music error: %s\n", Mix_GetError());
 			}
 		}
+	}
+	// Stop currently playing music
+	void stopMusic()
+	{
+		Mix_HaltMusic();
+		_musicIsPlaying = false;
+		printf("Music stopped!\n\n");
+		
 	}
 	/*Set volume for sound.
 	Volume range 0-128.*/
@@ -89,36 +97,41 @@ public:
 	*/
 	void pauseMusic(int input)
 	{
-		// Pause
-		if (input == 1)
+		if (!_isDisabled)
 		{
-			if (_musicIsPlaying && _paused == false)
+			// Pause
+			if (input == 1)
 			{
-				Mix_PauseMusic();
-				_musicIsPlaying = false;
-				printf("Music paused!\n\n");
-				_paused = true;
+				if (_musicIsPlaying && _paused == false)
+				{
+					Mix_PauseMusic();
+					_musicIsPlaying = false;
+					printf("Music paused!\n\n");
+					_paused = true;
+				}
+				else
+					printf("No music playing!\n\n");
+			}
+			// Resume
+			else if (input == 0)
+			{
+				if (!_musicIsPlaying && _paused == true)
+				{
+					_paused = false;
+					Mix_ResumeMusic();
+					_musicIsPlaying = true;
+					printf("Music resumed!\n\n");
+				}
+				else if (_musicIsPlaying)
+					printf("Music is already playing!\n\n");
+				else if (!_paused)
+					printf("Music is not paused!\n\n");
 			}
 			else
-				printf("No music playing!\n\n");
-		}
-		// Resume
-		else if (input == 0)
-		{
-			if (!_musicIsPlaying && _paused == true)
-			{
-				_paused = false;
-				Mix_ResumeMusic();
-				_musicIsPlaying = true;
-				printf("Music resumed!\n\n");
-			}
-			else if (_musicIsPlaying)
-				printf("Music is already playing!\n\n");
-			else if (!_paused)
-				printf("Music is not paused!\n\n");
+				printf("Music error: invalid input! Give 1 to pause and 0 to resume playing music.\n\n");
 		}
 		else
-			printf("Music error: invalid input! Give 1 to pause and 0 to resume playing music.\n\n");
+			printf("Music error: audio is disabled!\n");
 	}
 	/*Fade out and stop playing music
 	Fade out time is in milliseconds
@@ -151,11 +164,15 @@ public:
 					printf("Mix_FadeInMusic: %s\n", Mix_GetError());
 				}
 				else
+				{
+					printf("Playing music with fade in effect!\n\n");
 					_musicIsPlaying = true;
+				}
 			}
 			else
 				printf("Music is already playing!\n\n");
 		}
+		
 	}
 
 	// Tells you if sound is playing or not

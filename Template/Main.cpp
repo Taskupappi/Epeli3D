@@ -400,25 +400,22 @@ void gameLoop()
 	if (eng->getInput()->isKeyPressed(SDLK_l))//Play sound
 	{
 		FX2->setVolume(vol2);
-		FX2->setSoundDirection(1, angle, distance);
 		FX2->playSound(-1, 0);
-		vol2 -= (256/128) * 20;
-		distance += 20;
-		if (angle == 360)
-			angle = 0;
-		if (distance >= 255)
-			vol2 = 128;
+		
 	}
 	if (eng->getInput()->isKeyPressed(SDLK_k))//Play sound
 	{
+		FX->setVolume(vol2);
 		FX->playSound();
 	}
 
 	if (eng->getInput()->isKeyPressed(SDLK_n))
-		music->fadeOutMusic(3000);
+		music->playMusic(-1);
 
 	if (eng->getInput()->isKeyPressed(SDLK_m))
-		music->fadeInMusic(3000, -1);
+		music->fadeInMusic(2000, -1);
+	if (eng->getInput()->isKeyPressed(SDLK_b))
+		music->stopMusic();
 }
 
 int main(int argc, char** argv)

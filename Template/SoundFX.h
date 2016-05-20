@@ -54,8 +54,8 @@ public:
 		}
 	}
 	/*Play sound effect.
-	Default channel,
-	does not loop.*/
+	Automatically chooses a channel, does not loop.
+	Use this if you want to use more than one instance of the same sound at once.*/
 	void playSound()
 	{
 		if (_isDisabled)
@@ -64,31 +64,26 @@ public:
 		}
 		else
 		{
-			int isPlaying = Mix_Playing(-1);
+			_soundIsPlaying = false;
 
-			if (isPlaying != 0)
-				printf("Sound is already playing! \n\n");
-
-			else if (isPlaying == 0)
-			{
-				_soundIsPlaying = false;
-
-				printf("Playing sound!\n\n");
-				Mix_PlayChannel(-1, _sound, 0);
-				_soundIsPlaying = true;
-				if (Mix_GetError())
-					printf("SoundFX error: %s\n", Mix_GetError());
-			}
-		}
+			printf("Playing sound!\n\n");
+			Mix_PlayChannel(-1, _sound, 0);
+			_soundIsPlaying = true;
+			if (Mix_GetError())
+				printf("SoundFX error: %s\n", Mix_GetError());
+		}	
 	}
 	/*Set volume for sound.
 	Volume range 0-128.*/
 	void setVolume(int volume)
 	{
-		Mix_VolumeChunk(_sound, volume);
-		printf_s("Volume: %d\n", volume);
-		if (Mix_GetError())
-			printf("SoundFX error: %s\n", Mix_GetError());
+		if (!_isDisabled)
+		{
+			Mix_VolumeChunk(_sound, volume);
+			printf_s("Volume: %d\n", volume);
+			if (Mix_GetError())
+				printf("SoundFX error: %s\n", Mix_GetError());
+		}
 	}
 	/*Set the position of the sound effect in relation to the listener.
 	Angle is an integer from 0 to 360, where 0 is due north. Rotates cockwise.
@@ -96,12 +91,15 @@ public:
 	Note that maximum distance doesn't mean silence.*/
 	void setSoundDirection(int channel, Sint16 angle, Uint8 distance)
 	{
-		Mix_SetPosition(channel, angle, distance);
-		printf_s("Channel: %d\n", channel);
-		printf_s("Angle: %d\n", angle);
-		printf_s("Distance: %d\n", distance);
-		if (Mix_GetError())
-			printf("SoundFX error: %s\n",Mix_GetError());
+		if (!_isDisabled)
+		{
+			Mix_SetPosition(channel, angle, distance);
+			printf_s("Channel: %d\n", channel);
+			printf_s("Angle: %d\n", angle);
+			printf_s("Distance: %d\n", distance);
+			if (Mix_GetError())
+				printf("SoundFX error: %s\n", Mix_GetError());
+		}
 	}
 	// Returns time length of sound effect in milliseconds
 	//Uint32 getLength()
