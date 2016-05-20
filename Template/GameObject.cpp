@@ -1,6 +1,8 @@
+#include "Object3D.h"
 #include "GameObject.h"
 #include "ModelComponent.h"
 #include "TranslateComponent.h"
+
 
 GameObject::GameObject()
 	:position(glm::vec3(0.0f, 0.0f, 0.0f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)), origin(position), destroyed(false)
@@ -22,15 +24,15 @@ void GameObject::destroy()
 	this->destroyed = true;
 }
 
-//std::vector<Mesh>* GameObject::getModelData()
-//{
-//	mapIter = components.find(&typeid(ModelComponent));
-//	if (mapIter != components.end())
-//	{
-//		//std::vector<Mesh>* mesh = 
-//		return dynamic_cast<ModelComponent*>(mapIter->second)->getModelMesh();
-//	}
-//}
+std::vector<Mesh>* GameObject::getModelData()
+{
+	mapIter = components.find(&typeid(ModelComponent));
+	if (mapIter != components.end())
+	{
+		//std::vector<Mesh>* mesh = 
+		return dynamic_cast<ModelComponent*>(mapIter->second)->getModelMesh();
+	}
+}
 
 void GameObject::loadModel(std::string filepath)
 {

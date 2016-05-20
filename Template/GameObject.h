@@ -5,18 +5,21 @@
 //#include "Model.h"
 
 #include "Shader.h"
-#include "Object3D.h"
+//#include "Object3D.h"
 #include <vector>
 #include<iostream>
+#include <map>
 
-//
-#include "Component.h"
-#include "ModelComponent.h"
-#include "TranslateComponent.h"
+//#include "Component.h"
+//#include "ModelComponent.h"
+//#include "TranslateComponent.h"
 
 //class Shader;
-//class ModelComponent;
-//class TranslateComponent;
+class Object3D;
+class Component;
+class ModelComponent;
+class TranslateComponent;
+class Mesh;
 
 class GameObject
 {
@@ -34,7 +37,7 @@ public:
 	void destroy();	
 	bool isDestroyed() { return this->destroyed; }
 
-	//std::vector<Mesh>* getModelData();
+	std::vector<Mesh>* getModelData();
 	//Object3D* getModelData();
 	//gameobject
 	void loadModel(std::string filepath);
@@ -81,7 +84,7 @@ private:
 	glm::mat4 modelMatrix;
 	bool destroyed;
 	std::map<const std::type_info*, Component*> components;
-	std::map < const std::type_info*, Component* >::const_iterator mapIter;;
+	std::map<const std::type_info*, Component*>::const_iterator mapIter;;
 	//ModelComponent* model;
 	//TranslateComponent* translate;
 };

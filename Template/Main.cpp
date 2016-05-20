@@ -2,6 +2,7 @@
 #include "BufferManager.h"
 #include "GraphicContext.h"
 #include "GameObject.h"
+#include "ModelComponent.h"
 
 #include <ctime>
 
@@ -82,9 +83,9 @@ void gameInit()
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
 	//ModelComponent* m = new ModelComponent();
-	GameObject* kisse = eng->createGameObject();	
-	kisse->addComponent(new ModelComponent());
-	kisse->loadModel("../data/Resource/Models/cube.obj");
+	//GameObject* kisse = eng->createGameObject();	
+	//kisse->addComponent(new ModelComponent());
+	//kisse->loadModel("../data/Resource/Models/cube.obj");
 	//eng->getGameObjectManager()->sendDataToBuffer();
 
 	//m->loadModel("../data/Resource/Models/cube.obj");

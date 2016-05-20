@@ -205,10 +205,10 @@ Music * Engine::createMusic(std::string filepath)
 	}
 }
 
-//GameObject* Engine::createGameObject()
-//{
-//	return _goMngr->createGameObject();
-//}
+GameObject* Engine::createGameObject()
+{
+	return _goMngr->createGameObject();
+}
 
 void Engine::processInput()
 {
