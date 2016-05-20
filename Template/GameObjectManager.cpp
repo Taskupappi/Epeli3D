@@ -47,7 +47,7 @@ void GameObjectManager::sendDataToBuffer()
 		if ((*gameobject)->getComponent<ModelComponent>())
 		{
 			std::vector<Mesh>* data = new std::vector<Mesh>();
-			//data = (*gameobject)->getModelData();
+			data = (*gameobject)->getModelData();
 
 			std::vector<Mesh>::iterator modelIter;
 			std::vector<Vertex>::iterator vertexIter;

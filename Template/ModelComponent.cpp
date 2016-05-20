@@ -1,5 +1,5 @@
 #include "ModelComponent.h"
-#include "Object3D.h"
+
 //class engine;
 
 ModelComponent::ModelComponent()
@@ -23,7 +23,7 @@ void ModelComponent::update(float deltaTime)
 
 }
 
-//Object3D* ModelComponent::getModelData()
-//{
-//	return model;
-//}
+Object3D* ModelComponent::getModelData()
+{
+	return model;
+}

@@ -71,6 +71,11 @@ public:
 		return _model;
 	}
 
+	std::vector<Mesh>* getMeshVecPtr()
+	{
+		return &_model;
+	}
+
 	std::vector<Mesh>* loadModel(std::string resourcefilepath)
 	{
 		//Read file via assimp
