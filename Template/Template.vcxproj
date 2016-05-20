@@ -107,7 +107,6 @@
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="3dWorld.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ModelComponent.h" />
     <ClInclude Include="SoundFX.h" />
@@ -123,8 +122,6 @@
     <ClInclude Include="GraphicContext.h" />
     <ClInclude Include="ImageResource.h" />
     <ClInclude Include="Input.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Model.h" />
     <ClInclude Include="Music.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="ResourceBase.h" />

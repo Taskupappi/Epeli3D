@@ -25,9 +25,9 @@ GraphicContext::GraphicContext()
 	//GlewInit()
 	glewExperimental = GL_TRUE;
 	glewInit();
-
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
+
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_TEXTURE_2D);
 	//glShadeModel(GL_SMOOTH);
@@ -58,6 +58,8 @@ GraphicContext::GraphicContext(int xRes, int yRes)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	//glEnable(GL_DEPTH_TEST);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_TEXTURE_2D);

@@ -41,7 +41,7 @@ GLuint  textureint,
 		textureint3,
 		samplerint;
 
-glm::vec3 lightPos(0.5f, 1.0f, 1.0f);
+glm::vec3 lightPos(0.0f, 1.0f, 1.0f);
 
 //shark model 
 //vertices : 5958
@@ -89,7 +89,7 @@ void gameInit()
 	//eng->getGameObjectManager()->sendDataToBuffer();
 
 	//m->loadModel("../data/Resource/Models/cube.obj");
-	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
 	//eng->getGameObjectManager()->getGameObjects().back()->loadModel();	
 	//eng->getGameObjectManager()->sendDataToOpenGL();
 

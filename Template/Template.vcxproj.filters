@@ -128,12 +128,6 @@
     <ClInclude Include="SpriteManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Object3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -165,9 +159,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SoundFX.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="3dWorld.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ModelComponent.h">
