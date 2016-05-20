@@ -93,6 +93,9 @@ namespace core
 		BufferManager * getBufferManager(){ return _bufMngr; }
 		GameObjectManager* getGameObjectManager(){ return _goMngr; }
 
+
+
+		//updateGameObjects(float deltaTime);
 		//void drawSprites(){ _sprtMngr->drawSprites(); }
 
 

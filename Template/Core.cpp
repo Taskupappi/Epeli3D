@@ -411,3 +411,8 @@ void Engine::testUpdate(Camera* cam, float deltaTime, const glm::vec2 mousePosit
 	//cam->printDetails();
 	//cam->printMatrices();
 }
+
+//void Engine::updateGameObjects(float deltaTime)
+//{
+//
+//}

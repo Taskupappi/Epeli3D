@@ -4,6 +4,7 @@ GraphicContext::GraphicContext()
 {
 	window = nullptr;	
 
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
 	window = SDL_CreateWindow(
 		"Epeli3D",
 		SDL_WINDOWPOS_CENTERED, 
@@ -13,9 +14,10 @@ GraphicContext::GraphicContext()
 		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
 
 	//openGL context
+	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	glcontext = SDL_GL_CreateContext(window);	
 
-	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 32);
+	
 
 	//multisampling?
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
@@ -25,6 +27,8 @@ GraphicContext::GraphicContext()
 	//GlewInit()
 	glewExperimental = GL_TRUE;
 	glewInit();
+
+
 
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
@@ -58,7 +62,9 @@ GraphicContext::GraphicContext(int xRes, int yRes)
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	//glEnable(GL_DEPTH_TEST);
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 	//glEnable(GL_LIGHTING);
 	//glEnable(GL_TEXTURE_2D);
 	//glShadeModel(GL_SMOOTH);

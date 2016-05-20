@@ -105,6 +105,7 @@
     <ClCompile Include="SpriteManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="3dWorld.h" />
@@ -139,6 +140,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Transformer.h" />
     <ClInclude Include="TranslateComponent.h" />
     <ClInclude Include="Vertex.h" />

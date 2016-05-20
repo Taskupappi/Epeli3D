@@ -3,6 +3,7 @@
 BufferManager::BufferManager()
 {
 	initBuffers();
+	
 }
 
 void BufferManager::clearBuffers()
@@ -136,12 +137,17 @@ void BufferManager::bindBuffers()
 void BufferManager::drawBuffer()
 {
 
+	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	bindBuffers();
 	if(allIndices.size() == 0)
 		return;
+
+	
 	glDrawElements(GL_TRIANGLES, allIndices.size(), GL_UNSIGNED_INT, (void*)allIndices[0]);//(void*)allIndices[0]);
 	//glDrawArrays(GL_TRIANGLES, allIndices[0], allIndices.size());
-
+	
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);

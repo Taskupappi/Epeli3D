@@ -4,6 +4,7 @@
 GameObjectManager::GameObjectManager(BufferManager *buff)
 {
 	buffMngr = buff;
+	data = new std::vector<Mesh>();
 }
 
 GameObjectManager::~GameObjectManager()
@@ -14,6 +15,8 @@ GameObjectManager::~GameObjectManager()
 		//gameobject = gameObjects.erase(gameobject);
 		delete (*gameobject);
 	}
+
+	//delete data;
 }
 
 void GameObjectManager::update(float deltaTime)
@@ -45,8 +48,7 @@ void GameObjectManager::sendDataToBuffer()
 	for (auto gameobject = gameObjects.begin(); gameobject != gameObjects.end(); gameobject++)
 	{
 		if ((*gameobject)->getComponent<ModelComponent>())
-		{
-			std::vector<Mesh>* data = new std::vector<Mesh>();
+		{				
 			data = (*gameobject)->getModelData();
 
 			std::vector<Mesh>::iterator modelIter;
@@ -70,12 +72,12 @@ void GameObjectManager::sendDataToBuffer()
 			}
 
 			buffMngr->addBufferData(vertexData, indicesData);
-			delete data;
-		} //((*gameobject)->getComponent<ModelComponent>())
-
-		
-	}//(auto gameobject = gameObjects.begin(); gameobject != gameObjects.end();)
-	
+			//std::vector<Mesh> clear;
+			//data->swap(clear);
+			data->clear();
+			//delete data;
+		} //((*gameobject)->getComponent<ModelComponent>())		
+	}//(auto gameobject = gameObjects.begin(); gameobject != gameObjects.end();)	
 }
 
 GameObject* GameObjectManager::createGameObject()
