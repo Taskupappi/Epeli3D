@@ -3,6 +3,7 @@
 #include "GraphicContext.h"
 #include "GameObject.h"
 #include "ModelComponent.h"
+#include "TransformComponent.h"
 
 #include <ctime>
 
@@ -59,8 +60,7 @@ void userUnInit(){};
 
 //Game initialization code here
 void gameInit()
-{
-
+{	
 	//Textures
 	glGenTextures(1, &textureint);
 	glBindTexture(GL_TEXTURE_2D, textureint);
@@ -83,11 +83,19 @@ void gameInit()
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
 	//ModelComponent* m = new ModelComponent();
-	//GameObject* kisse = eng->createGameObject();	
-	//kisse->addComponent(new ModelComponent());
-	//kisse->loadModel("../data/Resource/Models/cube.obj");
-	//eng->getGameObjectManager()->sendDataToBuffer();
+	for (int i = 0; i < 44; i++)
+	{
+		//GameObject* kisse = eng->createGameObject();
+		//kisse->addComponent(new ModelComponent());
+		//kisse->loadModel("../data/Resource/Models/cube.obj");
+	}
 
+	//kisse->addComponent(new TransformComponent());
+	//kisse->getComponent<TransformComponent>()->rotate(45, glm::vec3(0.2, 1.0, 0.5));
+
+	eng->getGameObjectManager()->sendDataToBuffer();
+
+	
 	//m->loadModel("../data/Resource/Models/cube.obj");
 	Object3D * model = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
 	//eng->getGameObjectManager()->getGameObjects().back()->loadModel();	
@@ -125,6 +133,8 @@ void gameInit()
 	std::vector<Vertex>::iterator color;
 	for (color = v3D.begin(); color != v3D.end(); color++)
 	{
+		(*color).Position -= glm::vec3(0.5f);
+		(*color).Position.y -= 4.5f;
 		(*color).Color = glm::vec4((GLfloat)255 / 255, (GLfloat)0 / 255, (GLfloat)0 / 255, 1.0);
 	}
 
@@ -133,7 +143,7 @@ void gameInit()
 	//end of model loading
 
 	//Model loading 2
-	Object3D * model2 = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/cube.obj");
+	Object3D * model2 = eng->getResources()->loadFile<Object3D>("../data/Resource/Models/fucboi.obj");
 
 	std::vector<Vertex> v3D2;
 	std::vector<GLuint> indices3D2;
@@ -263,9 +273,6 @@ void gameLoop()
 	}
 	////delta time calculations
 
-	glClearColor(0.2f, 0.2f, 0.2f, 0.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
 	{
 		for (auto k : eng->getInput()->_pressedKeys)
@@ -296,6 +303,9 @@ void gameLoop()
 	
 	
 	//eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
+	//5eng->updateGameObjects(deltaTime);
+
+
 	eng->getShaderManager()->useActiveShader();
 	GLint objectColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("objectColor");
 	GLint lightColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightColor");

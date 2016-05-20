@@ -25,6 +25,7 @@ protected:
 	BufferManager* buffMngr;
 	std::vector<GameObject*> gameObjects;
 	//std::vector<GameObject*> destroyedGameObjects;
+	std::vector<Mesh>* data;
 };
 
 #endif

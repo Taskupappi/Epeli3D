@@ -59,7 +59,7 @@ namespace graphics
 		Drawable(glm::vec3 position,glm::vec3 origin) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(origin){};
 		Drawable() :_position(0, 0, 0), _rotations(0, 0, 0), _scale(1.0),_origin(0, 0, 0){};
 		Drawable(glm::vec3 position, glm::vec3 origin, Color col) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(origin),color(col){};
-		~Drawable(){};
+		~Drawable(){};		
 	private:
 		glm::vec3 _origin;
 		glm::vec3 _position;
