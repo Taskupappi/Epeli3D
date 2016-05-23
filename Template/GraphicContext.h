@@ -8,7 +8,7 @@
 #include "SDL.h"
 #include <SDL_opengl.h>
 #include <GLFW\glfw3.h>
-
+#include "Color.h"
 
 class GraphicContext
 {
@@ -24,7 +24,11 @@ public:
 	void swap();
 	//clear window
 	void clear();
-
+	void GraphicContext::clear(Color c)
+	{
+		glClearColor(c.getAsOGLVec().r,c.getAsOGLVec().g,c.getAsOGLVec().b,c.getAsOGLVec().a);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	
+	}
 private:
 	int screenWidth, screenHeight;
 

@@ -258,7 +258,7 @@ void gameInit()
 	//eng->getSpriteManager()->setShader(buff->shaderManager->getActiveShader());
 	//Texture * tex = nullptr;
 	//Crashes with new textures
-	sprt = eng->createSprite(texture3, glm::vec2(100, 100), glm::vec2(100, 100), 0, Colors::Azure);
+	sprt = eng->createSprite(texture3, glm::vec2(-0.9, 0.9), glm::vec2(0.20, 0.20), 1, Colors::Azure);
 }
 
 //Game mainloop
@@ -303,7 +303,7 @@ void gameLoop()
 	
 	
 	//eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
-	//5eng->updateGameObjects(deltaTime);
+	//eng->updateGameObjects(deltaTime);
 
 
 	eng->getShaderManager()->useActiveShader();
@@ -336,8 +336,9 @@ void gameLoop()
 
 	//eng->getBufferManager()->updateData();
 	//eng->getGameObjectManager()->draw();
+	core::Engine::UI()->getGraphicContext()->clear(Colors::BlanchedAlmond);
 	eng->getBufferManager()->drawBuffer();
-
+	eng->getSpriteManager()->drawSprites();
 	eng->getGraphicContext()->swap();
 	glPopMatrix();
 
@@ -393,6 +394,7 @@ void gameLoop()
 			pressed = false;
 		}
 	}
+	
 	if(eng->getInput()->isKeyPressed(SDLK_o))//Draws sprites
 	{
 		eng->getSpriteManager()->drawSprites();

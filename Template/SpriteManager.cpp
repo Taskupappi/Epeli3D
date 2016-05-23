@@ -44,11 +44,12 @@ void SpriteManager::drawSprites()
 		if(it == _sprites.begin())
 		{
 			err = glGetError();
-			GLint sampler = _shdr->getUniformLocation("sampler");
-			glUniform1i(sampler, 0);
+			GLuint sampler = _shdr->getUniformLocation("sampler");
+			
 			glActiveTexture(GL_TEXTURE0);
 			it->first->bindTexture();
-			glBindSampler(0, _spriteSampler);
+			glUniform1i(sampler, 0u);
+			//glBindSampler(0, _spriteSampler);
 			err = glGetError();
 			//glBindTexture(GL_TEXTURE_2D, 0);
 		}
@@ -69,9 +70,15 @@ void SpriteManager::drawSprites()
 
 			//returns vec3[4]
 			glm::vec3 * points = sprt->getVertices();
-			glm::vec2 texBounds[4] = {glm::vec2(0,0),glm::vec2(0,1),glm::vec2(1,1),glm::vec2(1,0)};//TODO: = sprt->getTexBounds();
+			glm::vec2 texBounds[4] = {glm::vec2(0,0),glm::vec2(1,0),glm::vec2(0,1),glm::vec2(1,1)};//TODO: = sprt->getTexBounds();
 			glm::vec4 color = sprt->color.getAsOGLVec();
 			//glm::vec4 col = sprt->color.getColor();
+			/*
+			points[0] = glm::vec3(-1.0f,1.0f,0.0f);
+			points[1] = glm::vec3(-0.80f,1.0f,0.0f);
+			points[2] = glm::vec3(-1.0f,0.8f,0.0f);
+			points[3] = glm::vec3(-0.8f,0.8f,0.0f);
+			*/
 			for(int i = 0; i < 4; i++)
 			{
 				Vertex vertice;
@@ -82,16 +89,18 @@ void SpriteManager::drawSprites()
 				vertices.push_back(vertice);
 			}
 			indecis.push_back(0);
-			indecis.push_back(1);
-			indecis.push_back(3);
-
-			indecis.push_back(1);
 			indecis.push_back(2);
 			indecis.push_back(3);
+
+			indecis.push_back(3);
+			indecis.push_back(1);
+			indecis.push_back(0);
 
 			_bfr->addBufferData(vertices, indecis);
 		}
 		_bfr->drawBuffer();
+		//core::Engine::UI()->getGraphicContext()->swap();
+		
 		_bfr->clearBuffers();
 		setOldShader();
 		//TODO: unbind texture

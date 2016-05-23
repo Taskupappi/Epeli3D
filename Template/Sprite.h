@@ -20,7 +20,7 @@ namespace graphics
 		friend class SpriteManager;
 	public:
 	protected:
-		Sprite(glm::vec3 position, int width, int height, glm::vec3 origin, Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
+		Sprite(glm::vec3 position, float width, float height, glm::vec3 origin, Color col, Shader * shdr, Texture * tex, GLclampf w, GLclampf h) :
 			Drawable(position, origin, col), _width(width), _height(height), _shdr(shdr), _tex(tex), _texW(w), _texH(h)
 		{};
 
@@ -30,7 +30,7 @@ namespace graphics
 		//Returns sprite corner points std::vector3[4]
 		glm::vec3 * getVertices();
 	private:
-		int _width, _height;
+		float _width, _height;
 		glm::vec2 * getTexBounds();
 		//Width and height of the texture to be used
 		//0.5 / 0.5 uses 1/4 of the texture

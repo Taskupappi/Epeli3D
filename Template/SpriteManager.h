@@ -27,7 +27,7 @@ namespace graphics
 		void setShader(Shader * toSet){ _shdr = toSet; }
 	protected:
 		//Created by engine
-		SpriteManager(BufferManager * bfr, ShaderManager * shdr) :_shdrMngr(shdr), _bfr(bfr), _shdr(nullptr)
+		SpriteManager(BufferManager * bfr, ShaderManager * shdr) :_shdrMngr(shdr), _shdr(nullptr), _bfr(nullptr)
 		{
 			glGenSamplers(1, &_spriteSampler);
 			//TODO: Need to use main buffer..
