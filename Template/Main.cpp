@@ -259,6 +259,7 @@ void gameInit()
 	//Texture * tex = nullptr;
 	//Crashes with new textures
 	sprt = eng->createSprite(texture3, glm::vec2(-0.9, 0.9), glm::vec2(0.20, 0.20), 1, Colors::Azure);
+	eng->createSprite(texture3, glm::vec2(-0.7, 0.7), glm::vec2(0.20, 0.20), 1, Colors::Black);
 }
 
 //Game mainloop
@@ -397,7 +398,8 @@ void gameLoop()
 	
 	if(eng->getInput()->isKeyPressed(SDLK_o))//Draws sprites
 	{
-		eng->getSpriteManager()->drawSprites();
+		//sprt->rotateZ(20);
+		//eng->getSpriteManager()->drawSprites();
 	}
 	if (eng->getInput()->isKeyPressed(SDLK_p))//Play sound
 	{

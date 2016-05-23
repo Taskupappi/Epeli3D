@@ -33,7 +33,7 @@ void SpriteManager::drawSprites()
 	setSpriteShader();
 	//Need texture sampler
 	Sprite * sprt;
-
+	int count = 0;
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indecis;	
 	std::vector<Sprite*>::iterator sIt;
@@ -56,7 +56,7 @@ void SpriteManager::drawSprites()
 		// TODO: needs to bind texture here
 		//it->first->bind();
 		//Should check for changes before batching
-		batchSprites(&it->second);
+		//batchSprites(&it->second);
 		for(sIt = it->second.begin(); sIt != it->second.end(); sIt++)
 		{
 			sprt = *sIt;
@@ -88,24 +88,27 @@ void SpriteManager::drawSprites()
 				vertice.Color = glm::vec4(color.r,color.g,color.b, 1.0f);
 				vertices.push_back(vertice);
 			}
-			indecis.push_back(0);
-			indecis.push_back(2);
-			indecis.push_back(3);
+			int add = count * 4;
+			indecis.push_back(0+add);
+			indecis.push_back(2+add);
+			indecis.push_back(3+add);
 
-			indecis.push_back(3);
-			indecis.push_back(1);
-			indecis.push_back(0);
+			indecis.push_back(3+add);
+			indecis.push_back(1+add);
+			indecis.push_back(0+add);
 
-			_bfr->addBufferData(vertices, indecis);
+			
+			count++;
 		}
+		_bfr->addBufferData(vertices, indecis);
 		_bfr->drawBuffer();
 		//core::Engine::UI()->getGraphicContext()->swap();
-		
 		_bfr->clearBuffers();
-		setOldShader();
+		it->first->unbindTexture();
 		//TODO: unbind texture
 		//it->first->unbind();
 	}
+	setOldShader();
 }
 void SpriteManager::batchSprites(std::vector<Sprite*> *toBatch)
 {
