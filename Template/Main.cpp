@@ -41,7 +41,8 @@ GLuint  textureint,
 		textureint3,
 		samplerint;
 
-glm::vec3 lightPos(0.0f, 1.0f, 1.0f);
+glm::vec3 lightPos(0.0f, -5.0f, 0.0f);
+bool reverseLight = false;
 
 //shark model 
 //vertices : 5958
@@ -77,7 +78,8 @@ void gameInit()
 	
 	//eng->testInit(cam, 800, 600);
 	//eng->getShaderManager()->createShader("../data/shaders/VertexShaderTest.glvs", "../data/shaders/FragmentShaderTest.glfs", "testShader");
-	eng->getShaderManager()->createShader("../data/shaders/BasicLightingMaterJ.glvs", "../data/shaders/BasicLightingMaterJ.glfs", "testShader");
+	eng->getShaderManager()->createShader("../data/shaders/BasicLightingJ.glvs", "../data/shaders/BasicLightingJ.glfs", "testShader");
+	//eng->getShaderManager()->createShader("../data/shaders/BasicLightingMaterJ.glvs", "../data/shaders/BasicLightingMaterJ.glfs", "testShader");
 	eng->getShaderManager()->setActiveShader("testShader");
 
 	//camera stuff
@@ -294,32 +296,51 @@ void gameLoop()
 		//cam->move(key.c_str(), deltaTime);
 	}
 	
-	
+
+	if (reverseLight == false)
+	{
+		lightPos.z += 0.05;
+	}
+	if (lightPos.z >= 10)
+	{
+		reverseLight = true;
+		std::cout << "reverse true" << std::endl;
+	}
+	if (reverseLight == true)
+	{
+		lightPos.z -= 0.05;
+	}
+	if (lightPos.z <= -5)
+	{
+		reverseLight = false;
+		std::cout << "reverse false" << std::endl;
+	}
+
 	//eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
 	eng->getShaderManager()->useActiveShader();
-	//GLint objectColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("objectColor");
-	//GLint lightColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightColor");
-	GLint lightPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("light.position");
+	GLint objectColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("objectColor");
+	GLint lightColorLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightColor");
+	GLint lightPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("lightPos");
 	GLint viewPosLoc = eng->getShaderManager()->getActiveShader()->getUniformLocation("viewPos");
-	//glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
-	//glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
+	glUniform3f(objectColorLoc, 1.0f, 0.5f, 0.31f);
+	glUniform3f(lightColorLoc, 1.0f, 1.0f, 1.0f);
 	glUniform3f(lightPosLoc, lightPos.x, lightPos.y, lightPos.z);	
 	glUniform3f(viewPosLoc, cam->getPosX(), cam->getPosY(), cam->getPosZ());
 	//set lights properties
-	glm::vec3 lightColor;
-	lightColor.x = 2.0f;
-	lightColor.y = 0.7f;
-	lightColor.z = 1.3f;
-	glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
-	glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
-	glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.ambient"), ambientColor.x, ambientColor.y, ambientColor.z);
-	glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.diffuse"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
-	glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.specular"), 1.0f, 1.0f, 1.0f);
-	//set material properties
-	glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.ambient"), 1.0f, 0.5f, 0.31f);
-	glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.diffuse"), 1.0f, 0.5f, 0.31f);
-	glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.specular"), 0.5f, 0.5f, 0.5f);
-	glUniform1f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.shininess"), 32.0f);
+	//glm::vec3 lightColor;
+	//lightColor.x = 2.0f;
+	//lightColor.y = 0.7f;
+	//lightColor.z = 1.3f;
+	//glm::vec3 diffuseColor = lightColor * glm::vec3(0.5f);
+	//glm::vec3 ambientColor = diffuseColor * glm::vec3(0.2f);
+	//glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.ambient"), ambientColor.x, ambientColor.y, ambientColor.z);
+	//glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.diffuse"), diffuseColor.x, diffuseColor.y, diffuseColor.z);
+	//glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.specular"), 1.0f, 1.0f, 1.0f);
+	////set material properties
+	//glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.ambient"), 1.0f, 0.5f, 0.31f);
+	//glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.diffuse"), 1.0f, 0.5f, 0.31f);
+	//glUniform3f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.specular"), 0.5f, 0.5f, 0.5f);
+	//glUniform1f(eng->getShaderManager()->getActiveShader()->getUniformLocation("light.shininess"), 32.0f);
 
 	//create camera transformations
 	glm::mat4 view;
