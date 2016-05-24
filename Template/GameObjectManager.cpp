@@ -1,5 +1,9 @@
 #include "GameObjectManager.h"
 #include "ModelComponent.h"
+#include "TransformComponent.h"
+#include <glm/glm.hpp>
+#include <glm\gtx\transform.hpp>
+
 
 GameObjectManager::GameObjectManager(BufferManager *buff)
 {
@@ -56,21 +60,47 @@ void GameObjectManager::sendDataToBuffer()
 			std::vector<GLuint>::iterator indicesIter;
 
 			std::vector<Vertex> vertexData;
-			std::vector<GLuint> indicesData;
-			
-			for (modelIter = data->begin(); modelIter != data->end(); modelIter++)
+			std::vector<GLuint> indicesData;			
+
+			if ((*gameobject)->getComponent<TransformComponent>())
 			{
-				for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+				//TransformComponent* tempTransform = new TransformComponent((*gameobject)->getComponent<TransformComponent>());
+				//modelMat = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix;
+
+				for (modelIter = data->begin(); modelIter != data->end(); modelIter++)
 				{
-					vertexData.push_back((*vertexIter));
+					for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
+					{	
+						glm::fmat4 temp = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix();
+						glm::vec4 tempvec = glm::vec4((*vertexIter).Position, 0.0f);
+
+						//translate
+
+						//scale
+
+						//rotate
+
+						//
+
+
+						(*vertexIter).Position = glm::vec3(temp * tempvec);
+						//glUniformMatrix4fv();
+						//(*vertexIter).Position = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix() * (*vertexIter).Position;
+							vertexData.push_back((*vertexIter));
+					}
+
+					for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
+					{
+						indicesData.push_back((*indicesIter));
+					}
 				}
 
-				for (indicesIter = modelIter->indices.begin(); indicesIter != modelIter->indices.end(); indicesIter++)
-				{
-					indicesData.push_back((*indicesIter));
-				}
-			}
 
+				//delete tempTransform;
+			} //((*gameobject)->getComponent<TransformComponent>())
+			
+			
+			
 			buffMngr->addBufferData(vertexData, indicesData);
 			//std::vector<Mesh> clear;
 			//data->swap(clear);

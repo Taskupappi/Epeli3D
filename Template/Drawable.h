@@ -32,6 +32,7 @@ namespace graphics
 		void scale(float _scaleBy){ _scale = _scaleBy; }
 		//Returns current position
 		glm::vec3 getPosition(){ return _position - _origin; }
+		const glm::mat4 &getModelMatrix(){ return matrix; }
 		Color color;
 	protected:
 		//Checks if rotation or scaling has changed
@@ -47,7 +48,7 @@ namespace graphics
 		//Apply to base values
 		glm::mat4 getTransfMat()
 		{
-			glm::mat4 matrix = glm::mat4(1.0);
+			matrix = glm::mat4(1.0);
 			matrix = glm::rotate(matrix, _rotations.x, glm::vec3(1, 0, 0));
 			matrix = glm::rotate(matrix, _rotations.y, glm::vec3(0, 1, 0));
 			matrix = glm::rotate(matrix, _rotations.z, glm::vec3(0, 0, 1));
@@ -61,6 +62,7 @@ namespace graphics
 		Drawable(glm::vec3 position, glm::vec3 origin, Color col) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(origin),color(col){};
 		~Drawable(){};		
 	private:
+		glm::mat4 matrix;
 		glm::vec3 _origin;
 		glm::vec3 _position;
 		glm::vec3 _rotations;

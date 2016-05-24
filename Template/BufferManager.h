@@ -69,6 +69,8 @@ public:
 	std::vector<GLuint> offsetVertices;
 	std::vector<GLuint> offsetIndices;
 
+	std::vector<glm::mat4> modelMatrixes;
+
 	std::vector<std::vector<GLuint>>::iterator iteVecIndices;
 	std::vector<GLuint>::iterator iteIndices;
 

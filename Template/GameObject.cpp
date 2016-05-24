@@ -1,8 +1,8 @@
 #include "Object3D.h"
 #include "GameObject.h"
 #include "ModelComponent.h"
-#include "TranslateComponent.h"
-
+//#include "TranslateComponent.h"
+#include "TransformComponent.h"
 
 GameObject::GameObject()
 	:position(glm::vec3(0.0f, 0.0f, 0.0f)), scale(glm::vec3(1.0f, 1.0f, 1.0f)), origin(position), destroyed(false)
@@ -49,7 +49,7 @@ void GameObject::addComponent(Component* component)
 	{
 		components.insert(std::make_pair(&typeid(*component), component));
 	}
-	else if (typeid(*component) == typeid(TranslateComponent))
+	else if (typeid(*component) == typeid(TransformComponent))
 	{
 		components.insert(std::make_pair(&typeid(*component), component));
 	}

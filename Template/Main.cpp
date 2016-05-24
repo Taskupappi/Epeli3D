@@ -83,11 +83,16 @@ void gameInit()
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
 	//ModelComponent* m = new ModelComponent();
-	for (int i = 0; i < 44; i++)
+	for (int i = 0; i < 6; i++)
 	{
-		//GameObject* kisse = eng->createGameObject();
-		//kisse->addComponent(new ModelComponent());
-		//kisse->loadModel("../data/Resource/Models/cube.obj");
+		GameObject* kisse = eng->createGameObject();
+		kisse->addComponent(new ModelComponent());
+		kisse->loadModel("../data/Resource/Models/cube.obj");
+		kisse->addComponent(new TransformComponent());
+		kisse->getComponent<TransformComponent>()->rotateX(45);
+		kisse->getComponent<TransformComponent>()->rotateY(45);
+		kisse->getComponent<TransformComponent>()->rotateZ(45);
+		kisse->getComponent<TransformComponent>()->moveBy(glm::vec3((GLfloat)(rand() % 10), (GLfloat)(rand() % 10), (GLfloat)(rand() % 10)));
 	}
 
 	//kisse->addComponent(new TransformComponent());
@@ -337,9 +342,18 @@ void gameLoop()
 
 	//eng->getBufferManager()->updateData();
 	//eng->getGameObjectManager()->draw();
+
+	for (int i = 0; i < 6; i++)
+	{
+		eng->getGameObjectManager()->getGameObjects()[i]->getComponent<TransformComponent>()->rotateX(deltaTime);
+		eng->getGameObjectManager()->getGameObjects()[i]->getComponent<TransformComponent>()->rotateX(deltaTime);
+		eng->getGameObjectManager()->getGameObjects()[i]->getComponent<TransformComponent>()->translate(glm::vec3((GLfloat)(rand() % 10), (GLfloat)(rand() % 10), (GLfloat)(rand() % 10)));
+	}
+
 	core::Engine::UI()->getGraphicContext()->clear(Colors::BlanchedAlmond);
 	eng->getBufferManager()->drawBuffer();
 	eng->getSpriteManager()->drawSprites();
+
 	eng->getGraphicContext()->swap();
 	glPopMatrix();
 
