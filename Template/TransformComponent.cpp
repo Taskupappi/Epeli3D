@@ -3,36 +3,36 @@
 TransformComponent::TransformComponent()
 	:Drawable(glm::vec3(0,0,0), glm::vec3(0,0,0), Color(Colors::White))
 {
-	modelMatrix = getModelMatrix();
+	modelMatrix = getTransfMat();
 }
 
 TransformComponent::TransformComponent(glm::vec3 position)
 	: Drawable(position, glm::vec3(0, 0, 0), Color(Colors::White))
 {
-	modelMatrix = getModelMatrix();
+	modelMatrix = getTransfMat();
 }
 
 TransformComponent::TransformComponent(glm::vec3 position, glm::vec3 origin)
 	: Drawable(position, origin, Color(Colors::White))
 {
-	modelMatrix = getModelMatrix();
+	modelMatrix = getTransfMat();
 }
 
 TransformComponent::TransformComponent(glm::vec3 position, glm::vec3 origin, Color color)
 	: Drawable(position, origin, color)
 {
-	modelMatrix = getModelMatrix();
+	modelMatrix = getTransfMat();
 }
 
 TransformComponent::TransformComponent(glm::vec3 position, Color color)
 	: Drawable(position, glm::vec3(0, 0, 0), color)
 {
-	modelMatrix = getModelMatrix();
+	modelMatrix = getTransfMat();
 }
 
 void TransformComponent::update(float deltaTime)
 {
-	modelMatrix = getModelMatrix();
+	modelMatrix = getTransfMat();
 };
 
 //Sets position to
@@ -42,9 +42,15 @@ void TransformComponent::moveTo(glm::vec3 to)
 }
 
 //Adds vector "by" to current position
-glm::vec3 TransformComponent::moveBy(glm::vec3 by)
+void TransformComponent::moveBy(glm::vec3 by)
 {
-	return Drawable::moveBy(by);
+	//modelMatrix = glm::translate(modelMatrix, by);
+	Drawable::moveBy(by);
+}
+
+void TransformComponent::move(glm::vec3 amount)
+{
+	modelMatrix = glm::translate(amount);
 }
 
 //Rotates all axis by given values glm::vec3(x,y,z)

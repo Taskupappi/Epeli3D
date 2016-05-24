@@ -47,7 +47,7 @@ void GameObjectManager::update(float deltaTime)
 	}
 }
 
-void GameObjectManager::sendDataToBuffer()
+void GameObjectManager::sendDataToBuffer(Shader* shader)
 {
 	for (auto gameobject = gameObjects.begin(); gameobject != gameObjects.end(); gameobject++)
 	{
@@ -71,19 +71,13 @@ void GameObjectManager::sendDataToBuffer()
 				{
 					for (vertexIter = modelIter->vertices.begin(); vertexIter != modelIter->vertices.end(); vertexIter++)
 					{	
-						glm::fmat4 temp = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix();
-						glm::vec4 tempvec = glm::vec4((*vertexIter).Position, 0.0f);
+						//glm::fmat4 tempMat = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix();
+						//glm::vec4 tempVec = glm::vec4((*vertexIter).Position, 1.0f);
+						//glm::vec4 transform = tempMat * tempVec;
 
-						//translate
+						glm::vec4 transform = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix() * glm::vec4((*vertexIter).Position, 1.0f);
 
-						//scale
-
-						//rotate
-
-						//
-
-
-						(*vertexIter).Position = glm::vec3(temp * tempvec);
+						(*vertexIter).Position = glm::vec3(transform.x, transform.y, transform.z);
 						//glUniformMatrix4fv();
 						//(*vertexIter).Position = (*gameobject)->getComponent<TransformComponent>()->getModelMatrix() * (*vertexIter).Position;
 							vertexData.push_back((*vertexIter));
@@ -98,13 +92,11 @@ void GameObjectManager::sendDataToBuffer()
 
 				//delete tempTransform;
 			} //((*gameobject)->getComponent<TransformComponent>())
-			
-			
-			
+						
 			buffMngr->addBufferData(vertexData, indicesData);
 			//std::vector<Mesh> clear;
 			//data->swap(clear);
-			data->clear();
+			//data->clear();
 			//delete data;
 		} //((*gameobject)->getComponent<ModelComponent>())		
 	}//(auto gameobject = gameObjects.begin(); gameobject != gameObjects.end();)	

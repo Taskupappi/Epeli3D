@@ -17,7 +17,8 @@ public:
 	~TransformComponent(){};
 
 	void moveTo(glm::vec3 to);
-	glm::vec3 moveBy(glm::vec3 by);
+	void moveBy(glm::vec3 by);
+	void move(glm::vec3 amount);
 	void rotate(glm::vec3 rotateBy);
 	void rotateX(float degrees);
 	void rotateY(float degrees);
@@ -25,14 +26,16 @@ public:
 	void rotateTo(glm::vec3 rotations);
 	void scale(float scaleBy);
 	void translate(glm::vec3 amount);
+	glm::mat4 getModelMatrix(){ return getTransfMat(); }
 
 	//void translate(glm::vec3 newPosition){ model = glm::translate(model, newPosition); }
 	//void rotate(const float angle, const glm::vec3 axis){ model = glm::rotate(model, angle, axis); }
 	//glm::mat4 getModelMatrix(){ return model; }
 
 private:
-	void update(float deltaTime);
 	glm::mat4 modelMatrix;
+	void update(float deltaTime);
+	
 	//glm::mat4 model;
 };
 #endif

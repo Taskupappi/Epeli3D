@@ -4,6 +4,8 @@
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "Component.h"
+#include "Drawable.h"
+
 
 class TranslateComponent : public Component, public graphics::Drawable
 {

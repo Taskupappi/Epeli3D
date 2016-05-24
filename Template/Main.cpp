@@ -44,6 +44,7 @@ GLuint  textureint,
 
 glm::vec3 lightPos(0.5f, 1.0f, 1.0f);
 
+
 //shark model 
 //vertices : 5958
 //faces : 9420
@@ -83,16 +84,16 @@ void gameInit()
 	//camera stuff
 	cam->initDefault(eng->getShaderManager()->getActiveShader());
 	//ModelComponent* m = new ModelComponent();
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		GameObject* kisse = eng->createGameObject();
 		kisse->addComponent(new ModelComponent());
 		kisse->loadModel("../data/Resource/Models/cube.obj");
 		kisse->addComponent(new TransformComponent());
-		kisse->getComponent<TransformComponent>()->rotateX(45);
-		kisse->getComponent<TransformComponent>()->rotateY(45);
-		kisse->getComponent<TransformComponent>()->rotateZ(45);
-		kisse->getComponent<TransformComponent>()->moveBy(glm::vec3((GLfloat)(rand() % 10), (GLfloat)(rand() % 10), (GLfloat)(rand() % 10)));
+		//kisse->getComponent<TransformComponent>()->rotateX(45);
+		//kisse->getComponent<TransformComponent>()->rotateY(45);
+		//kisse->getComponent<TransformComponent>()->rotateZ(45);
+		kisse->getComponent<TransformComponent>()->moveBy(glm::vec3(i * 55, 0, 0));
 	}
 
 	//kisse->addComponent(new TransformComponent());
@@ -272,11 +273,9 @@ void gameLoop()
 {
 	//deltaTime calculations
 	timeNow = SDL_GetTicks();
-	if (timeNow > timeLast)
-	{
-		deltaTime = ((float)(timeNow - timeLast)) / 1000;
-		timeLast = timeNow;
-	}
+	deltaTime = ((float)(timeNow - timeLast)) / 1000;
+	timeLast = timeNow;
+
 	////delta time calculations
 
 	if (eng->getInput()->isKeyPressed(SDLK_UP))//SDLK_PRINTSCREEN))
@@ -343,19 +342,26 @@ void gameLoop()
 	//eng->getBufferManager()->updateData();
 	//eng->getGameObjectManager()->draw();
 
-	for (int i = 0; i < 6; i++)
-	{
-		eng->getGameObjectManager()->getGameObjects()[i]->getComponent<TransformComponent>()->rotateX(deltaTime);
-		eng->getGameObjectManager()->getGameObjects()[i]->getComponent<TransformComponent>()->rotateX(deltaTime);
-		eng->getGameObjectManager()->getGameObjects()[i]->getComponent<TransformComponent>()->translate(glm::vec3((GLfloat)(rand() % 10), (GLfloat)(rand() % 10), (GLfloat)(rand() % 10)));
-	}
+	//for (int i = 0; i < 1; i++)
+	//{
+
+	//kisse->getComponent<TransformComponent>()->rotateX(deltaTime * 10);
+	//kisse->getComponent<TransformComponent>()->rotateX(deltaTime * 10);
+	//kisse->getComponent<TransformComponent>()->translate(glm::vec3((GLfloat)(rand() % 10), (GLfloat)(rand() % 10), (GLfloat)(rand() % 10)));
+		eng->getGameObjectManager()->getGameObjects().back()->getComponent<TransformComponent>()->rotateX(deltaTime / 100);
+		//eng->getGameObjectManager()->getGameObjects().back()->getComponent<TransformComponent>()->rotateX(deltaTime );
+		//eng->getGameObjectManager()->getGameObjects().back()->getComponent<TransformComponent>()->translate(glm::vec3((GLfloat)(rand() % 10), (GLfloat)(rand() % 10), (GLfloat)(rand() % 10)));
+	//}
 
 	core::Engine::UI()->getGraphicContext()->clear(Colors::BlanchedAlmond);
+
+	eng->getGameObjectManager()->sendDataToBuffer();
 	eng->getBufferManager()->drawBuffer();
 	eng->getSpriteManager()->drawSprites();
 
 	eng->getGraphicContext()->swap();
 	glPopMatrix();
+	eng->getBufferManager()->clearBuffers();
 
 	////eng->testUpdate(cam, deltaTime, eng->getInput()->getMousePosition(), key.c_str());
 	if (eng->getInput()->iskeyReleased(SDLK_w)

@@ -21,7 +21,7 @@ namespace graphics
 		//Adds vector "by" to current position
 		glm::vec3 moveBy(glm::vec3 by){ return _position + by; }
 		//Rotates all axis by given values glm::vec3(x,y,z)
-		void rotate(glm::vec3 rotateBy){ _rotations + rotateBy; }
+		void rotate(glm::vec3 rotateBy){ _rotations += rotateBy; }
 		void rotateX(float degrees){ _rotations.x += degrees; }
 		void rotateY(float degrees){ _rotations.y += degrees; }
 		void rotateZ(float degrees){ _rotations.z += degrees; }
@@ -32,7 +32,7 @@ namespace graphics
 		void scale(float _scaleBy){ _scale = _scaleBy; }
 		//Returns current position
 		glm::vec3 getPosition(){ return _position - _origin; }
-		const glm::mat4 &getModelMatrix(){ return matrix; }
+		//glm::mat4 &getModelMatrix(){ return matrix; }
 		Color color;
 	protected:
 		//Checks if rotation or scaling has changed
@@ -48,12 +48,15 @@ namespace graphics
 		//Apply to base values
 		glm::mat4 getTransfMat()
 		{
-			matrix = glm::mat4(1.0);
-			matrix = glm::rotate(matrix, _rotations.x, glm::vec3(1, 0, 0));
-			matrix = glm::rotate(matrix, _rotations.y, glm::vec3(0, 1, 0));
-			matrix = glm::rotate(matrix, _rotations.z, glm::vec3(0, 0, 1));
-			if (_scale != 1.0)
-				matrix = glm::scale(matrix, glm::vec3(_scale, _scale, _scale));
+			glm::mat4 scale = glm::scale(glm::mat4(1.0), glm::vec3(_scale, _scale, _scale));
+
+			glm::mat4 rot = glm::rotate(glm::mat4(1.0), _rotations.x, glm::vec3(1, 0, 0));
+			rot = glm::rotate(rot, _rotations.y, glm::vec3(0, 1, 0));
+			rot = glm::rotate(rot, _rotations.z, glm::vec3(0, 0, 1));
+		
+			glm::mat4 translate = glm::translate(glm::mat4(1.0), _position);
+
+			matrix = translate * rot * scale;
 			return matrix;		
 		}
 		Drawable(glm::vec3 position) :_position(position), _rotations(0, 0, 0), _scale(1.0), _origin(0, 0, 0){};
